@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bill Jobs Studio — True Creative Production</title>
+<meta name="description" content="Bill Jobs è uno studio creativo specializzato in music video, branded content, campagne social e identità visiva per artisti e brand. Dalla A alla Z.">
+<meta name="keywords" content="Bill Jobs, studio creativo, music video, branded content, campagne social, identità visiva, AI content, produzione video, artisti emergenti">
+<meta name="author" content="Bill Jobs Studio">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Bill Jobs Studio — True Creative Production">
+<meta property="og:description" content="Studio creativo specializzato in music video, branded content e identità visiva per artisti e brand.">
+<meta property="og:image" content="<https://www.m-dl.it/assets/img/Logo%20Who%20Is%20BillJobsd.jpg>">
+<meta property="og:url" content="<https://www.billjobs.it>">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="it_IT">
+<link rel="canonical" href="<https://www.billjobs.it>">
+<link rel="icon" type="image/png" href="<https://www.m-dl.it/assets/img/logo_billjobs.png>">
+<link rel="preconnect" href="<https://fonts.googleapis.com>">
+<link rel="preconnect" href="<https://fonts.gstatic.com>" crossorigin>
+<link href="<https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap>" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+--black: #0A0A0A; --grey: #888888; --border: #E8E8E8; --white: #FFFFFF;
+--font-ui: 'Space Grotesk', -apple-system, sans-serif;
+--font-ed: 'DM Serif Display', serif;
+}
+html { background: var(--white); color: var(--black); scroll-behavior: smooth; }
+body { font-family: var(--font-ui); font-weight: 300; -webkit-font-smoothing: antialiased; }
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+nav {
+position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+display: flex; justify-content: space-between; align-items: center;
+padding: 22px 6vw; background: rgba(255,255,255,0.92);
+backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+border-bottom: 1px solid var(--border);
+}
+.nav-logo { display: block; height: 32px; width: auto; filter: invert(1); opacity: 0.9; transition: opacity 0.2s; }
+.nav-logo:hover { opacity: 1; }
+.nav-contact { font-size: 11px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--grey); transition: color 0.2s; }
+.nav-contact:hover { color: var(--black); }
+.hero {
+padding: 160px 6vw 80px; display: flex; flex-direction: column;
+align-items: center; text-align: center; border-bottom: 1px solid var(--border);
+}
+.hero-who { width: min(320px, 72vw); height: auto; filter: invert(1); margin-bottom: 48px; }
+.hero-tagline {
+font-family: var(--font-ed); font-style: italic;
+font-size: clamp(22px, 3.5vw, 42px); font-weight: 400;
+color: var(--black); line-height: 1.25; max-width: 680px; margin-bottom: 24px;
+}
+.hero-sub { font-size: clamp(13px, 1.4vw, 15px); font-weight: 300; color: var(--grey); letter-spacing: 0.04em; line-height: 1.7; max-width: 480px; }
+.reel { padding: 72px 6vw; border-bottom: 1px solid var(--border); }
+.reel-label { font-size: 10px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--grey); margin-bottom: 24px; }
+.reel-frame { position: relative; width: 100%; max-width: 960px; margin: 0 auto; aspect-ratio: 16/9; background: #F0F0F0; }
+.reel-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+.about { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-bottom: 1px solid var(--border); }
+.about-text { padding: 72px 6vw; border-right: 1px solid var(--border); }
+.about-text h2 { font-family: var(--font-ed); font-size: clamp(26px, 3vw, 38px); font-weight: 400; line-height: 1.2; margin-bottom: 28px; }
+.about-text p { font-size: 14px; font-weight: 300; color: #444; line-height: 1.85; margin-bottom: 16px; }
+.about-services { padding: 72px 6vw; }
+.about-services h3 { font-size: 10px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--grey); margin-bottom: 32px; }
+.service-list { list-style: none; display: flex; flex-direction: column; gap: 0; }
+.service-list li { font-size: clamp(15px, 1.8vw, 18px); font-weight: 400; color: var(--black); padding: 14px 0; border-bottom: 1px solid var(--border); letter-spacing: 0.01em; transition: padding-left 0.2s ease; cursor: default; }
+.service-list li:first-child { border-top: 1px solid var(--border); }
+.service-list li:hover { padding-left: 12px; color: #333; }
+footer { display: flex; justify-content: space-between; align-items: center; padding: 36px 6vw; gap: 24px; }
+.footer-copy { font-size: 11px; color: var(--grey); letter-spacing: 0.04em; }
+.footer-links { display: flex; align-items: center; gap: 28px; }
+.footer-email { font-size: 12px; font-weight: 400; letter-spacing: 0.08em; color: var(--black); border-bottom: 1px solid rgba(0,0,0,0.2); padding-bottom: 1px; transition: border-color 0.2s; }
+.footer-email:hover { border-color: var(--black); }
+.footer-ig { display: flex; align-items: center; color: var(--black); opacity: 0.55; transition: opacity 0.2s; }
+.footer-ig:hover { opacity: 1; }
+.footer-ig svg { width: 18px; height: 18px; }
+@media (max-width: 767px) {
+nav { padding: 18px 20px; }
+.hero { padding: 120px 20px 60px; }
+.reel { padding: 48px 20px; }
+.about { grid-template-columns: 1fr; }
+.about-text { padding: 48px 20px; border-right: none; border-bottom: 1px solid var(--border); }
+.about-services { padding: 48px 20px; }
+footer { flex-direction: column; align-items: flex-start; padding: 28px 20px; gap: 16px; }
+}
+</style>
+</head>
+<body>
+<nav>
+<a href="/"><img src="<https://www.m-dl.it/assets/img/logo_billjobs.png>" alt="Bill Jobs" class="nav-logo"></a>
+<a href="mailto:contact@billjobs.it" class="nav-contact">contact@billjobs.it</a>
+</nav>
+<section class="hero">
+<img src="<https://www.m-dl.it/assets/img/Logo%20Who%20Is%20BillJobsd.jpg>" alt="Who Is Bill Jobs?" class="hero-who">
+<p class="hero-tagline">&ldquo;Ideas are easy.<br>Making them work is a craft.&rdquo;</p>
+<p class="hero-sub">Studio creativo specializzato in produzione di contenuti per artisti e brand. Dalla direzione creativa al prodotto finito.</p>
+</section>
+<section class="reel">
+<p class="reel-label">Who Is Bill Jobs? — Reel</p>
+<div class="reel-frame">
+<iframe src="<https://www.youtube.com/embed/TrLO4PL-8jI?rel=0&modestbranding=1>" title="Bill Jobs — Reel" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
+</section>
+<section class="about">
+<div class="about-text">
+<h2>Dalla A alla Z.<br>Senza compromessi.</h2>
+<p>Bill Jobs è uno studio creativo che produce contenuti per artisti emergenti e brand. Music video, campagne social, identità visiva, reels — tutto sotto un unico tetto, con la stessa disciplina e la stessa cura per ogni formato.</p>
+<p>Tecnologia e intuizione umana insieme: utilizziamo l'intelligenza artificiale come strumento creativo per generare immagini, video e asset visivi che amplificano l'identità del progetto.</p>
+<p>Non si immagina. Si costruisce.</p>
+</div>
+<div class="about-services">
+<h3>Cosa facciamo</h3>
+<ul class="service-list">
+<li>Music Video</li>
+<li>Regia &amp; Direzione Creativa</li>
+<li>Branded Content</li>
+<li>Campagne Social</li>
+<li>Identità Visiva &amp; Artwork</li>
+<li>AI-Generated Content</li>
+<li>Reel &amp; Short Format</li>
+<li>Post Produzione</li>
+<li>Website</li>
+</ul>
+</div>
+</section>
+<footer>
+<span class="footer-copy">&copy; 2026 Bill Jobs Studio</span>
+<div class="footer-links">
+<a href="mailto:contact@billjobs.it" class="footer-email">contact@billjobs.it</a>
+<a href="<https://www.instagram.com/billjobs_production?igsh=dWF2emcxN3JoZWs2&utm_source=qr>" target="_blank" rel="noopener" aria-label="Instagram" class="footer-ig">
+<svg xmlns="<http://www.w3.org/2000/svg>" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+<circle cx="12" cy="12" r="3.5"/>
+<circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+</svg>
+</a>
+</div>
+</footer>
+</body>
+</html>
