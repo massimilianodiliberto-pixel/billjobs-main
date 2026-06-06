@@ -10,131 +10,566 @@
 <meta name="robots" content="index, follow">
 <meta property="og:title" content="Bill Jobs Studio — True Creative Production">
 <meta property="og:description" content="Studio creativo specializzato in music video, branded content e identità visiva per artisti e brand.">
-<meta property="og:image" content="<https://www.m-dl.it/assets/img/Logo%20Who%20Is%20BillJobsd.jpg>">
-<meta property="og:url" content="<https://www.billjobs.it>">
+<meta property="og:image" content="https://www.m-dl.it/assets/img/logo_billjobs.png">
+<meta property="og:url" content="https://www.billjobs.it">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="it_IT">
-<link rel="canonical" href="<https://www.billjobs.it>">
-<link rel="icon" type="image/png" href="<https://www.m-dl.it/assets/img/logo_billjobs.png>">
-<link rel="preconnect" href="<https://fonts.googleapis.com>">
-<link rel="preconnect" href="<https://fonts.gstatic.com>" crossorigin>
-<link href="<https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap>" rel="stylesheet">
+<link rel="canonical" href="https://www.billjobs.it">
+<link rel="icon" type="image/png" href="https://www.m-dl.it/assets/img/logo_billjobs.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
 :root {
---black: #0A0A0A; --grey: #888888; --border: #E8E8E8; --white: #FFFFFF;
---font-ui: 'Space Grotesk', -apple-system, sans-serif;
---font-ed: 'DM Serif Display', serif;
+  --bg: #080808;
+  --white: #ffffff;
+  --grey: #555555;
+  --grey-light: #888888;
+  --border: rgba(255,255,255,0.08);
+  --font-ui: 'Space Grotesk', -apple-system, sans-serif;
+  --font-ed: 'DM Serif Display', serif;
 }
-html { background: var(--white); color: var(--black); scroll-behavior: smooth; }
-body { font-family: var(--font-ui); font-weight: 300; -webkit-font-smoothing: antialiased; }
+
+html {
+  background: var(--bg);
+  color: var(--white);
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-ui);
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
 a { color: inherit; text-decoration: none; }
 img { display: block; max-width: 100%; }
+
+/* ── NAV ── */
 nav {
-position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-display: flex; justify-content: space-between; align-items: center;
-padding: 22px 6vw; background: rgba(255,255,255,0.92);
-backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-border-bottom: 1px solid var(--border);
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 6vw;
+  opacity: 0;
 }
-.nav-logo { display: block; height: 32px; width: auto; filter: invert(1); opacity: 0.9; transition: opacity 0.2s; }
+
+.nav-logo {
+  display: block;
+  height: 28px;
+  width: auto;
+  opacity: 0.9;
+  transition: opacity 0.2s;
+}
 .nav-logo:hover { opacity: 1; }
-.nav-contact { font-size: 11px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--grey); transition: color 0.2s; }
-.nav-contact:hover { color: var(--black); }
+
+.nav-contact {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--grey-light);
+  transition: color 0.25s;
+}
+.nav-contact:hover { color: var(--white); }
+
+/* ── HERO ── */
 .hero {
-padding: 160px 6vw 80px; display: flex; flex-direction: column;
-align-items: center; text-align: center; border-bottom: 1px solid var(--border);
+  position: relative;
+  height: 100vh;
+  min-height: 600px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 6vw 10vh;
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
 }
-.hero-who { width: min(320px, 72vw); height: auto; filter: invert(1); margin-bottom: 48px; }
-.hero-tagline {
-font-family: var(--font-ed); font-style: italic;
-font-size: clamp(22px, 3.5vw, 42px); font-weight: 400;
-color: var(--black); line-height: 1.25; max-width: 680px; margin-bottom: 24px;
+
+.hero-title-wrap {
+  overflow: hidden;
+  margin-bottom: 28px;
 }
-.hero-sub { font-size: clamp(13px, 1.4vw, 15px); font-weight: 300; color: var(--grey); letter-spacing: 0.04em; line-height: 1.7; max-width: 480px; }
-.reel { padding: 72px 6vw; border-bottom: 1px solid var(--border); }
-.reel-label { font-size: 10px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--grey); margin-bottom: 24px; }
-.reel-frame { position: relative; width: 100%; max-width: 960px; margin: 0 auto; aspect-ratio: 16/9; background: #F0F0F0; }
-.reel-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
-.about { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-bottom: 1px solid var(--border); }
-.about-text { padding: 72px 6vw; border-right: 1px solid var(--border); }
-.about-text h2 { font-family: var(--font-ed); font-size: clamp(26px, 3vw, 38px); font-weight: 400; line-height: 1.2; margin-bottom: 28px; }
-.about-text p { font-size: 14px; font-weight: 300; color: #444; line-height: 1.85; margin-bottom: 16px; }
-.about-services { padding: 72px 6vw; }
-.about-services h3 { font-size: 10px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--grey); margin-bottom: 32px; }
-.service-list { list-style: none; display: flex; flex-direction: column; gap: 0; }
-.service-list li { font-size: clamp(15px, 1.8vw, 18px); font-weight: 400; color: var(--black); padding: 14px 0; border-bottom: 1px solid var(--border); letter-spacing: 0.01em; transition: padding-left 0.2s ease; cursor: default; }
-.service-list li:first-child { border-top: 1px solid var(--border); }
-.service-list li:hover { padding-left: 12px; color: #333; }
-footer { display: flex; justify-content: space-between; align-items: center; padding: 36px 6vw; gap: 24px; }
-.footer-copy { font-size: 11px; color: var(--grey); letter-spacing: 0.04em; }
-.footer-links { display: flex; align-items: center; gap: 28px; }
-.footer-email { font-size: 12px; font-weight: 400; letter-spacing: 0.08em; color: var(--black); border-bottom: 1px solid rgba(0,0,0,0.2); padding-bottom: 1px; transition: border-color 0.2s; }
-.footer-email:hover { border-color: var(--black); }
-.footer-ig { display: flex; align-items: center; color: var(--black); opacity: 0.55; transition: opacity 0.2s; }
+
+.hero-title {
+  font-family: var(--font-ed);
+  font-size: clamp(42px, 7.5vw, 110px);
+  font-weight: 400;
+  line-height: 1.05;
+  color: var(--white);
+  transform: translateY(110%);
+}
+
+.hero-sub {
+  font-size: clamp(13px, 1.3vw, 16px);
+  font-weight: 300;
+  color: var(--grey-light);
+  letter-spacing: 0.03em;
+  line-height: 1.7;
+  max-width: 520px;
+  opacity: 0;
+}
+
+/* ── TICKER ── */
+.ticker {
+  overflow: hidden;
+  border-bottom: 1px solid var(--border);
+  padding: 18px 0;
+  background: var(--bg);
+}
+
+.ticker-track {
+  display: flex;
+  width: max-content;
+  animation: ticker-scroll 28s linear infinite;
+}
+
+.ticker-item {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--grey-light);
+  padding: 0 32px;
+}
+
+.ticker-item::after {
+  content: '·';
+  margin-left: 32px;
+  color: var(--grey);
+}
+
+@keyframes ticker-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ── MANIFESTO ── */
+.manifesto {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: 1px solid var(--border);
+}
+
+.manifesto-left {
+  padding: 100px 6vw;
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.counter-wrap {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin-bottom: 16px;
+}
+
+.counter-number {
+  font-family: var(--font-ed);
+  font-size: clamp(72px, 10vw, 140px);
+  font-weight: 400;
+  line-height: 1;
+  color: var(--white);
+}
+
+.counter-plus {
+  font-family: var(--font-ed);
+  font-size: clamp(48px, 6vw, 80px);
+  color: var(--grey-light);
+  line-height: 1;
+}
+
+.counter-label {
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--grey-light);
+  margin-top: 8px;
+}
+
+.manifesto-right {
+  padding: 100px 6vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.manifesto-quote {
+  font-family: var(--font-ed);
+  font-style: italic;
+  font-size: clamp(22px, 2.6vw, 36px);
+  font-weight: 400;
+  line-height: 1.3;
+  color: var(--white);
+  margin-bottom: 36px;
+}
+
+.manifesto-text {
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--grey-light);
+  line-height: 1.85;
+  max-width: 480px;
+}
+
+.manifesto-text p + p { margin-top: 14px; }
+
+/* ── SERVICES ── */
+.services {
+  padding: 80px 6vw;
+  border-bottom: 1px solid var(--border);
+}
+
+.services-header {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--grey);
+  margin-bottom: 56px;
+}
+
+.service-list {
+  list-style: none;
+}
+
+.service-item {
+  display: flex;
+  align-items: baseline;
+  gap: 24px;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--border);
+  cursor: default;
+  transition: padding-left 0.3s ease;
+}
+
+.service-item:first-child { border-top: 1px solid var(--border); }
+
+.service-item:hover { padding-left: 14px; }
+
+.service-num {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: var(--grey);
+  min-width: 28px;
+  flex-shrink: 0;
+  padding-top: 3px;
+}
+
+.service-name {
+  font-family: var(--font-ed);
+  font-size: clamp(22px, 3.2vw, 46px);
+  font-weight: 400;
+  color: var(--white);
+  line-height: 1.1;
+}
+
+/* ── REEL ── */
+.reel {
+  padding: 80px 6vw;
+  border-bottom: 1px solid var(--border);
+}
+
+.reel-label {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--grey);
+  margin-bottom: 28px;
+}
+
+.reel-frame {
+  position: relative;
+  width: 100%;
+  max-width: 1100px;
+  aspect-ratio: 16/9;
+  background: #111;
+  overflow: hidden;
+}
+
+.reel-frame iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* ── FOOTER ── */
+footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 36px 6vw;
+  gap: 24px;
+}
+
+.footer-copy {
+  font-size: 11px;
+  color: var(--grey);
+  letter-spacing: 0.04em;
+}
+
+.footer-links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.footer-email {
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: var(--white);
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+  padding-bottom: 1px;
+  transition: border-color 0.2s;
+}
+.footer-email:hover { border-color: var(--white); }
+
+.footer-ig {
+  display: flex;
+  align-items: center;
+  color: var(--white);
+  opacity: 0.5;
+  transition: opacity 0.2s;
+}
 .footer-ig:hover { opacity: 1; }
 .footer-ig svg { width: 18px; height: 18px; }
+
+/* ── RESPONSIVE ── */
 @media (max-width: 767px) {
-nav { padding: 18px 20px; }
-.hero { padding: 120px 20px 60px; }
-.reel { padding: 48px 20px; }
-.about { grid-template-columns: 1fr; }
-.about-text { padding: 48px 20px; border-right: none; border-bottom: 1px solid var(--border); }
-.about-services { padding: 48px 20px; }
-footer { flex-direction: column; align-items: flex-start; padding: 28px 20px; gap: 16px; }
+  nav { padding: 20px 20px; }
+
+  .hero { padding: 0 20px 10vh; }
+
+  .hero-title { font-size: clamp(38px, 11vw, 64px); }
+
+  .manifesto { grid-template-columns: 1fr; }
+
+  .manifesto-left {
+    padding: 64px 20px;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .manifesto-right { padding: 64px 20px; }
+
+  .services { padding: 60px 20px; }
+
+  .service-name { font-size: clamp(24px, 7vw, 36px); }
+
+  .reel { padding: 60px 20px; }
+
+  footer {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 28px 20px;
+    gap: 16px;
+  }
 }
 </style>
 </head>
 <body>
-<nav>
-<a href="/"><img src="<https://www.m-dl.it/assets/img/logo_billjobs.png>" alt="Bill Jobs" class="nav-logo"></a>
-<a href="mailto:contact@billjobs.it" class="nav-contact">contact@billjobs.it</a>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="/"><img src="https://www.m-dl.it/assets/img/logo_billjobs.png" alt="Bill Jobs" class="nav-logo"></a>
+  <a href="mailto:contact@billjobs.it" class="nav-contact">contact@billjobs.it</a>
 </nav>
+
+<!-- HERO -->
 <section class="hero">
-<img src="<https://www.m-dl.it/assets/img/Logo%20Who%20Is%20BillJobsd.jpg>" alt="Who Is Bill Jobs?" class="hero-who">
-<p class="hero-tagline">&ldquo;Ideas are easy.<br>Making them work is a craft.&rdquo;</p>
-<p class="hero-sub">Studio creativo specializzato in produzione di contenuti per artisti e brand. Dalla direzione creativa al prodotto finito.</p>
+  <div class="hero-title-wrap">
+    <h1 class="hero-title">Dalla A alla Z.<br>Senza compromessi.</h1>
+  </div>
+  <p class="hero-sub">Studio creativo specializzato in produzione di contenuti per artisti e brand.</p>
 </section>
+
+<!-- TICKER -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <span class="ticker-item">Music Video</span>
+    <span class="ticker-item">Regia &amp; Direzione Creativa</span>
+    <span class="ticker-item">Branded Content</span>
+    <span class="ticker-item">Campagne Social</span>
+    <span class="ticker-item">Identità Visiva &amp; Artwork</span>
+    <span class="ticker-item">AI-Generated Content</span>
+    <span class="ticker-item">Reel &amp; Short Format</span>
+    <span class="ticker-item">Post Produzione</span>
+    <span class="ticker-item">Website</span>
+    <!-- duplicate for seamless loop -->
+    <span class="ticker-item">Music Video</span>
+    <span class="ticker-item">Regia &amp; Direzione Creativa</span>
+    <span class="ticker-item">Branded Content</span>
+    <span class="ticker-item">Campagne Social</span>
+    <span class="ticker-item">Identità Visiva &amp; Artwork</span>
+    <span class="ticker-item">AI-Generated Content</span>
+    <span class="ticker-item">Reel &amp; Short Format</span>
+    <span class="ticker-item">Post Produzione</span>
+    <span class="ticker-item">Website</span>
+  </div>
+</div>
+
+<!-- MANIFESTO -->
+<section class="manifesto">
+  <div class="manifesto-left">
+    <div class="counter-wrap">
+      <span class="counter-number" id="counter">0</span>
+      <span class="counter-plus">+</span>
+    </div>
+    <p class="counter-label">Progetti completati</p>
+  </div>
+  <div class="manifesto-right">
+    <p class="manifesto-quote">&ldquo;Ideas are easy.<br>Making them work is a craft.&rdquo;</p>
+    <div class="manifesto-text">
+      <p>Bill Jobs è uno studio creativo che produce contenuti per artisti emergenti e brand. Music video, campagne social, identità visiva, reels — tutto sotto un unico tetto, con la stessa disciplina e la stessa cura per ogni formato.</p>
+      <p>Tecnologia e intuizione umana insieme: utilizziamo l'intelligenza artificiale come strumento creativo per generare immagini, video e asset visivi che amplificano l'identità del progetto.</p>
+      <p>Non si immagina. Si costruisce.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services">
+  <p class="services-header">Cosa facciamo</p>
+  <ul class="service-list">
+    <li class="service-item">
+      <span class="service-num">01</span>
+      <span class="service-name">Music Video</span>
+    </li>
+    <li class="service-item">
+      <span class="service-num">02</span>
+      <span class="service-name">Regia &amp; Direzione Creativa</span>
+    </li>
+    <li class="service-item">
+      <span class="service-num">03</span>
+      <span class="service-name">Branded Content</span>
+    </li>
+    <li class="service-item">
+      <span class="service-num">04</span>
+      <span class="service-name">Campagne Social</span>
+    </li>
+    <li class="service-item">
+      <span class="service-num">05</span>
+      <span class="service-name">Identità Visiva &amp; Artwork</span>
+    </li>
+    <li class="service-item">
+      <span class="service-num">06</span>
+      <span class="service-name">AI-Generated Content</span>
+    </li>
+    <li class="service-item">
+      <span class="service-num">07</span>
+      <span class="service-name">Reel &amp; Short Format</span>
+    </li>
+    <li class="service-item">
+      <span class="service-num">08</span>
+      <span class="service-name">Post Produzione</span>
+    </li>
+    <li class="service-item">
+      <span class="service-num">09</span>
+      <span class="service-name">Website</span>
+    </li>
+  </ul>
+</section>
+
+<!-- REEL -->
 <section class="reel">
-<p class="reel-label">Who Is Bill Jobs? — Reel</p>
-<div class="reel-frame">
-<iframe src="<https://www.youtube.com/embed/TrLO4PL-8jI?rel=0&modestbranding=1>" title="Bill Jobs — Reel" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</div>
+  <p class="reel-label">Bill Jobs — Reel</p>
+  <div class="reel-frame">
+    <iframe src="https://www.youtube.com/embed/TrLO4PL-8jI?rel=0&modestbranding=1" title="Bill Jobs — Reel" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
 </section>
-<section class="about">
-<div class="about-text">
-<h2>Dalla A alla Z.<br>Senza compromessi.</h2>
-<p>Bill Jobs è uno studio creativo che produce contenuti per artisti emergenti e brand. Music video, campagne social, identità visiva, reels — tutto sotto un unico tetto, con la stessa disciplina e la stessa cura per ogni formato.</p>
-<p>Tecnologia e intuizione umana insieme: utilizziamo l'intelligenza artificiale come strumento creativo per generare immagini, video e asset visivi che amplificano l'identità del progetto.</p>
-<p>Non si immagina. Si costruisce.</p>
-</div>
-<div class="about-services">
-<h3>Cosa facciamo</h3>
-<ul class="service-list">
-<li>Music Video</li>
-<li>Regia &amp; Direzione Creativa</li>
-<li>Branded Content</li>
-<li>Campagne Social</li>
-<li>Identità Visiva &amp; Artwork</li>
-<li>AI-Generated Content</li>
-<li>Reel &amp; Short Format</li>
-<li>Post Produzione</li>
-<li>Website</li>
-</ul>
-</div>
-</section>
+
+<!-- FOOTER -->
 <footer>
-<span class="footer-copy">&copy; 2026 Bill Jobs Studio</span>
-<div class="footer-links">
-<a href="mailto:contact@billjobs.it" class="footer-email">contact@billjobs.it</a>
-<a href="<https://www.instagram.com/billjobs_production?igsh=dWF2emcxN3JoZWs2&utm_source=qr>" target="_blank" rel="noopener" aria-label="Instagram" class="footer-ig">
-<svg xmlns="<http://www.w3.org/2000/svg>" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-<rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-<circle cx="12" cy="12" r="3.5"/>
-<circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
-</svg>
-</a>
-</div>
+  <span class="footer-copy">&copy; 2026 Bill Jobs Studio</span>
+  <div class="footer-links">
+    <a href="mailto:contact@billjobs.it" class="footer-email">contact@billjobs.it</a>
+    <a href="https://www.instagram.com/billjobs_production" target="_blank" rel="noopener" aria-label="Instagram" class="footer-ig">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+        <circle cx="12" cy="12" r="3.5"/>
+        <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+      </svg>
+    </a>
+  </div>
 </footer>
+
+<!-- GSAP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+// Nav fade in
+gsap.to('#nav', {
+  opacity: 1,
+  duration: 1,
+  ease: 'power2.out',
+  delay: 0.3
+});
+
+// Hero title reveal from below
+gsap.to('.hero-title', {
+  translateY: '0%',
+  duration: 1.1,
+  ease: 'power3.out',
+  delay: 0.5
+});
+
+// Hero subtitle fade in
+gsap.to('.hero-sub', {
+  opacity: 1,
+  duration: 1,
+  ease: 'power2.out',
+  delay: 0.9
+});
+
+// Counter animation with ScrollTrigger
+const counterEl = document.getElementById('counter');
+ScrollTrigger.create({
+  trigger: '.manifesto-left',
+  start: 'top 75%',
+  once: true,
+  onEnter: () => {
+    gsap.to({ val: 0 }, {
+      val: 20,
+      duration: 1.8,
+      ease: 'power2.out',
+      onUpdate: function () {
+        counterEl.textContent = Math.round(this.targets()[0].val);
+      }
+    });
+  }
+});
+
+// Service items stagger on scroll
+gsap.from('.service-item', {
+  scrollTrigger: {
+    trigger: '.service-list',
+    start: 'top 80%',
+  },
+  opacity: 0,
+  y: 20,
+  duration: 0.5,
+  stagger: 0.07,
+  ease: 'power2.out'
+});
+</script>
 </body>
 </html>
