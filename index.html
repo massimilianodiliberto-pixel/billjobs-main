@@ -7,11 +7,11 @@
 <meta name="description" content="BillJobs is a creative production house for music, fashion and talent. We build visual identities through film, photography and cultural storytelling.">
 <meta property="og:title" content="BillJobs — Creative Production House">
 <meta property="og:description" content="Creative Production House for Music, Fashion & Talent.">
-<meta property="og:image" content="https://www.m-dl.it/assets/img/logo_billjobs.png">
+<meta property="og:image" content="https://www.billjobs.it/assets/img/who_is_billjobs.jpg">
 <meta property="og:url" content="https://www.billjobs.it">
 <meta property="og:type" content="website">
 <link rel="canonical" href="https://www.billjobs.it">
-<link rel="icon" type="image/png" href="https://www.m-dl.it/assets/img/logo_billjobs.png">
+<link rel="icon" type="image/png" href="assets/img/logo_billjobs.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
@@ -24,21 +24,13 @@
   --white: #ffffff;
   --off-white: #e8e8e8;
   --grey: #666666;
-  --grey-dark: #333333;
   --border: rgba(255,255,255,0.1);
   --font-ui: 'Space Grotesk', -apple-system, sans-serif;
   --font-ed: 'DM Serif Display', Georgia, serif;
 }
 
 html { background: var(--black); color: var(--white); scroll-behavior: smooth; }
-
-body {
-  font-family: var(--font-ui);
-  font-weight: 300;
-  -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
-}
-
+body { font-family: var(--font-ui); font-weight: 300; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
 a { color: inherit; text-decoration: none; }
 img { display: block; max-width: 100%; }
 
@@ -53,18 +45,18 @@ img { display: block; max-width: 100%; }
   justify-content: space-between;
   align-items: center;
   padding: 28px 5vw;
-  mix-blend-mode: difference;
   opacity: 0;
 }
 
-.nav-logo {
-  font-family: var(--font-ui);
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--white);
+.nav-logo-img {
+  display: block;
+  height: 36px;
+  width: auto;
+  filter: invert(0);
+  opacity: 0.9;
+  transition: opacity 0.2s;
 }
+.nav-logo-img:hover { opacity: 1; }
 
 .nav-links {
   display: flex;
@@ -78,124 +70,188 @@ img { display: block; max-width: 100%; }
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--white);
-  opacity: 0.6;
+  opacity: 0.55;
   transition: opacity 0.2s;
 }
 .nav-links a:hover { opacity: 1; }
 
 /* ─────────────────────────────────────────
-   HERO
+   HERO — static, logo centrato
 ───────────────────────────────────────── */
 .hero {
   position: relative;
   width: 100%;
   height: 100vh;
   min-height: 600px;
-  overflow: hidden;
   background: var(--black);
   display: flex;
-  align-items: flex-end;
-}
-
-.hero-video {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.hero-video iframe {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 177.78vh;
-  height: 56.25vw;
-  min-width: 100%;
-  min-height: 100%;
-  transform: translate(-50%, -50%);
-  border: none;
-  pointer-events: none;
-}
-
-.hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(0,0,0,0.15) 0%,
-    rgba(0,0,0,0.0) 40%,
-    rgba(0,0,0,0.7) 100%
-  );
-  z-index: 1;
-}
-
-.hero-content {
-  position: relative;
-  z-index: 2;
-  padding: 0 5vw 7vh;
-  width: 100%;
-}
-
-.hero-eyebrow {
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.5);
-  margin-bottom: 16px;
-  opacity: 0;
-}
-
-.hero-title-wrap { overflow: hidden; }
-
-.hero-title {
-  font-family: var(--font-ed);
-  font-size: clamp(52px, 9vw, 130px);
-  font-weight: 400;
-  line-height: 0.95;
-  letter-spacing: -0.01em;
-  color: var(--white);
-  transform: translateY(105%);
-}
-
-.hero-sub-wrap {
-  margin-top: 24px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
   overflow: hidden;
 }
 
-.hero-sub {
-  font-size: clamp(13px, 1.2vw, 15px);
-  font-weight: 300;
-  color: rgba(255,255,255,0.55);
-  letter-spacing: 0.04em;
-  max-width: 420px;
-  line-height: 1.6;
+.hero-logo-wrap {
+  opacity: 0;
+  transform: scale(0.96);
+}
+
+.hero-logo {
+  width: min(420px, 70vw);
+  height: auto;
+  display: block;
+}
+
+.hero-tagline-wrap {
+  margin-top: 36px;
+  overflow: hidden;
+}
+
+.hero-tagline {
+  font-size: clamp(11px, 1vw, 13px);
+  font-weight: 400;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
   transform: translateY(100%);
 }
 
 .hero-scroll {
   position: absolute;
   bottom: 36px;
-  right: 5vw;
-  z-index: 2;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
+  flex-direction: column;
   align-items: center;
   gap: 10px;
   font-size: 9px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.35);
+  color: rgba(255,255,255,0.25);
   opacity: 0;
 }
 
 .hero-scroll-line {
-  width: 40px;
-  height: 1px;
-  background: rgba(255,255,255,0.25);
-  transform-origin: left;
+  width: 1px;
+  height: 48px;
+  background: rgba(255,255,255,0.2);
+  transform-origin: top;
 }
+
+/* ─────────────────────────────────────────
+   WHO IS BILLJOBS — sezione con reel
+───────────────────────────────────────── */
+.who {
+  position: relative;
+  width: 100%;
+  cursor: pointer;
+  overflow: hidden;
+  background: var(--black);
+}
+
+.who-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.who:hover .who-img { transform: scale(1.03); }
+
+.who-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.4s ease;
+}
+
+.who:hover .who-overlay { background: rgba(0,0,0,0.15); }
+
+.who-play {
+  width: 72px;
+  height: 72px;
+  border: 1px solid rgba(255,255,255,0.6);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+}
+
+.who:hover .who-play {
+  transform: scale(1.1);
+  border-color: var(--white);
+  background: rgba(255,255,255,0.08);
+}
+
+.who-play svg { width: 22px; height: 22px; margin-left: 4px; }
+
+/* ─────────────────────────────────────────
+   REEL MODAL
+───────────────────────────────────────── */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  background: rgba(0,0,0,0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.modal.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.modal-inner {
+  position: relative;
+  width: min(900px, 92vw);
+  aspect-ratio: 16/9;
+  transform: scale(0.94);
+  transition: transform 0.4s ease;
+}
+
+.modal.active .modal-inner { transform: scale(1); }
+
+.modal-inner iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.modal-close {
+  position: absolute;
+  top: -44px;
+  right: 0;
+  background: none;
+  border: none;
+  color: var(--white);
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+}
+.modal-close:hover { opacity: 1; }
+.modal-close svg { width: 14px; height: 14px; }
 
 /* ─────────────────────────────────────────
    PROJECTS GRID
@@ -239,12 +295,11 @@ img { display: block; max-width: 100%; }
   gap: 2px;
 }
 
-/* Editorial asymmetric layout */
 .project-item {
   position: relative;
   overflow: hidden;
   cursor: pointer;
-  background: #111;
+  background: #0d0d0d;
 }
 
 .project-item:nth-child(1) { grid-column: span 7; grid-row: span 2; }
@@ -254,28 +309,13 @@ img { display: block; max-width: 100%; }
 .project-item:nth-child(5) { grid-column: span 4; }
 .project-item:nth-child(6) { grid-column: span 4; }
 
-.project-thumb {
-  width: 100%;
-  aspect-ratio: 4/3;
-  object-fit: cover;
-  display: block;
-  transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.4s;
-  background: #111;
-}
-
-.project-item:nth-child(1) .project-thumb { aspect-ratio: unset; height: 100%; }
-
-.project-item:hover .project-thumb { transform: scale(1.04); }
-
 .project-placeholder {
   width: 100%;
-  background: #0f0f0f;
+  aspect-ratio: 4/3;
+  background: #0d0d0d;
   display: flex;
   align-items: center;
   justify-content: center;
-  aspect-ratio: 4/3;
-  overflow: hidden;
-  position: relative;
 }
 
 .project-item:nth-child(1) .project-placeholder {
@@ -289,8 +329,6 @@ img { display: block; max-width: 100%; }
   font-size: clamp(48px, 8vw, 100px);
   color: rgba(255,255,255,0.03);
   font-weight: 400;
-  letter-spacing: -0.02em;
-  pointer-events: none;
   user-select: none;
 }
 
@@ -310,7 +348,7 @@ img { display: block; max-width: 100%; }
   font-weight: 500;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.45);
+  color: rgba(255,255,255,0.4);
   margin-bottom: 5px;
 }
 
@@ -329,15 +367,9 @@ img { display: block; max-width: 100%; }
   padding: 140px 5vw;
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
-.manifesto-inner {
-  max-width: 960px;
-  width: 100%;
-}
+.manifesto-inner { max-width: 960px; }
 
 .manifesto-kicker {
   font-size: 10px;
@@ -359,15 +391,13 @@ img { display: block; max-width: 100%; }
 
 .manifesto-text em {
   font-style: italic;
-  color: rgba(255,255,255,0.45);
+  color: rgba(255,255,255,0.35);
 }
 
 /* ─────────────────────────────────────────
    AREAS
 ───────────────────────────────────────── */
-.areas {
-  padding: 120px 5vw;
-}
+.areas { padding: 120px 5vw; }
 
 .areas-grid {
   display: grid;
@@ -379,7 +409,7 @@ img { display: block; max-width: 100%; }
 .area-item {
   position: relative;
   overflow: hidden;
-  background: #0a0a0a;
+  background: #080808;
   aspect-ratio: 3/4;
   display: flex;
   flex-direction: column;
@@ -390,15 +420,7 @@ img { display: block; max-width: 100%; }
   transition: border-color 0.3s;
 }
 
-.area-item:hover { border-color: rgba(255,255,255,0.3); }
-
-.area-item::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.7) 100%);
-  z-index: 0;
-}
+.area-item:hover { border-color: rgba(255,255,255,0.25); }
 
 .area-num {
   position: absolute;
@@ -408,12 +430,9 @@ img { display: block; max-width: 100%; }
   font-weight: 500;
   letter-spacing: 0.1em;
   color: var(--grey);
-  z-index: 1;
 }
 
 .area-name {
-  position: relative;
-  z-index: 1;
   font-family: var(--font-ed);
   font-size: clamp(22px, 2.4vw, 34px);
   font-weight: 400;
@@ -426,8 +445,6 @@ img { display: block; max-width: 100%; }
 .area-item:hover .area-name { transform: translateY(-4px); }
 
 .area-sub {
-  position: relative;
-  z-index: 1;
   font-size: 10px;
   font-weight: 400;
   letter-spacing: 0.1em;
@@ -444,10 +461,9 @@ img { display: block; max-width: 100%; }
   position: absolute;
   bottom: 28px;
   right: 24px;
-  z-index: 1;
   width: 32px;
   height: 32px;
-  border: 1px solid rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.12);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -458,7 +474,6 @@ img { display: block; max-width: 100%; }
 }
 
 .area-item:hover .area-arrow { opacity: 1; transform: scale(1); }
-
 .area-arrow svg { width: 12px; height: 12px; }
 
 /* ─────────────────────────────────────────
@@ -510,16 +525,10 @@ img { display: block; max-width: 100%; }
   transition: border-color 0.2s;
 }
 .studio-cta:hover { border-color: var(--white); }
-
 .studio-cta svg { width: 14px; height: 14px; transition: transform 0.2s; }
 .studio-cta:hover svg { transform: translateX(3px); }
 
-.studio-right {
-  padding: 120px 5vw;
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
+.studio-right { padding: 120px 5vw; }
 
 .studio-service {
   display: flex;
@@ -530,7 +539,6 @@ img { display: block; max-width: 100%; }
   transition: padding-left 0.3s ease;
   cursor: default;
 }
-
 .studio-service:first-child { border-top: 1px solid var(--border); }
 .studio-service:hover { padding-left: 10px; }
 
@@ -561,26 +569,26 @@ footer {
   gap: 24px;
 }
 
-.footer-logo {
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--grey);
+.footer-logo-img {
+  height: 28px;
+  width: auto;
+  opacity: 0.5;
+  transition: opacity 0.2s;
 }
+.footer-logo-img:hover { opacity: 0.8; }
 
 .footer-center {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
 .footer-tagline {
   font-family: var(--font-ed);
   font-style: italic;
   font-size: 13px;
-  color: rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.18);
   text-align: center;
   white-space: nowrap;
 }
@@ -628,55 +636,31 @@ footer {
 
 @media (max-width: 767px) {
   #nav { padding: 22px 20px; }
-
   .nav-links { display: none; }
 
-  .hero-content { padding: 0 20px 10vh; }
+  .hero-logo { width: min(300px, 80vw); }
 
-  .hero-title { font-size: clamp(44px, 12vw, 72px); }
-
-  .hero-scroll { display: none; }
+  .who-play { width: 56px; height: 56px; }
+  .who-play svg { width: 16px; height: 16px; }
 
   .projects { padding: 80px 20px; }
-
   .projects-grid { grid-template-columns: 1fr; gap: 2px; }
-
-  .project-item:nth-child(n) {
-    grid-column: span 1;
-    grid-row: span 1;
-  }
-
+  .project-item:nth-child(n) { grid-column: span 1; grid-row: span 1; }
   .project-item:nth-child(1) .project-placeholder { min-height: 260px; }
 
   .manifesto { padding: 80px 20px; }
 
   .areas { padding: 80px 20px; }
-
   .areas-grid { grid-template-columns: 1fr 1fr; }
-
   .area-item { aspect-ratio: 1/1.1; padding: 18px 16px; }
 
   .studio-preview { grid-template-columns: 1fr; }
-
-  .studio-left {
-    padding: 80px 20px;
-    border-right: none;
-    border-bottom: 1px solid var(--border);
-  }
-
+  .studio-left { padding: 80px 20px; border-right: none; border-bottom: 1px solid var(--border); }
   .studio-right { padding: 60px 20px; }
 
-  footer {
-    grid-template-columns: 1fr;
-    text-align: left;
-    gap: 20px;
-    padding: 32px 20px;
-  }
-
+  footer { grid-template-columns: 1fr; text-align: left; gap: 20px; padding: 32px 20px; }
   .footer-center { align-items: flex-start; }
-
   .footer-tagline { white-space: normal; text-align: left; }
-
   .footer-right { justify-content: flex-start; }
 }
 </style>
@@ -685,7 +669,7 @@ footer {
 
 <!-- NAV -->
 <nav id="nav">
-  <a href="/" class="nav-logo">BillJobs</a>
+  <a href="/"><img src="assets/img/logo_billjobs.png" alt="BillJobs" class="nav-logo-img"></a>
   <ul class="nav-links">
     <li><a href="#work">Work</a></li>
     <li><a href="#areas">Areas</a></li>
@@ -694,33 +678,45 @@ footer {
   </ul>
 </nav>
 
-<!-- HERO -->
+<!-- HERO — logo su nero -->
 <section class="hero">
-  <div class="hero-video">
-    <iframe
-      src="https://www.youtube.com/embed/TrLO4PL-8jI?autoplay=1&mute=1&loop=1&playlist=TrLO4PL-8jI&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&enablejsapi=1"
-      title="BillJobs Reel"
-      allow="autoplay; encrypted-media"
-      allowfullscreen>
-    </iframe>
+  <div class="hero-logo-wrap">
+    <img src="assets/img/billjobs_logo.jpg" alt="BillJobs — True Creative Production" class="hero-logo">
   </div>
-  <div class="hero-overlay"></div>
-
-  <div class="hero-content">
-    <p class="hero-eyebrow">Creative Production House</p>
-    <div class="hero-title-wrap">
-      <h1 class="hero-title">BillJobs</h1>
-    </div>
-    <div class="hero-sub-wrap">
-      <p class="hero-sub">Creative Production House<br>for Music, Fashion &amp; Talent.</p>
-    </div>
+  <div class="hero-tagline-wrap">
+    <p class="hero-tagline">Creative Production House for Music, Fashion &amp; Talent</p>
   </div>
-
   <div class="hero-scroll">
     <div class="hero-scroll-line"></div>
     <span>Scroll</span>
   </div>
 </section>
+
+<!-- WHO IS BILLJOBS — sezione con reel -->
+<section class="who" id="who" role="button" aria-label="Watch: Who is BillJobs? — Reel" tabindex="0">
+  <img src="assets/img/who_is_billjobs.jpg" alt="Who Is BillJobs?" class="who-img">
+  <div class="who-overlay">
+    <div class="who-play">
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M8 5v14l11-7z"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- REEL MODAL -->
+<div class="modal" id="reelModal" role="dialog" aria-modal="true" aria-label="BillJobs Reel">
+  <div class="modal-inner">
+    <button class="modal-close" id="modalClose">
+      <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M1 1l12 12M13 1L1 13"/>
+      </svg>
+      Close
+    </button>
+    <iframe id="reelIframe" src="" title="BillJobs — Who Is BillJobs? Reel"
+      allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+  </div>
+</div>
 
 <!-- FEATURED PROJECTS -->
 <section class="projects" id="work">
@@ -730,67 +726,48 @@ footer {
   </div>
 
   <div class="projects-grid">
-
     <div class="project-item">
-      <div class="project-placeholder">
-        <span class="project-placeholder-inner">01</span>
-      </div>
+      <div class="project-placeholder"><span class="project-placeholder-inner">01</span></div>
       <div class="project-info">
         <p class="project-category">Music Video</p>
         <h2 class="project-title">Artist — Project Title</h2>
       </div>
     </div>
-
     <div class="project-item">
-      <div class="project-placeholder">
-        <span class="project-placeholder-inner">02</span>
-      </div>
+      <div class="project-placeholder"><span class="project-placeholder-inner">02</span></div>
       <div class="project-info">
         <p class="project-category">Branded Content</p>
         <h2 class="project-title">Brand — Campaign</h2>
       </div>
     </div>
-
     <div class="project-item">
-      <div class="project-placeholder">
-        <span class="project-placeholder-inner">03</span>
-      </div>
+      <div class="project-placeholder"><span class="project-placeholder-inner">03</span></div>
       <div class="project-info">
         <p class="project-category">Fashion Film</p>
         <h2 class="project-title">Label — Collection</h2>
       </div>
     </div>
-
     <div class="project-item">
-      <div class="project-placeholder">
-        <span class="project-placeholder-inner">04</span>
-      </div>
+      <div class="project-placeholder"><span class="project-placeholder-inner">04</span></div>
       <div class="project-info">
         <p class="project-category">Visual Identity</p>
         <h2 class="project-title">Artist Branding</h2>
       </div>
     </div>
-
     <div class="project-item">
-      <div class="project-placeholder">
-        <span class="project-placeholder-inner">05</span>
-      </div>
+      <div class="project-placeholder"><span class="project-placeholder-inner">05</span></div>
       <div class="project-info">
         <p class="project-category">Social Campaign</p>
         <h2 class="project-title">Brand — Social</h2>
       </div>
     </div>
-
     <div class="project-item">
-      <div class="project-placeholder">
-        <span class="project-placeholder-inner">06</span>
-      </div>
+      <div class="project-placeholder"><span class="project-placeholder-inner">06</span></div>
       <div class="project-info">
         <p class="project-category">Portrait</p>
         <h2 class="project-title">Talent — Editorial</h2>
       </div>
     </div>
-
   </div>
 </section>
 
@@ -810,9 +787,7 @@ footer {
   <div class="section-header">
     <span class="section-label">Areas</span>
   </div>
-
   <div class="areas-grid">
-
     <div class="area-item">
       <span class="area-num">01</span>
       <h3 class="area-name">Music</h3>
@@ -823,7 +798,6 @@ footer {
         </svg>
       </div>
     </div>
-
     <div class="area-item">
       <span class="area-num">02</span>
       <h3 class="area-name">Fashion</h3>
@@ -834,7 +808,6 @@ footer {
         </svg>
       </div>
     </div>
-
     <div class="area-item">
       <span class="area-num">03</span>
       <h3 class="area-name">Talent</h3>
@@ -845,7 +818,6 @@ footer {
         </svg>
       </div>
     </div>
-
     <div class="area-item">
       <span class="area-num">04</span>
       <h3 class="area-name">Visual<br>Culture</h3>
@@ -856,7 +828,6 @@ footer {
         </svg>
       </div>
     </div>
-
   </div>
 </section>
 
@@ -874,7 +845,6 @@ footer {
       </svg>
     </a>
   </div>
-
   <div class="studio-right">
     <div class="studio-service"><span class="studio-service-num">01</span><span class="studio-service-name">Creative Direction</span></div>
     <div class="studio-service"><span class="studio-service-num">02</span><span class="studio-service-name">Film Production</span></div>
@@ -889,7 +859,7 @@ footer {
 
 <!-- FOOTER -->
 <footer>
-  <span class="footer-logo">BillJobs</span>
+  <a href="/"><img src="assets/img/logo_billjobs.png" alt="BillJobs" class="footer-logo-img"></a>
   <div class="footer-center">
     <span class="footer-tagline">Creating identities through image, film and culture.</span>
     <span class="footer-copy">&copy; 2026 BillJobs Studio</span>
@@ -912,77 +882,87 @@ footer {
 <script>
 gsap.registerPlugin(ScrollTrigger);
 
-// ── Entrance sequence
+// ── Entrance
 const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+tl.to('#nav', { opacity: 1, duration: 1.2, delay: 0.3 })
+  .to('.hero-logo-wrap', { opacity: 1, scale: 1, duration: 1.1 }, '-=0.8')
+  .to('.hero-tagline', { translateY: '0%', duration: 0.9 }, '-=0.6')
+  .to('.hero-scroll', { opacity: 1, duration: 0.7 }, '-=0.3');
 
-tl.to('#nav', { opacity: 1, duration: 1.2, delay: 0.2 })
-  .to('.hero-title', { translateY: '0%', duration: 1.2 }, '-=0.8')
-  .to('.hero-sub', { translateY: '0%', duration: 0.9 }, '-=0.7')
-  .to('.hero-eyebrow', { opacity: 1, duration: 0.8 }, '-=0.8')
-  .to('.hero-scroll', { opacity: 1, duration: 0.8 }, '-=0.4');
-
-// ── Scroll line animation
+// ── Scroll line pulse
 gsap.to('.hero-scroll-line', {
-  scaleX: 0,
-  transformOrigin: 'right',
+  scaleY: 0,
+  transformOrigin: 'top',
   repeat: -1,
   duration: 1.4,
   ease: 'power1.inOut',
   yoyo: true,
-  delay: 1.5
+  delay: 1.6
 });
 
-// ── Project items fade in on scroll
+// ── Who section parallax
+gsap.to('.who-img', {
+  scrollTrigger: { trigger: '.who', start: 'top bottom', end: 'bottom top', scrub: true },
+  y: '-6%',
+  ease: 'none'
+});
+
+// ── Projects
 gsap.utils.toArray('.project-item').forEach((el, i) => {
   gsap.from(el, {
     scrollTrigger: { trigger: el, start: 'top 88%', once: true },
-    opacity: 0,
-    y: 30,
-    duration: 0.7,
-    delay: (i % 3) * 0.1,
+    opacity: 0, y: 24, duration: 0.7,
+    delay: (i % 3) * 0.09,
     ease: 'power2.out'
   });
 });
 
-// ── Manifesto text reveal word by word
-const manifesto = document.querySelector('.manifesto-text');
-if (manifesto) {
-  gsap.from(manifesto, {
-    scrollTrigger: { trigger: manifesto, start: 'top 80%', once: true },
-    opacity: 0,
-    y: 24,
-    duration: 1,
-    ease: 'power2.out'
-  });
-}
+// ── Manifesto
+gsap.from('.manifesto-text', {
+  scrollTrigger: { trigger: '.manifesto-text', start: 'top 80%', once: true },
+  opacity: 0, y: 28, duration: 1, ease: 'power2.out'
+});
 
-// ── Area items stagger
+// ── Areas
 gsap.from('.area-item', {
   scrollTrigger: { trigger: '.areas-grid', start: 'top 80%', once: true },
-  opacity: 0,
-  y: 24,
-  duration: 0.65,
-  stagger: 0.1,
-  ease: 'power2.out'
+  opacity: 0, y: 20, duration: 0.65, stagger: 0.1, ease: 'power2.out'
 });
 
-// ── Studio section
+// ── Studio
 gsap.from('.studio-statement', {
   scrollTrigger: { trigger: '.studio-left', start: 'top 75%', once: true },
-  opacity: 0,
-  y: 20,
-  duration: 0.9,
-  ease: 'power2.out'
+  opacity: 0, y: 20, duration: 0.9, ease: 'power2.out'
 });
-
 gsap.from('.studio-service', {
   scrollTrigger: { trigger: '.studio-right', start: 'top 80%', once: true },
-  opacity: 0,
-  y: 12,
-  duration: 0.5,
-  stagger: 0.06,
-  ease: 'power2.out'
+  opacity: 0, y: 12, duration: 0.5, stagger: 0.06, ease: 'power2.out'
 });
+
+// ── Reel modal
+const modal     = document.getElementById('reelModal');
+const iframe    = document.getElementById('reelIframe');
+const closeBtn  = document.getElementById('modalClose');
+const whoBtn    = document.getElementById('who');
+const REEL_SRC  = 'https://www.youtube.com/embed/TrLO4PL-8jI?autoplay=1&rel=0&modestbranding=1';
+
+function openModal() {
+  iframe.src = REEL_SRC;
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  modal.classList.remove('active');
+  iframe.src = '';
+  document.body.style.overflow = '';
+}
+
+whoBtn.addEventListener('click', openModal);
+whoBtn.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') openModal(); });
+closeBtn.addEventListener('click', closeModal);
+modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 </script>
 </body>
 </html>
