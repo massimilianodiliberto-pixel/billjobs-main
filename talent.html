@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BillJobs — Talent</title>
+<meta name="description" content="BillJobs Talent — Models, Creators, Influencers, Personal Branding, Content Strategy.">
+<meta property="og:title" content="BillJobs — Talent">
+<meta property="og:image" content="https://www.billjobs.it/assets/img/who_is_billjobs.jpg">
+<meta property="og:url" content="https://www.billjobs.it/talent.html">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://www.billjobs.it/talent.html">
+<link rel="icon" type="image/png" href="assets/img/logo_billjobs.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black: #000;
+  --card-bg: #0d0d0d;
+  --white: #fff;
+  --grey: rgba(255,255,255,0.45);
+  --grey-light: rgba(255,255,255,0.18);
+  --font-ui: 'Space Grotesk', -apple-system, sans-serif;
+  --font-ed: 'DM Serif Display', Georgia, serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: var(--font-ui);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* ─────────────────────────────────────────
+   NAV — fixed overlay
+───────────────────────────────────────── */
+.site-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 0 5vw;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding-top: 24px;
+  padding-bottom: 18px;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.72) 0%, transparent 100%);
+  pointer-events: all;
+}
+
+.logo {
+  font-family: var(--font-ui);
+  font-size: clamp(28px, 5vw, 52px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: var(--white);
+  text-transform: uppercase;
+  transition: opacity 0.2s;
+}
+.logo:hover { opacity: 0.75; }
+
+.main-nav {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.main-nav a {
+  font-size: clamp(9px, 1vw, 11px);
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--grey);
+  margin-left: 28px;
+  transition: color 0.2s;
+  white-space: nowrap;
+}
+
+.main-nav a:hover { color: var(--white); }
+.main-nav a.active { color: var(--white); }
+
+/* ─────────────────────────────────────────
+   HERO TITLE SECTION
+───────────────────────────────────────── */
+.hero {
+  padding-top: 140px;
+  padding-left: 5vw;
+  padding-right: 5vw;
+  padding-bottom: 60px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+
+.hero-label {
+  font-family: var(--font-ui);
+  font-size: clamp(9px, 1vw, 11px);
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--grey);
+  margin-bottom: 20px;
+}
+
+.hero-title {
+  font-family: var(--font-ed);
+  font-size: clamp(72px, 16vw, 200px);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 0.9;
+  color: var(--white);
+  text-transform: uppercase;
+  margin-bottom: 28px;
+}
+
+.hero-subtitle {
+  font-family: var(--font-ui);
+  font-size: clamp(11px, 1.1vw, 13px);
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--grey);
+  font-variant: small-caps;
+}
+
+/* ─────────────────────────────────────────
+   PROJECT GRID
+───────────────────────────────────────── */
+.projects-section {
+  padding: 64px 5vw 100px;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+}
+
+/* ─────────────────────────────────────────
+   CARD
+───────────────────────────────────────── */
+.card {
+  position: relative;
+  background: var(--card-bg);
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+/* Placeholder gradient — replace with real image/video */
+.card-media {
+  position: absolute;
+  inset: 0;
+  background: var(--card-bg);
+  transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.card:hover .card-media {
+  transform: scale(1.04);
+}
+
+/* Subtle texture gradient on placeholder */
+.card-media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 60% 30%, rgba(255,255,255,0.03) 0%, transparent 70%);
+}
+
+/* Watermark project number */
+.card-number {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-ed);
+  font-size: clamp(80px, 14vw, 180px);
+  font-weight: 400;
+  color: rgba(255,255,255,0.04);
+  line-height: 1;
+  user-select: none;
+  pointer-events: none;
+  z-index: 1;
+  transition: opacity 0.4s;
+}
+
+.card:hover .card-number {
+  opacity: 0;
+}
+
+/* Play icon — center on hover */
+.card-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.7);
+  z-index: 3;
+  opacity: 0;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  pointer-events: none;
+}
+
+.card:hover .card-play {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.card-play svg {
+  width: 52px;
+  height: 52px;
+  fill: none;
+}
+
+/* Bottom overlay */
+.card-overlay {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  z-index: 2;
+  padding: 36px 22px 20px;
+  background: linear-gradient(to top, rgba(0,0,0,0.82) 0%, transparent 100%);
+  transform: translateY(6px);
+  opacity: 0;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.card:hover .card-overlay {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.card-client {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--white);
+  margin-bottom: 4px;
+}
+
+.card-title {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--grey);
+}
+
+/* ─────────────────────────────────────────
+   FOOTER STRIP
+───────────────────────────────────────── */
+.site-footer {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 5vw;
+  height: 48px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  background: var(--black);
+}
+
+.footer-link {
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--grey);
+  transition: color 0.2s;
+}
+.footer-link:hover { color: var(--white); }
+
+/* ─────────────────────────────────────────
+   RESPONSIVE
+───────────────────────────────────────── */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+  .site-header {
+    padding: 16px 20px 14px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    background: rgba(0,0,0,0.9);
+  }
+
+  .main-nav {
+    justify-content: flex-start;
+    gap: 0;
+  }
+
+  .main-nav a {
+    margin-left: 0;
+    margin-right: 18px;
+    font-size: 9px;
+    letter-spacing: 0.14em;
+  }
+
+  .hero {
+    padding-top: 130px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 40px;
+  }
+
+  .projects-section {
+    padding: 40px 20px 80px;
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+
+  .card-overlay {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .site-footer {
+    padding: 0 20px;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ── HEADER ───────────────────────────── -->
+<header class="site-header">
+  <a href="index.html" class="logo">BillJobs</a>
+  <nav class="main-nav">
+    <a href="music.html">Music</a>
+    <a href="fashion.html">Fashion</a>
+    <a href="talent.html" class="active">Talent</a>
+    <a href="culture.html">Culture</a>
+    <a href="who-is.html">Who Is</a>
+    <a href="mailto:contact@billjobs.it">Contact</a>
+  </nav>
+</header>
+
+<!-- ── HERO ─────────────────────────────── -->
+<section class="hero">
+  <p class="hero-label">Category</p>
+  <h1 class="hero-title">Talent</h1>
+  <p class="hero-subtitle">Models&nbsp;·&nbsp;Creators&nbsp;·&nbsp;Influencers&nbsp;·&nbsp;Personal Branding&nbsp;·&nbsp;Content Strategy</p>
+</section>
+
+<!-- ── PROJECTS GRID ─────────────────────── -->
+<section class="projects-section">
+  <div class="projects-grid">
+
+    <!-- Card 01 -->
+    <div class="card"
+         data-client="Client Name"
+         data-title="Project Title">
+      <div class="card-media"></div>
+      <span class="card-number" aria-hidden="true">01</span>
+      <div class="card-play" aria-hidden="true">
+        <svg viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="26" cy="26" r="25" stroke="rgba(255,255,255,0.9)" stroke-width="1.5"/>
+          <polygon points="21,17 38,26 21,35" fill="rgba(255,255,255,0.9)"/>
+        </svg>
+      </div>
+      <div class="card-overlay">
+        <span class="card-client">Client Name</span>
+        <span class="card-title">Project Title</span>
+      </div>
+    </div>
+
+    <!-- Card 02 -->
+    <div class="card"
+         data-client="Client Name"
+         data-title="Project Title">
+      <div class="card-media"></div>
+      <span class="card-number" aria-hidden="true">02</span>
+      <div class="card-play" aria-hidden="true">
+        <svg viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="26" cy="26" r="25" stroke="rgba(255,255,255,0.9)" stroke-width="1.5"/>
+          <polygon points="21,17 38,26 21,35" fill="rgba(255,255,255,0.9)"/>
+        </svg>
+      </div>
+      <div class="card-overlay">
+        <span class="card-client">Client Name</span>
+        <span class="card-title">Project Title</span>
+      </div>
+    </div>
+
+    <!-- Card 03 -->
+    <div class="card"
+         data-client="Client Name"
+         data-title="Project Title">
+      <div class="card-media"></div>
+      <span class="card-number" aria-hidden="true">03</span>
+      <div class="card-play" aria-hidden="true">
+        <svg viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="26" cy="26" r="25" stroke="rgba(255,255,255,0.9)" stroke-width="1.5"/>
+          <polygon points="21,17 38,26 21,35" fill="rgba(255,255,255,0.9)"/>
+        </svg>
+      </div>
+      <div class="card-overlay">
+        <span class="card-client">Client Name</span>
+        <span class="card-title">Project Title</span>
+      </div>
+    </div>
+
+    <!-- Card 04 -->
+    <div class="card"
+         data-client="Client Name"
+         data-title="Project Title">
+      <div class="card-media"></div>
+      <span class="card-number" aria-hidden="true">04</span>
+      <div class="card-play" aria-hidden="true">
+        <svg viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="26" cy="26" r="25" stroke="rgba(255,255,255,0.9)" stroke-width="1.5"/>
+          <polygon points="21,17 38,26 21,35" fill="rgba(255,255,255,0.9)"/>
+        </svg>
+      </div>
+      <div class="card-overlay">
+        <span class="card-client">Client Name</span>
+        <span class="card-title">Project Title</span>
+      </div>
+    </div>
+
+    <!-- Card 05 -->
+    <div class="card"
+         data-client="Client Name"
+         data-title="Project Title">
+      <div class="card-media"></div>
+      <span class="card-number" aria-hidden="true">05</span>
+      <div class="card-play" aria-hidden="true">
+        <svg viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="26" cy="26" r="25" stroke="rgba(255,255,255,0.9)" stroke-width="1.5"/>
+          <polygon points="21,17 38,26 21,35" fill="rgba(255,255,255,0.9)"/>
+        </svg>
+      </div>
+      <div class="card-overlay">
+        <span class="card-client">Client Name</span>
+        <span class="card-title">Project Title</span>
+      </div>
+    </div>
+
+    <!-- Card 06 -->
+    <div class="card"
+         data-client="Client Name"
+         data-title="Project Title">
+      <div class="card-media"></div>
+      <span class="card-number" aria-hidden="true">06</span>
+      <div class="card-play" aria-hidden="true">
+        <svg viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="26" cy="26" r="25" stroke="rgba(255,255,255,0.9)" stroke-width="1.5"/>
+          <polygon points="21,17 38,26 21,35" fill="rgba(255,255,255,0.9)"/>
+        </svg>
+      </div>
+      <div class="card-overlay">
+        <span class="card-client">Client Name</span>
+        <span class="card-title">Project Title</span>
+      </div>
+    </div>
+
+  </div><!-- /projects-grid -->
+</section>
+
+<!-- ── FOOTER ───────────────────────────── -->
+<footer class="site-footer">
+  <span class="footer-link">Italy</span>
+  <a href="mailto:contact@billjobs.it" class="footer-link">Contact</a>
+  <a href="https://www.instagram.com/billjobs_production" target="_blank" rel="noopener" class="footer-link">Instagram</a>
+</footer>
+
+</body>
+</html>

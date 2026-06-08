@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Who Is BillJobs? — Creative Production House</title>
+<meta name="description" content="BillJobs is a creative production house that builds visual identities for artists, musicians, models, creators and fashion brands.">
+<meta property="og:title" content="Who Is BillJobs?">
+<meta property="og:image" content="https://www.billjobs.it/assets/img/who_is_billjobs.jpg">
+<meta property="og:url" content="https://www.billjobs.it/who-is.html">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://www.billjobs.it/who-is.html">
+<link rel="icon" type="image/png" href="assets/img/logo_billjobs.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black: #000;
+  --white: #fff;
+  --grey: rgba(255,255,255,0.45);
+  --grey-text: rgba(255,255,255,0.65);
+  --font-ui: 'Space Grotesk', -apple-system, sans-serif;
+  --font-ed: 'DM Serif Display', Georgia, serif;
+}
+
+html {
+  background: var(--black);
+  color: var(--white);
+  font-family: var(--font-ui);
+  -webkit-font-smoothing: antialiased;
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* ─────────────────────────────────────────
+   NAV — fixed overlay
+───────────────────────────────────────── */
+.site-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  padding: 0 5vw;
+}
+
+.header-inner {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding-top: 24px;
+  padding-bottom: 16px;
+}
+
+.logo {
+  font-family: var(--font-ui);
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1;
+  color: var(--white);
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.main-nav {
+  display: flex;
+  align-items: baseline;
+  gap: 0;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.main-nav a {
+  font-size: clamp(9px, 1vw, 11px);
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--grey);
+  margin-left: 28px;
+  transition: color 0.2s;
+}
+
+.main-nav a:hover { color: var(--white); }
+.main-nav a.active { color: var(--white); }
+
+/* ─────────────────────────────────────────
+   HERO — fullscreen image
+───────────────────────────────────────── */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 500px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background-image: url('assets/img/who_is_billjobs.jpg');
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.6s ease;
+}
+
+.hero:hover .hero-bg {
+  transform: scale(1.015);
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.5) 0%,
+    rgba(0,0,0,0.15) 40%,
+    rgba(0,0,0,0.4) 100%
+  );
+  z-index: 1;
+}
+
+/* Play button */
+.play-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,0.75);
+  background: rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, transform 0.2s;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.play-btn:hover {
+  border-color: var(--white);
+  background: rgba(255,255,255,0.1);
+  transform: translate(-50%, -50%) scale(1.06);
+}
+
+.play-btn svg {
+  width: 22px;
+  height: 22px;
+  fill: var(--white);
+  margin-left: 3px; /* optical centering */
+}
+
+/* Hero label bottom-left */
+.hero-label {
+  position: absolute;
+  bottom: 40px;
+  left: 5vw;
+  z-index: 2;
+  font-size: clamp(9px, 1vw, 11px);
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--grey);
+}
+
+/* ─────────────────────────────────────────
+   MANIFESTO SECTION
+───────────────────────────────────────── */
+.manifesto {
+  padding: 100px 5vw 100px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px 8vw;
+  align-items: start;
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+.manifesto-heading {
+  font-family: var(--font-ed);
+  font-size: clamp(36px, 5.5vw, 84px);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  color: var(--white);
+  position: sticky;
+  top: 140px;
+}
+
+.manifesto-body {
+  padding-top: 8px;
+}
+
+.manifesto-body p {
+  font-size: clamp(15px, 1.4vw, 18px);
+  font-weight: 300;
+  line-height: 1.75;
+  color: var(--grey-text);
+  margin-bottom: 28px;
+}
+
+.manifesto-body p:last-child { margin-bottom: 0; }
+
+.manifesto-body .statement {
+  font-size: clamp(17px, 1.7vw, 22px);
+  font-weight: 400;
+  color: rgba(255,255,255,0.85);
+  line-height: 1.55;
+  font-style: italic;
+}
+
+/* ─────────────────────────────────────────
+   CONTACT SECTION
+───────────────────────────────────────── */
+.contact-section {
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding: 80px 5vw 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.contact-label {
+  font-size: clamp(9px, 0.9vw, 10px);
+  font-weight: 500;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--grey);
+  margin-bottom: 4px;
+}
+
+.contact-email {
+  font-family: var(--font-ed);
+  font-size: clamp(22px, 3vw, 40px);
+  font-weight: 400;
+  color: var(--white);
+  transition: opacity 0.2s;
+}
+
+.contact-email:hover { opacity: 0.7; }
+
+.contact-divider {
+  width: 1px;
+  height: 32px;
+  background: rgba(255,255,255,0.15);
+  margin: 4px 0;
+}
+
+.contact-ig {
+  font-size: clamp(10px, 1vw, 12px);
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--grey);
+  transition: color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.contact-ig:hover { color: var(--white); }
+
+.contact-ig svg {
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+}
+
+/* ─────────────────────────────────────────
+   FOOTER STRIP
+───────────────────────────────────────── */
+.site-footer {
+  border-top: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 5vw;
+  height: 44px;
+}
+
+.footer-link {
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--grey);
+  transition: color 0.2s;
+}
+
+.footer-link:hover { color: var(--white); }
+
+/* ─────────────────────────────────────────
+   VIDEO MODAL
+───────────────────────────────────────── */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  background: rgba(0,0,0,0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+
+.modal-backdrop.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.modal-inner {
+  position: relative;
+  width: min(880px, 92vw);
+  aspect-ratio: 16 / 9;
+  transform: scale(0.94);
+  transition: transform 0.35s ease;
+}
+
+.modal-backdrop.open .modal-inner {
+  transform: scale(1);
+}
+
+.modal-inner iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+.modal-close {
+  position: absolute;
+  top: -44px;
+  right: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgba(255,255,255,0.6);
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  transition: color 0.2s;
+}
+
+.modal-close:hover { color: var(--white); }
+
+.modal-close svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.5;
+}
+
+/* ─────────────────────────────────────────
+   MOBILE
+───────────────────────────────────────── */
+@media (max-width: 767px) {
+  .header-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding-top: 20px;
+  }
+
+  .main-nav {
+    justify-content: flex-start;
+    gap: 0;
+  }
+
+  .main-nav a {
+    margin-left: 0;
+    margin-right: 18px;
+    font-size: 9px;
+    letter-spacing: 0.14em;
+  }
+
+  .manifesto {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding: 80px 5vw 80px;
+  }
+
+  .manifesto-heading {
+    position: static;
+  }
+
+  .hero-label { bottom: 28px; }
+
+  .play-btn { width: 60px; height: 60px; }
+  .play-btn svg { width: 18px; height: 18px; }
+
+  .contact-section { padding: 60px 5vw 60px; }
+
+  .site-footer { padding: 0 20px; }
+}
+
+@media (max-width: 480px) {
+  .main-nav a { margin-right: 14px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── HEADER ───────────────────────── -->
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a href="index.html" class="logo">BillJobs</a>
+    <nav class="main-nav">
+      <a href="music.html">Music</a>
+      <a href="fashion.html">Fashion</a>
+      <a href="talent.html">Talent</a>
+      <a href="culture.html">Culture</a>
+      <a href="who-is.html" class="active">Who Is</a>
+      <a href="mailto:contact@billjobs.it">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ── HERO ─────────────────────────── -->
+<section class="hero" id="hero" role="button" aria-label="Play BillJobs showreel">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-overlay"></div>
+
+  <button class="play-btn" id="playBtn" aria-label="Play video">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M6 4l14 8-14 8V4z"/>
+    </svg>
+  </button>
+
+  <span class="hero-label">BillJobs — Creative Production House</span>
+</section>
+
+<!-- ── MANIFESTO ────────────────────── -->
+<section class="manifesto" id="manifesto">
+  <div class="manifesto-heading">Who Is<br>BillJobs?</div>
+  <div class="manifesto-body">
+    <p>BillJobs is a creative production house that builds visual identities for artists, musicians, models, creators and fashion brands through creative direction, film production and cultural storytelling.</p>
+    <p class="statement">We don't just produce content.<br>We develop imaginaries.</p>
+  </div>
+</section>
+
+<!-- ── CONTACTS ─────────────────────── -->
+<section class="contact-section" id="contactSection">
+  <span class="contact-label">Get in touch</span>
+  <a href="mailto:contact@billjobs.it" class="contact-email">contact@billjobs.it</a>
+  <div class="contact-divider"></div>
+  <a href="https://www.instagram.com/billjobs_production" target="_blank" rel="noopener" class="contact-ig">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+    </svg>
+    @billjobs_production
+  </a>
+</section>
+
+<!-- ── FOOTER ───────────────────────── -->
+<footer class="site-footer">
+  <span class="footer-link">Italy</span>
+  <a href="mailto:contact@billjobs.it" class="footer-link">Contact</a>
+  <a href="https://www.instagram.com/billjobs_production" target="_blank" rel="noopener" class="footer-link">Instagram</a>
+</footer>
+
+<!-- ── VIDEO MODAL ───────────────────── -->
+<div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-label="BillJobs showreel video">
+  <div class="modal-inner" id="modalInner">
+    <button class="modal-close" id="modalClose" aria-label="Close video">
+      <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      Close
+    </button>
+    <!-- iframe injected by JS to prevent autoplay until opened -->
+  </div>
+</div>
+
+<!-- ── GSAP ─────────────────────────── -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ── GSAP scroll animations ─────────────────────── */
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Manifesto fade-in
+  gsap.to('#manifesto', {
+    opacity: 1,
+    y: 0,
+    duration: 0.9,
+    ease: 'power2.out',
+    scrollTrigger: {
+      trigger: '#manifesto',
+      start: 'top 82%',
+      once: true
+    }
+  });
+
+  // Contact section fade-in
+  gsap.to('#contactSection', {
+    opacity: 1,
+    y: 0,
+    duration: 0.8,
+    ease: 'power2.out',
+    scrollTrigger: {
+      trigger: '#contactSection',
+      start: 'top 85%',
+      once: true
+    }
+  });
+
+  /* ── Hero nav fade-in on load ───────────────────── */
+  gsap.from('#siteHeader', {
+    opacity: 0,
+    y: -10,
+    duration: 0.8,
+    ease: 'power2.out',
+    delay: 0.2
+  });
+
+  gsap.from('.play-btn', {
+    opacity: 0,
+    scale: 0.85,
+    duration: 0.9,
+    ease: 'back.out(1.6)',
+    delay: 0.45
+  });
+
+  gsap.from('.hero-label', {
+    opacity: 0,
+    y: 8,
+    duration: 0.7,
+    ease: 'power2.out',
+    delay: 0.55
+  });
+
+  /* ── Modal logic ───────────────────────────────── */
+  const YT_SRC = 'https://www.youtube.com/embed/TrLO4PL-8jI?autoplay=1&rel=0';
+  const backdrop = document.getElementById('modalBackdrop');
+  const modalInner = document.getElementById('modalInner');
+  const closeBtn = document.getElementById('modalClose');
+  const hero = document.getElementById('hero');
+  const playBtn = document.getElementById('playBtn');
+  let iframeEl = null;
+
+  function openModal(e) {
+    if (e) e.stopPropagation();
+    if (!iframeEl) {
+      iframeEl = document.createElement('iframe');
+      iframeEl.src = YT_SRC;
+      iframeEl.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+      iframeEl.allowFullscreen = true;
+      iframeEl.title = 'BillJobs showreel';
+      modalInner.appendChild(iframeEl);
+    }
+    backdrop.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    closeBtn.focus();
+  }
+
+  function closeModal() {
+    backdrop.classList.remove('open');
+    document.body.style.overflow = '';
+    // Remove iframe to stop video
+    if (iframeEl) {
+      iframeEl.remove();
+      iframeEl = null;
+    }
+  }
+
+  // Open triggers
+  playBtn.addEventListener('click', openModal);
+  hero.addEventListener('click', openModal);
+
+  // Close triggers
+  closeBtn.addEventListener('click', closeModal);
+
+  backdrop.addEventListener('click', function (e) {
+    if (e.target === backdrop) closeModal();
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && backdrop.classList.contains('open')) {
+      closeModal();
+    }
+  });
+
+  // Prevent hero's click from propagating through modal inner
+  modalInner.addEventListener('click', function (e) {
+    e.stopPropagation();
+  });
+
+})();
+</script>
+</body>
+</html>

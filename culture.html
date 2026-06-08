@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Culture — BillJobs</title>
+<meta name="description" content="BillJobs Culture: Brand Collaborations, Visual Identity, Branded Content, AI-Generated, Website.">
+<meta property="og:title" content="Culture — BillJobs">
+<meta property="og:image" content="https://www.billjobs.it/assets/img/who_is_billjobs.jpg">
+<meta property="og:url" content="https://www.billjobs.it/culture.html">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://www.billjobs.it/culture.html">
+<link rel="icon" type="image/png" href="assets/img/logo_billjobs.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black: #000;
+  --card-bg: #0d0d0d;
+  --white: #fff;
+  --grey: rgba(255,255,255,0.45);
+  --grey-dim: rgba(255,255,255,0.18);
+  --font-ui: 'Space Grotesk', -apple-system, sans-serif;
+  --font-ed: 'DM Serif Display', Georgia, serif;
+  --nav-h: 88px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  width: 100%;
+  background: var(--black);
+  color: var(--white);
+  font-family: var(--font-ui);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* ─────────────────────────────────────────
+   HEADER — fixed overlay
+───────────────────────────────────────── */
+.site-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 0 5vw;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 100%);
+}
+
+.header-inner {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding-top: 24px;
+  padding-bottom: 8px;
+}
+
+.logo {
+  font-family: var(--font-ui);
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: var(--white);
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.logo:hover { opacity: 0.8; }
+
+.main-nav {
+  display: flex;
+  align-items: baseline;
+  gap: 0;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.main-nav a {
+  font-size: clamp(9px, 1vw, 11px);
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--grey);
+  margin-left: 28px;
+  transition: color 0.2s;
+}
+
+.main-nav a:hover { color: var(--white); }
+.main-nav a.active { color: var(--white); }
+
+/* ─────────────────────────────────────────
+   HERO TITLE SECTION
+───────────────────────────────────────── */
+.hero {
+  padding-top: calc(var(--nav-h) + 6vw);
+  padding-bottom: 5vw;
+  padding-left: 5vw;
+  padding-right: 5vw;
+}
+
+.hero-category {
+  font-family: var(--font-ed);
+  font-size: clamp(72px, 13vw, 180px);
+  font-weight: 400;
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+  color: var(--white);
+  text-transform: uppercase;
+  margin-bottom: clamp(16px, 2vw, 28px);
+}
+
+.hero-subtitle {
+  font-family: var(--font-ui);
+  font-size: clamp(10px, 1.1vw, 13px);
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-variant: small-caps;
+  color: var(--grey);
+}
+
+/* ─────────────────────────────────────────
+   DIVIDER
+───────────────────────────────────────── */
+.divider {
+  height: 1px;
+  background: rgba(255,255,255,0.1);
+  margin: 0 5vw;
+}
+
+/* ─────────────────────────────────────────
+   PROJECTS GRID
+───────────────────────────────────────── */
+.projects {
+  padding: clamp(40px, 5vw, 72px) 5vw clamp(60px, 8vw, 120px);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(12px, 1.5vw, 24px);
+}
+
+/* ── CARD ── */
+.card {
+  position: relative;
+  background: var(--card-bg);
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+/* Watermark number */
+.card-number {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-ed);
+  font-size: clamp(64px, 8vw, 120px);
+  font-weight: 400;
+  color: rgba(255,255,255,0.04);
+  line-height: 1;
+  user-select: none;
+  pointer-events: none;
+  transition: color 0.4s ease;
+  z-index: 1;
+}
+
+.card:hover .card-number {
+  color: rgba(255,255,255,0.07);
+}
+
+/* Overlay info — bottom */
+.card-overlay {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: clamp(10px, 1.5vw, 18px) clamp(12px, 1.8vw, 20px);
+  background: linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0) 100%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.card-client {
+  font-size: clamp(9px, 0.9vw, 11px);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--white);
+}
+
+.card-title {
+  font-size: clamp(9px, 0.85vw, 10px);
+  font-weight: 300;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--grey);
+}
+
+/* Play icon — center, appears on hover */
+.card-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.7);
+  z-index: 3;
+  width: clamp(36px, 4vw, 52px);
+  height: clamp(36px, 4vw, 52px);
+  border: 1.5px solid rgba(255,255,255,0.7);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
+}
+
+.card-play svg {
+  width: 38%;
+  height: 38%;
+  fill: var(--white);
+  margin-left: 12%;
+}
+
+.card:hover .card-play {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* Subtle border on hover */
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(255,255,255,0);
+  transition: border-color 0.3s ease;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.card:hover::after {
+  border-color: rgba(255,255,255,0.1);
+}
+
+/* ─────────────────────────────────────────
+   FOOTER STRIP
+───────────────────────────────────────── */
+.site-footer {
+  border-top: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 5vw;
+  height: 40px;
+}
+
+.footer-link {
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--grey);
+  transition: color 0.2s;
+}
+
+.footer-link:hover { color: var(--white); }
+
+/* ─────────────────────────────────────────
+   TABLET  ≤ 1024px
+───────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ─────────────────────────────────────────
+   MOBILE  ≤ 767px
+───────────────────────────────────────── */
+@media (max-width: 767px) {
+  :root { --nav-h: 72px; }
+
+  .header-inner { padding-top: 18px; }
+
+  .logo { font-size: clamp(22px, 6vw, 32px); }
+
+  .main-nav a {
+    margin-left: 16px;
+    font-size: 8px;
+    letter-spacing: 0.14em;
+  }
+
+  .hero-category {
+    font-size: clamp(60px, 18vw, 96px);
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .card-play {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(0.85);
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ── HEADER ───────────────────────── -->
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="logo">BillJobs</a>
+    <nav class="main-nav">
+      <a href="music.html">Music</a>
+      <a href="fashion.html">Fashion</a>
+      <a href="talent.html">Talent</a>
+      <a href="culture.html" class="active">Culture</a>
+      <a href="who-is.html">Who Is</a>
+      <a href="mailto:contact@billjobs.it">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ── HERO TITLE ───────────────────── -->
+<section class="hero">
+  <h1 class="hero-category">Culture</h1>
+  <p class="hero-subtitle">Brand Collaborations · Visual Identity · Branded Content · AI-Generated · Website</p>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── PROJECTS GRID ────────────────── -->
+<section class="projects">
+  <div class="grid">
+
+    <!-- Card 01 -->
+    <article class="card" data-client="Client Name" data-title="Project Title">
+      <span class="card-number">01</span>
+      <div class="card-play" aria-hidden="true">
+        <svg viewBox="0 0 10 12" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="0,0 10,6 0,12"/>
+        </svg>
+      </div>
+      <div class="card-overlay">
+        <span class="card-client">Client Name</span>
+        <span class="card-title">Project Title</span>
+      </div>
+    </article>
+
+    <!-- Card 02 -->
+    <article class="card" data-client="Client Name" data-title="Project Title">
+      <span class="card-number">02</span>
+      <div class="card-play" aria-hidden="true">
+        <svg viewBox="0 0 10 12" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="0,0 10,6 0,12"/>
+        </svg>
+      </div>
+      <div class="card-overlay">
+        <span class="card-client">Client Name</span>
+        <span class="card-title">Project Title</span>
+      </div>
+    </article>
+
+    <!-- Card 03 -->
+    <article class="card" data-client="Client Name" data-title="Project Title">
+      <span class="card-number">03</span>
+      <div class="card-play" aria-hidden="true">
+        <svg viewBox="0 0 10 12" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="0,0 10,6 0,12"/>
+        </svg>
+      </div>
+      <div class="card-overlay">
+        <span class="card-client">Client Name</span>
+        <span class="card-title">Project Title</span>
+      </div>
+    </article>
+
+    <!-- Card 04 -->
+    <article class="card" data-client="Client Name" data-title="Project Title">
+      <span class="card-number">04</span>
+      <div class="card-play" aria-hidden="true">
+        <svg viewBox="0 0 10 12" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="0,0 10,6 0,12"/>
+        </svg>
+      </div>
+      <div class="card-overlay">
+        <span class="card-client">Client Name</span>
+        <span class="card-title">Project Title</span>
+      </div>
+    </article>
+
+    <!-- Card 05 -->
+    <article class="card" data-client="Client Name" data-title="Project Title">
+      <span class="card-number">05</span>
+      <div class="card-play" aria-hidden="true">
+        <svg viewBox="0 0 10 12" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="0,0 10,6 0,12"/>
+        </svg>
+      </div>
+      <div class="card-overlay">
+        <span class="card-client">Client Name</span>
+        <span class="card-title">Project Title</span>
+      </div>
+    </article>
+
+    <!-- Card 06 -->
+    <article class="card" data-client="Client Name" data-title="Project Title">
+      <span class="card-number">06</span>
+      <div class="card-play" aria-hidden="true">
+        <svg viewBox="0 0 10 12" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="0,0 10,6 0,12"/>
+        </svg>
+      </div>
+      <div class="card-overlay">
+        <span class="card-client">Client Name</span>
+        <span class="card-title">Project Title</span>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ── FOOTER STRIP ──────────────────── -->
+<footer class="site-footer">
+  <span class="footer-link">Italy</span>
+  <a href="mailto:contact@billjobs.it" class="footer-link">Contact</a>
+  <a href="https://www.instagram.com/billjobs_production" target="_blank" rel="noopener" class="footer-link">Instagram</a>
+</footer>
+
+</body>
+</html>
