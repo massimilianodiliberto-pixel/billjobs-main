@@ -4,9 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BillJobs — Creative Production House</title>
-<meta name="description" content="BillJobs is a creative production house for music, fashion and talent. We build visual identities through film, photography and cultural storytelling.">
+<meta name="description" content="BillJobs is a creative production house for music, fashion and talent.">
 <meta property="og:title" content="BillJobs — Creative Production House">
-<meta property="og:description" content="Creative Production House for Music, Fashion & Talent.">
 <meta property="og:image" content="https://www.billjobs.it/assets/img/who_is_billjobs.jpg">
 <meta property="og:url" content="https://www.billjobs.it">
 <meta property="og:type" content="website">
@@ -14,955 +13,554 @@
 <link rel="icon" type="image/png" href="assets/img/logo_billjobs.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
 
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --black: #000000;
-  --white: #ffffff;
-  --off-white: #e8e8e8;
-  --grey: #666666;
-  --border: rgba(255,255,255,0.1);
+  --black: #000;
+  --white: #fff;
+  --grey: rgba(255,255,255,0.45);
   --font-ui: 'Space Grotesk', -apple-system, sans-serif;
   --font-ed: 'DM Serif Display', Georgia, serif;
 }
 
-html { background: var(--black); color: var(--white); scroll-behavior: smooth; }
-body { font-family: var(--font-ui); font-weight: 300; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
-a { color: inherit; text-decoration: none; }
-img { display: block; max-width: 100%; }
-
-/* ─────────────────────────────────────────
-   NAV
-───────────────────────────────────────── */
-#nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 200;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 28px 5vw;
-  opacity: 0;
-}
-
-.nav-logo-img {
-  display: block;
-  height: 36px;
-  width: auto;
-  filter: invert(0);
-  opacity: 0.9;
-  transition: opacity 0.2s;
-}
-.nav-logo-img:hover { opacity: 1; }
-
-.nav-links {
-  display: flex;
-  gap: 36px;
-  list-style: none;
-}
-
-.nav-links a {
-  font-size: 11px;
-  font-weight: 400;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+html, body {
+  width: 100%; height: 100%;
+  background: var(--black);
   color: var(--white);
-  opacity: 0.55;
-  transition: opacity 0.2s;
+  font-family: var(--font-ui);
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden; /* lock scroll on homepage */
 }
-.nav-links a:hover { opacity: 1; }
+
+a { color: inherit; text-decoration: none; }
 
 /* ─────────────────────────────────────────
-   HERO — static, logo centrato
+   SLIDESHOW
 ───────────────────────────────────────── */
-.hero {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  min-height: 600px;
-  background: var(--black);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  text-align: center;
-  overflow: hidden;
-}
-
-.hero-logo-wrap {
-  opacity: 0;
-  transform: scale(0.96);
-}
-
-.hero-logo {
-  width: min(420px, 70vw);
-  height: auto;
-  display: block;
-}
-
-.hero-tagline-wrap {
-  margin-top: 36px;
-  overflow: hidden;
-}
-
-.hero-tagline {
-  font-size: clamp(11px, 1vw, 13px);
-  font-weight: 400;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.35);
-  transform: translateY(100%);
-}
-
-.hero-scroll {
-  position: absolute;
-  bottom: 36px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  font-size: 9px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.25);
-  opacity: 0;
-}
-
-.hero-scroll-line {
-  width: 1px;
-  height: 48px;
-  background: rgba(255,255,255,0.2);
-  transform-origin: top;
-}
-
-/* ─────────────────────────────────────────
-   WHO IS BILLJOBS — sezione con reel
-───────────────────────────────────────── */
-.who {
-  position: relative;
-  width: 100%;
-  cursor: pointer;
-  overflow: hidden;
-  background: var(--black);
-}
-
-.who-img {
-  width: 100%;
-  height: auto;
-  display: block;
-  transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.who:hover .who-img { transform: scale(1.03); }
-
-.who-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.35);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.4s ease;
-}
-
-.who:hover .who-overlay { background: rgba(0,0,0,0.15); }
-
-.who-play {
-  width: 72px;
-  height: 72px;
-  border: 1px solid rgba(255,255,255,0.6);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
-}
-
-.who:hover .who-play {
-  transform: scale(1.1);
-  border-color: var(--white);
-  background: rgba(255,255,255,0.08);
-}
-
-.who-play svg { width: 22px; height: 22px; margin-left: 4px; }
-
-/* ─────────────────────────────────────────
-   REEL MODAL
-───────────────────────────────────────── */
-.modal {
+.slideshow {
   position: fixed;
   inset: 0;
-  z-index: 500;
-  background: rgba(0,0,0,0.95);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.4s ease;
+  z-index: 0;
 }
 
-.modal.active {
+.slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+  pointer-events: none;
+}
+
+.slide.active {
   opacity: 1;
   pointer-events: all;
 }
 
-.modal-inner {
-  position: relative;
-  width: min(900px, 92vw);
-  aspect-ratio: 16/9;
-  transform: scale(0.94);
-  transition: transform 0.4s ease;
-}
-
-.modal.active .modal-inner { transform: scale(1); }
-
-.modal-inner iframe {
+/* Gradient overlay — darker at top for logo legibility */
+.slide::after {
+  content: '';
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
-  border: none;
+  background:
+    linear-gradient(to bottom,
+      rgba(0,0,0,0.55) 0%,
+      rgba(0,0,0,0.05) 35%,
+      rgba(0,0,0,0.05) 60%,
+      rgba(0,0,0,0.65) 100%);
+  z-index: 1;
 }
 
-.modal-close {
+/* Video fills the slide */
+.slide video {
   position: absolute;
-  top: -44px;
-  right: 0;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+
+/* On mobile show portrait video, hide landscape */
+.slide video.desktop { display: block; }
+.slide video.mobile  { display: none; }
+
+/* Placeholder background when no video yet */
+.slide-bg {
+  position: absolute;
+  inset: 0;
+  background: #0a0a0a;
+}
+
+/* ─────────────────────────────────────────
+   HEADER — fixed overlay
+───────────────────────────────────────── */
+.site-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 0 5vw;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s ease;
+}
+
+.site-header.visible {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Logo row */
+.logo-row {
+  display: flex;
+  align-items: baseline;
+  padding-top: 24px;
+}
+
+.logo {
+  font-family: var(--font-ui);
+  font-size: clamp(48px, 12vw, 130px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: var(--white);
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+/* Nav row */
+.main-nav {
+  display: flex;
+  gap: 0;
+  padding-top: 6px;
+  padding-bottom: 0;
+}
+
+.main-nav a {
+  font-size: clamp(9px, 1vw, 11px);
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--grey);
+  margin-right: 28px;
+  transition: color 0.2s;
+}
+
+.main-nav a:hover { color: var(--white); }
+
+/* ─────────────────────────────────────────
+   PROJECT INFO — bottom left
+───────────────────────────────────────── */
+.slide-info {
+  position: fixed;
+  bottom: 52px;
+  left: 5vw;
+  z-index: 100;
+  opacity: 0;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  transform: translateY(6px);
+}
+
+.slide-info.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.info-client {
+  font-size: clamp(11px, 1.1vw, 13px);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--white);
+  display: inline;
+  margin-right: 8px;
+}
+
+.info-title {
+  font-size: clamp(11px, 1.1vw, 13px);
+  font-weight: 300;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--grey);
+  display: inline;
+}
+
+/* ─────────────────────────────────────────
+   PAGINATION — bottom center
+───────────────────────────────────────── */
+.pagination {
+  position: fixed;
+  bottom: 48px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.pagination.visible { opacity: 1; }
+
+.page-btn {
   background: none;
   border: none;
-  color: var(--white);
-  font-family: var(--font-ui);
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  cursor: pointer;
-  opacity: 0.5;
-  transition: opacity 0.2s;
-  display: flex;
-  align-items: center;
-  gap: 8px;
   padding: 0;
+  cursor: pointer;
+  font-family: var(--font-ui);
+  font-size: clamp(10px, 1vw, 12px);
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  color: var(--grey);
+  transition: color 0.25s;
+  line-height: 1;
 }
-.modal-close:hover { opacity: 1; }
-.modal-close svg { width: 14px; height: 14px; }
+
+.page-btn.active { color: var(--white); font-weight: 600; }
+.page-btn:hover  { color: rgba(255,255,255,0.7); }
+
+/* Progress bar below active number */
+.page-btn::after {
+  content: '';
+  display: block;
+  height: 1px;
+  background: var(--white);
+  margin-top: 4px;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.page-btn.active::after { transform: scaleX(1); }
 
 /* ─────────────────────────────────────────
-   PROJECTS GRID
+   AUTO-PROGRESS BAR
 ───────────────────────────────────────── */
-.projects {
-  padding: 120px 5vw;
+.progress-bar {
+  position: fixed;
+  bottom: 0; left: 0;
+  height: 2px;
+  width: 0%;
+  background: rgba(255,255,255,0.6);
+  z-index: 100;
+  transition: none;
 }
 
-.section-header {
+/* ─────────────────────────────────────────
+   FOOTER STRIP — very bottom
+───────────────────────────────────────── */
+.site-footer {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 100;
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
-  margin-bottom: 56px;
-  border-top: 1px solid var(--border);
-  padding-top: 20px;
-}
-
-.section-label {
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--grey);
-}
-
-.section-link {
-  font-size: 10px;
-  font-weight: 400;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--grey);
-  border-bottom: 1px solid rgba(255,255,255,0.15);
-  padding-bottom: 2px;
-  transition: color 0.2s, border-color 0.2s;
-}
-.section-link:hover { color: var(--white); border-color: var(--white); }
-
-.projects-grid {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: 2px;
-}
-
-.project-item {
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
-  background: #0d0d0d;
-}
-
-.project-item:nth-child(1) { grid-column: span 7; grid-row: span 2; }
-.project-item:nth-child(2) { grid-column: span 5; }
-.project-item:nth-child(3) { grid-column: span 5; }
-.project-item:nth-child(4) { grid-column: span 4; }
-.project-item:nth-child(5) { grid-column: span 4; }
-.project-item:nth-child(6) { grid-column: span 4; }
-
-.project-placeholder {
-  width: 100%;
-  aspect-ratio: 4/3;
-  background: #0d0d0d;
-  display: flex;
   align-items: center;
-  justify-content: center;
+  padding: 0 5vw;
+  height: 40px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  opacity: 0;
+  transition: opacity 0.6s ease;
 }
 
-.project-item:nth-child(1) .project-placeholder {
-  aspect-ratio: unset;
-  height: 100%;
-  min-height: 460px;
-}
+.site-footer.visible { opacity: 1; }
 
-.project-placeholder-inner {
-  font-family: var(--font-ed);
-  font-size: clamp(48px, 8vw, 100px);
-  color: rgba(255,255,255,0.03);
-  font-weight: 400;
-  user-select: none;
-}
-
-.project-info {
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  padding: 20px 22px;
-  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%);
-  transform: translateY(6px);
-  transition: transform 0.4s ease;
-}
-
-.project-item:hover .project-info { transform: translateY(0); }
-
-.project-category {
+.footer-link {
   font-size: 9px;
   font-weight: 500;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.4);
-  margin-bottom: 5px;
+  color: var(--grey);
+  transition: color 0.2s;
 }
-
-.project-title {
-  font-family: var(--font-ed);
-  font-size: clamp(16px, 1.8vw, 22px);
-  font-weight: 400;
-  color: var(--white);
-  line-height: 1.15;
-}
+.footer-link:hover { color: var(--white); }
 
 /* ─────────────────────────────────────────
-   MANIFESTO
+   MOBILE
 ───────────────────────────────────────── */
-.manifesto {
-  padding: 140px 5vw;
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-}
-
-.manifesto-inner { max-width: 960px; }
-
-.manifesto-kicker {
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--grey);
-  margin-bottom: 48px;
-}
-
-.manifesto-text {
-  font-family: var(--font-ed);
-  font-size: clamp(26px, 3.8vw, 54px);
-  font-weight: 400;
-  line-height: 1.2;
-  color: var(--white);
-  letter-spacing: -0.01em;
-}
-
-.manifesto-text em {
-  font-style: italic;
-  color: rgba(255,255,255,0.35);
-}
-
-/* ─────────────────────────────────────────
-   AREAS
-───────────────────────────────────────── */
-.areas { padding: 120px 5vw; }
-
-.areas-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 2px;
-  margin-top: 56px;
-}
-
-.area-item {
-  position: relative;
-  overflow: hidden;
-  background: #080808;
-  aspect-ratio: 3/4;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 28px 24px;
-  cursor: pointer;
-  border: 1px solid var(--border);
-  transition: border-color 0.3s;
-}
-
-.area-item:hover { border-color: rgba(255,255,255,0.25); }
-
-.area-num {
-  position: absolute;
-  top: 24px;
-  right: 24px;
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  color: var(--grey);
-}
-
-.area-name {
-  font-family: var(--font-ed);
-  font-size: clamp(22px, 2.4vw, 34px);
-  font-weight: 400;
-  color: var(--white);
-  line-height: 1.1;
-  margin-bottom: 10px;
-  transition: transform 0.35s ease;
-}
-
-.area-item:hover .area-name { transform: translateY(-4px); }
-
-.area-sub {
-  font-size: 10px;
-  font-weight: 400;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--grey);
-  opacity: 0;
-  transform: translateY(8px);
-  transition: opacity 0.35s ease, transform 0.35s ease;
-}
-
-.area-item:hover .area-sub { opacity: 1; transform: translateY(0); }
-
-.area-arrow {
-  position: absolute;
-  bottom: 28px;
-  right: 24px;
-  width: 32px;
-  height: 32px;
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transform: scale(0.8);
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.area-item:hover .area-arrow { opacity: 1; transform: scale(1); }
-.area-arrow svg { width: 12px; height: 12px; }
-
-/* ─────────────────────────────────────────
-   STUDIO PREVIEW
-───────────────────────────────────────── */
-.studio-preview {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  border-top: 1px solid var(--border);
-}
-
-.studio-left {
-  padding: 120px 5vw;
-  border-right: 1px solid var(--border);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.studio-kicker {
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--grey);
-  margin-bottom: 64px;
-}
-
-.studio-statement {
-  font-family: var(--font-ed);
-  font-size: clamp(22px, 2.8vw, 38px);
-  font-weight: 400;
-  line-height: 1.25;
-  color: var(--white);
-}
-
-.studio-cta {
-  margin-top: 64px;
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--white);
-  border-bottom: 1px solid rgba(255,255,255,0.2);
-  padding-bottom: 4px;
-  transition: border-color 0.2s;
-}
-.studio-cta:hover { border-color: var(--white); }
-.studio-cta svg { width: 14px; height: 14px; transition: transform 0.2s; }
-.studio-cta:hover svg { transform: translateX(3px); }
-
-.studio-right { padding: 120px 5vw; }
-
-.studio-service {
-  display: flex;
-  align-items: baseline;
-  gap: 20px;
-  padding: 20px 0;
-  border-bottom: 1px solid var(--border);
-  transition: padding-left 0.3s ease;
-  cursor: default;
-}
-.studio-service:first-child { border-top: 1px solid var(--border); }
-.studio-service:hover { padding-left: 10px; }
-
-.studio-service-num {
-  font-size: 9px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  color: var(--grey);
-  min-width: 22px;
-}
-
-.studio-service-name {
-  font-family: var(--font-ed);
-  font-size: clamp(18px, 2vw, 26px);
-  font-weight: 400;
-  color: var(--white);
-}
-
-/* ─────────────────────────────────────────
-   FOOTER
-───────────────────────────────────────── */
-footer {
-  border-top: 1px solid var(--border);
-  padding: 48px 5vw;
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-  gap: 24px;
-}
-
-.footer-logo-img {
-  height: 28px;
-  width: auto;
-  opacity: 0.5;
-  transition: opacity 0.2s;
-}
-.footer-logo-img:hover { opacity: 0.8; }
-
-.footer-center {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-}
-
-.footer-tagline {
-  font-family: var(--font-ed);
-  font-style: italic;
-  font-size: 13px;
-  color: rgba(255,255,255,0.18);
-  text-align: center;
-  white-space: nowrap;
-}
-
-.footer-copy {
-  font-size: 10px;
-  color: var(--grey);
-  letter-spacing: 0.06em;
-}
-
-.footer-right {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 24px;
-}
-
-.footer-email {
-  font-size: 11px;
-  font-weight: 400;
-  letter-spacing: 0.1em;
-  color: var(--off-white);
-  border-bottom: 1px solid rgba(255,255,255,0.15);
-  padding-bottom: 2px;
-  transition: border-color 0.2s;
-}
-.footer-email:hover { border-color: var(--white); }
-
-.footer-ig {
-  display: flex;
-  align-items: center;
-  color: var(--white);
-  opacity: 0.4;
-  transition: opacity 0.2s;
-}
-.footer-ig:hover { opacity: 1; }
-.footer-ig svg { width: 17px; height: 17px; }
-
-/* ─────────────────────────────────────────
-   RESPONSIVE
-───────────────────────────────────────── */
-@media (max-width: 1024px) {
-  .areas-grid { grid-template-columns: repeat(2, 1fr); }
-}
-
 @media (max-width: 767px) {
-  #nav { padding: 22px 20px; }
-  .nav-links { display: none; }
+  .slide video.desktop { display: none; }
+  .slide video.mobile  { display: block; }
 
-  .hero-logo { width: min(300px, 80vw); }
+  .logo { font-size: clamp(40px, 14vw, 64px); }
 
-  .who-play { width: 56px; height: 56px; }
-  .who-play svg { width: 16px; height: 16px; }
+  .logo-row { padding-top: 20px; }
 
-  .projects { padding: 80px 20px; }
-  .projects-grid { grid-template-columns: 1fr; gap: 2px; }
-  .project-item:nth-child(n) { grid-column: span 1; grid-row: span 1; }
-  .project-item:nth-child(1) .project-placeholder { min-height: 260px; }
+  .main-nav a { margin-right: 18px; font-size: 9px; letter-spacing: 0.14em; }
 
-  .manifesto { padding: 80px 20px; }
-
-  .areas { padding: 80px 20px; }
-  .areas-grid { grid-template-columns: 1fr 1fr; }
-  .area-item { aspect-ratio: 1/1.1; padding: 18px 16px; }
-
-  .studio-preview { grid-template-columns: 1fr; }
-  .studio-left { padding: 80px 20px; border-right: none; border-bottom: 1px solid var(--border); }
-  .studio-right { padding: 60px 20px; }
-
-  footer { grid-template-columns: 1fr; text-align: left; gap: 20px; padding: 32px 20px; }
-  .footer-center { align-items: flex-start; }
-  .footer-tagline { white-space: normal; text-align: left; }
-  .footer-right { justify-content: flex-start; }
+  .slide-info  { bottom: 56px; left: 20px; }
+  .pagination  { bottom: 54px; gap: 16px; }
+  .site-footer { padding: 0 20px; }
 }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav id="nav">
-  <a href="/"><img src="assets/img/logo_billjobs.png" alt="BillJobs" class="nav-logo-img"></a>
-  <ul class="nav-links">
-    <li><a href="#work">Work</a></li>
-    <li><a href="#areas">Areas</a></li>
-    <li><a href="#studio">Studio</a></li>
-    <li><a href="mailto:contact@billjobs.it">Contact</a></li>
-  </ul>
-</nav>
+<!-- ── SLIDESHOW ─────────────────────── -->
+<div class="slideshow" id="slideshow">
 
-<!-- HERO — logo su nero -->
-<section class="hero">
-  <div class="hero-logo-wrap">
-    <img src="assets/img/billjobs_logo.jpg" alt="BillJobs — True Creative Production" class="hero-logo">
+  <!-- Slide 01 — replace <source> with your video files -->
+  <div class="slide active" data-client="BillJobs" data-title="Who Is BillJobs?">
+    <div class="slide-bg"></div>
+    <!-- Desktop (landscape): assets/video/01_desktop.mp4 -->
+    <!-- Mobile  (portrait):  assets/video/01_mobile.mp4  -->
+    <video class="desktop" autoplay muted loop playsinline>
+      <source src="assets/video/01_desktop.mp4" type="video/mp4">
+    </video>
+    <video class="mobile" autoplay muted loop playsinline>
+      <source src="assets/video/01_mobile.mp4" type="video/mp4">
+    </video>
   </div>
-  <div class="hero-tagline-wrap">
-    <p class="hero-tagline">Creative Production House for Music, Fashion &amp; Talent</p>
-  </div>
-  <div class="hero-scroll">
-    <div class="hero-scroll-line"></div>
-    <span>Scroll</span>
-  </div>
-</section>
 
-<!-- WHO IS BILLJOBS — sezione con reel -->
-<section class="who" id="who" role="button" aria-label="Watch: Who is BillJobs? — Reel" tabindex="0">
-  <img src="assets/img/who_is_billjobs.jpg" alt="Who Is BillJobs?" class="who-img">
-  <div class="who-overlay">
-    <div class="who-play">
-      <svg viewBox="0 0 24 24" fill="currentColor">
-        <path d="M8 5v14l11-7z"/>
-      </svg>
-    </div>
+  <!-- Slide 02 -->
+  <div class="slide" data-client="" data-title="">
+    <div class="slide-bg"></div>
+    <video class="desktop" autoplay muted loop playsinline>
+      <source src="assets/video/02_desktop.mp4" type="video/mp4">
+    </video>
+    <video class="mobile" autoplay muted loop playsinline>
+      <source src="assets/video/02_mobile.mp4" type="video/mp4">
+    </video>
   </div>
-</section>
 
-<!-- REEL MODAL -->
-<div class="modal" id="reelModal" role="dialog" aria-modal="true" aria-label="BillJobs Reel">
-  <div class="modal-inner">
-    <button class="modal-close" id="modalClose">
-      <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
-        <path d="M1 1l12 12M13 1L1 13"/>
-      </svg>
-      Close
-    </button>
-    <iframe id="reelIframe" src="" title="BillJobs — Who Is BillJobs? Reel"
-      allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+  <!-- Slide 03 -->
+  <div class="slide" data-client="" data-title="">
+    <div class="slide-bg"></div>
+    <video class="desktop" autoplay muted loop playsinline>
+      <source src="assets/video/03_desktop.mp4" type="video/mp4">
+    </video>
+    <video class="mobile" autoplay muted loop playsinline>
+      <source src="assets/video/03_mobile.mp4" type="video/mp4">
+    </video>
   </div>
+
+  <!-- Slide 04 -->
+  <div class="slide" data-client="" data-title="">
+    <div class="slide-bg"></div>
+    <video class="desktop" autoplay muted loop playsinline>
+      <source src="assets/video/04_desktop.mp4" type="video/mp4">
+    </video>
+    <video class="mobile" autoplay muted loop playsinline>
+      <source src="assets/video/04_mobile.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- Slide 05 -->
+  <div class="slide" data-client="" data-title="">
+    <div class="slide-bg"></div>
+    <video class="desktop" autoplay muted loop playsinline>
+      <source src="assets/video/05_desktop.mp4" type="video/mp4">
+    </video>
+    <video class="mobile" autoplay muted loop playsinline>
+      <source src="assets/video/05_mobile.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- Slide 06 -->
+  <div class="slide" data-client="" data-title="">
+    <div class="slide-bg"></div>
+    <video class="desktop" autoplay muted loop playsinline>
+      <source src="assets/video/06_desktop.mp4" type="video/mp4">
+    </video>
+    <video class="mobile" autoplay muted loop playsinline>
+      <source src="assets/video/06_mobile.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- Slide 07 -->
+  <div class="slide" data-client="" data-title="">
+    <div class="slide-bg"></div>
+    <video class="desktop" autoplay muted loop playsinline>
+      <source src="assets/video/07_desktop.mp4" type="video/mp4">
+    </video>
+    <video class="mobile" autoplay muted loop playsinline>
+      <source src="assets/video/07_mobile.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- Slide 08 -->
+  <div class="slide" data-client="" data-title="">
+    <div class="slide-bg"></div>
+    <video class="desktop" autoplay muted loop playsinline>
+      <source src="assets/video/08_desktop.mp4" type="video/mp4">
+    </video>
+    <video class="mobile" autoplay muted loop playsinline>
+      <source src="assets/video/08_mobile.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- Slide 09 -->
+  <div class="slide" data-client="" data-title="">
+    <div class="slide-bg"></div>
+    <video class="desktop" autoplay muted loop playsinline>
+      <source src="assets/video/09_desktop.mp4" type="video/mp4">
+    </video>
+    <video class="mobile" autoplay muted loop playsinline>
+      <source src="assets/video/09_mobile.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- Slide 10 -->
+  <div class="slide" data-client="" data-title="">
+    <div class="slide-bg"></div>
+    <video class="desktop" autoplay muted loop playsinline>
+      <source src="assets/video/10_desktop.mp4" type="video/mp4">
+    </video>
+    <video class="mobile" autoplay muted loop playsinline>
+      <source src="assets/video/10_mobile.mp4" type="video/mp4">
+    </video>
+  </div>
+
+</div><!-- /slideshow -->
+
+<!-- ── HEADER ───────────────────────── -->
+<header class="site-header" id="siteHeader">
+  <div class="logo-row">
+    <a href="/" class="logo">BillJobs</a>
+  </div>
+  <nav class="main-nav">
+    <a href="#music">Music</a>
+    <a href="#fashion">Fashion</a>
+    <a href="#talent">Talent</a>
+    <a href="#culture">Culture</a>
+    <a href="mailto:contact@billjobs.it">Contact</a>
+  </nav>
+</header>
+
+<!-- ── PROJECT INFO ──────────────────── -->
+<div class="slide-info" id="slideInfo">
+  <span class="info-client" id="infoClient"></span>
+  <span class="info-title" id="infoTitle"></span>
 </div>
 
-<!-- FEATURED PROJECTS -->
-<section class="projects" id="work">
-  <div class="section-header">
-    <span class="section-label">Selected Work</span>
-    <a href="#work" class="section-link">View all</a>
-  </div>
+<!-- ── PAGINATION ───────────────────── -->
+<div class="pagination" id="pagination"></div>
 
-  <div class="projects-grid">
-    <div class="project-item">
-      <div class="project-placeholder"><span class="project-placeholder-inner">01</span></div>
-      <div class="project-info">
-        <p class="project-category">Music Video</p>
-        <h2 class="project-title">Artist — Project Title</h2>
-      </div>
-    </div>
-    <div class="project-item">
-      <div class="project-placeholder"><span class="project-placeholder-inner">02</span></div>
-      <div class="project-info">
-        <p class="project-category">Branded Content</p>
-        <h2 class="project-title">Brand — Campaign</h2>
-      </div>
-    </div>
-    <div class="project-item">
-      <div class="project-placeholder"><span class="project-placeholder-inner">03</span></div>
-      <div class="project-info">
-        <p class="project-category">Fashion Film</p>
-        <h2 class="project-title">Label — Collection</h2>
-      </div>
-    </div>
-    <div class="project-item">
-      <div class="project-placeholder"><span class="project-placeholder-inner">04</span></div>
-      <div class="project-info">
-        <p class="project-category">Visual Identity</p>
-        <h2 class="project-title">Artist Branding</h2>
-      </div>
-    </div>
-    <div class="project-item">
-      <div class="project-placeholder"><span class="project-placeholder-inner">05</span></div>
-      <div class="project-info">
-        <p class="project-category">Social Campaign</p>
-        <h2 class="project-title">Brand — Social</h2>
-      </div>
-    </div>
-    <div class="project-item">
-      <div class="project-placeholder"><span class="project-placeholder-inner">06</span></div>
-      <div class="project-info">
-        <p class="project-category">Portrait</p>
-        <h2 class="project-title">Talent — Editorial</h2>
-      </div>
-    </div>
-  </div>
-</section>
+<!-- ── PROGRESS BAR ─────────────────── -->
+<div class="progress-bar" id="progressBar"></div>
 
-<!-- MANIFESTO -->
-<section class="manifesto">
-  <div class="manifesto-inner">
-    <p class="manifesto-kicker">What we do</p>
-    <p class="manifesto-text">
-      BillJobs develops visual identities for artists, musicians, models, creators and fashion brands
-      <em>through creative direction, film production and cultural storytelling.</em>
-    </p>
-  </div>
-</section>
-
-<!-- AREAS -->
-<section class="areas" id="areas">
-  <div class="section-header">
-    <span class="section-label">Areas</span>
-  </div>
-  <div class="areas-grid">
-    <div class="area-item">
-      <span class="area-num">01</span>
-      <h3 class="area-name">Music</h3>
-      <p class="area-sub">Video · Live · Branding</p>
-      <div class="area-arrow">
-        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path d="M2 6h8M6 2l4 4-4 4"/>
-        </svg>
-      </div>
-    </div>
-    <div class="area-item">
-      <span class="area-num">02</span>
-      <h3 class="area-name">Fashion</h3>
-      <p class="area-sub">Campaign · Film · Editorial</p>
-      <div class="area-arrow">
-        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path d="M2 6h8M6 2l4 4-4 4"/>
-        </svg>
-      </div>
-    </div>
-    <div class="area-item">
-      <span class="area-num">03</span>
-      <h3 class="area-name">Talent</h3>
-      <p class="area-sub">Models · Creators · Influencers</p>
-      <div class="area-arrow">
-        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path d="M2 6h8M6 2l4 4-4 4"/>
-        </svg>
-      </div>
-    </div>
-    <div class="area-item">
-      <span class="area-num">04</span>
-      <h3 class="area-name">Visual<br>Culture</h3>
-      <p class="area-sub">Brand · Identity · Culture</p>
-      <div class="area-arrow">
-        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path d="M2 6h8M6 2l4 4-4 4"/>
-        </svg>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- STUDIO PREVIEW -->
-<section class="studio-preview" id="studio">
-  <div class="studio-left">
-    <p class="studio-kicker">Studio</p>
-    <p class="studio-statement">
-      We collaborate with artists, talents and brands to build distinctive visual identities through film, photography, creative direction and cultural storytelling.
-    </p>
-    <a href="mailto:contact@billjobs.it" class="studio-cta">
-      Get in touch
-      <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
-        <path d="M2 7h10M7 2l5 5-5 5"/>
-      </svg>
-    </a>
-  </div>
-  <div class="studio-right">
-    <div class="studio-service"><span class="studio-service-num">01</span><span class="studio-service-name">Creative Direction</span></div>
-    <div class="studio-service"><span class="studio-service-num">02</span><span class="studio-service-name">Film Production</span></div>
-    <div class="studio-service"><span class="studio-service-num">03</span><span class="studio-service-name">Music Videos</span></div>
-    <div class="studio-service"><span class="studio-service-num">04</span><span class="studio-service-name">Fashion Films</span></div>
-    <div class="studio-service"><span class="studio-service-num">05</span><span class="studio-service-name">Photography</span></div>
-    <div class="studio-service"><span class="studio-service-num">06</span><span class="studio-service-name">Artist Development</span></div>
-    <div class="studio-service"><span class="studio-service-num">07</span><span class="studio-service-name">Visual Identity</span></div>
-    <div class="studio-service"><span class="studio-service-num">08</span><span class="studio-service-name">Branded Content</span></div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <a href="/"><img src="assets/img/logo_billjobs.png" alt="BillJobs" class="footer-logo-img"></a>
-  <div class="footer-center">
-    <span class="footer-tagline">Creating identities through image, film and culture.</span>
-    <span class="footer-copy">&copy; 2026 BillJobs Studio</span>
-  </div>
-  <div class="footer-right">
-    <a href="mailto:contact@billjobs.it" class="footer-email">contact@billjobs.it</a>
-    <a href="https://www.instagram.com/billjobs_production" target="_blank" rel="noopener" aria-label="Instagram" class="footer-ig">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-        <circle cx="12" cy="12" r="3.5"/>
-        <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
-      </svg>
-    </a>
-  </div>
+<!-- ── FOOTER ───────────────────────── -->
+<footer class="site-footer" id="siteFooter">
+  <a href="#" class="footer-link">Italy</a>
+  <a href="mailto:contact@billjobs.it" class="footer-link">Contact</a>
+  <a href="https://www.instagram.com/billjobs_production" target="_blank" rel="noopener" class="footer-link">Instagram</a>
 </footer>
 
-<!-- GSAP -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script>
-gsap.registerPlugin(ScrollTrigger);
+(function () {
+  const slides      = Array.from(document.querySelectorAll('.slide'));
+  const pagination  = document.getElementById('pagination');
+  const infoClient  = document.getElementById('infoClient');
+  const infoTitle   = document.getElementById('infoTitle');
+  const progressBar = document.getElementById('progressBar');
+  const DURATION    = 6000; // ms per slide
+  let current       = 0;
+  let timer         = null;
+  let progTimer     = null;
 
-// ── Entrance
-const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-tl.to('#nav', { opacity: 1, duration: 1.2, delay: 0.3 })
-  .to('.hero-logo-wrap', { opacity: 1, scale: 1, duration: 1.1 }, '-=0.8')
-  .to('.hero-tagline', { translateY: '0%', duration: 0.9 }, '-=0.6')
-  .to('.hero-scroll', { opacity: 1, duration: 0.7 }, '-=0.3');
-
-// ── Scroll line pulse
-gsap.to('.hero-scroll-line', {
-  scaleY: 0,
-  transformOrigin: 'top',
-  repeat: -1,
-  duration: 1.4,
-  ease: 'power1.inOut',
-  yoyo: true,
-  delay: 1.6
-});
-
-// ── Who section parallax
-gsap.to('.who-img', {
-  scrollTrigger: { trigger: '.who', start: 'top bottom', end: 'bottom top', scrub: true },
-  y: '-6%',
-  ease: 'none'
-});
-
-// ── Projects
-gsap.utils.toArray('.project-item').forEach((el, i) => {
-  gsap.from(el, {
-    scrollTrigger: { trigger: el, start: 'top 88%', once: true },
-    opacity: 0, y: 24, duration: 0.7,
-    delay: (i % 3) * 0.09,
-    ease: 'power2.out'
+  // Build pagination buttons
+  slides.forEach((_, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'page-btn' + (i === 0 ? ' active' : '');
+    btn.textContent = i + 1;
+    btn.addEventListener('click', () => goTo(i, true));
+    pagination.appendChild(btn);
   });
-});
 
-// ── Manifesto
-gsap.from('.manifesto-text', {
-  scrollTrigger: { trigger: '.manifesto-text', start: 'top 80%', once: true },
-  opacity: 0, y: 28, duration: 1, ease: 'power2.out'
-});
+  const pageBtns = Array.from(pagination.querySelectorAll('.page-btn'));
 
-// ── Areas
-gsap.from('.area-item', {
-  scrollTrigger: { trigger: '.areas-grid', start: 'top 80%', once: true },
-  opacity: 0, y: 20, duration: 0.65, stagger: 0.1, ease: 'power2.out'
-});
+  function updateInfo(idx) {
+    const s = slides[idx];
+    const client = s.dataset.client || '';
+    const title  = s.dataset.title  || '';
+    const info   = document.getElementById('slideInfo');
 
-// ── Studio
-gsap.from('.studio-statement', {
-  scrollTrigger: { trigger: '.studio-left', start: 'top 75%', once: true },
-  opacity: 0, y: 20, duration: 0.9, ease: 'power2.out'
-});
-gsap.from('.studio-service', {
-  scrollTrigger: { trigger: '.studio-right', start: 'top 80%', once: true },
-  opacity: 0, y: 12, duration: 0.5, stagger: 0.06, ease: 'power2.out'
-});
+    // Fade out → update → fade in
+    info.classList.remove('visible');
+    setTimeout(() => {
+      infoClient.textContent = client;
+      infoTitle.textContent  = title ? (client ? title : title) : '';
+      if (client || title) info.classList.add('visible');
+    }, 300);
+  }
 
-// ── Reel modal
-const modal     = document.getElementById('reelModal');
-const iframe    = document.getElementById('reelIframe');
-const closeBtn  = document.getElementById('modalClose');
-const whoBtn    = document.getElementById('who');
-const REEL_SRC  = 'https://www.youtube.com/embed/TrLO4PL-8jI?autoplay=1&rel=0&modestbranding=1';
+  function startProgress() {
+    clearInterval(progTimer);
+    progressBar.style.transition = 'none';
+    progressBar.style.width = '0%';
+    // Force reflow
+    progressBar.offsetWidth;
+    progressBar.style.transition = `width ${DURATION}ms linear`;
+    progressBar.style.width = '100%';
+  }
 
-function openModal() {
-  iframe.src = REEL_SRC;
-  modal.classList.add('active');
-  document.body.style.overflow = 'hidden';
-}
+  function goTo(idx, userClick) {
+    if (idx === current && !userClick) return;
 
-function closeModal() {
-  modal.classList.remove('active');
-  iframe.src = '';
-  document.body.style.overflow = '';
-}
+    slides[current].classList.remove('active');
+    pageBtns[current].classList.remove('active');
 
-whoBtn.addEventListener('click', openModal);
-whoBtn.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') openModal(); });
-closeBtn.addEventListener('click', closeModal);
-modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+    // Pause old video, play new one
+    const oldVid = slides[current].querySelector('video:not([style*="none"])') ||
+                   slides[current].querySelector('video.desktop') ||
+                   slides[current].querySelector('video.mobile');
+    if (oldVid) oldVid.pause();
+
+    current = idx;
+    slides[current].classList.add('active');
+    pageBtns[current].classList.add('active');
+
+    // Play new video
+    const isMobile = window.innerWidth <= 767;
+    const newVid = isMobile
+      ? slides[current].querySelector('video.mobile')
+      : slides[current].querySelector('video.desktop');
+    if (newVid) { newVid.currentTime = 0; newVid.play().catch(() => {}); }
+
+    updateInfo(current);
+    startProgress();
+
+    clearTimeout(timer);
+    timer = setTimeout(next, DURATION);
+  }
+
+  function next() {
+    goTo((current + 1) % slides.length, false);
+  }
+
+  // Keyboard navigation
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') goTo((current + 1) % slides.length, true);
+    if (e.key === 'ArrowLeft')  goTo((current - 1 + slides.length) % slides.length, true);
+  });
+
+  // Touch swipe
+  let touchStartX = 0;
+  document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 50) {
+      goTo(dx < 0
+        ? (current + 1) % slides.length
+        : (current - 1 + slides.length) % slides.length,
+        true);
+    }
+  }, { passive: true });
+
+  // Init
+  function init() {
+    document.getElementById('siteHeader').classList.add('visible');
+    document.getElementById('siteFooter').classList.add('visible');
+    document.getElementById('pagination').classList.add('visible');
+    updateInfo(0);
+    startProgress();
+    timer = setTimeout(next, DURATION);
+  }
+
+  // Small delay for entrance feel
+  setTimeout(init, 400);
+})();
 </script>
 </body>
 </html>
