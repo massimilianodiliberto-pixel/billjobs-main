@@ -100,30 +100,50 @@ a { color: inherit; text-decoration: none; }
   height: 100vh;
   min-height: 500px;
   overflow: hidden;
-  cursor: pointer;
 }
 
-.hero-bg {
+/* YouTube autoplay background */
+.hero-video {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.hero-video iframe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 177.78vh;   /* 16/9 × 100vh */
+  height: 56.25vw;   /* 9/16 × 100vw */
+  min-width: 100%;
+  min-height: 100%;
+  transform: translate(-50%, -50%);
+  border: none;
+  pointer-events: none;
+}
+
+/* Fallback image shown until iframe loads */
+.hero-fallback {
   position: absolute;
   inset: 0;
   background-image: url('assets/img/who_is_billjobs.jpg');
   background-size: cover;
   background-position: center;
-  transition: transform 0.6s ease;
+  z-index: 0;
+  transition: opacity 1s ease;
 }
 
-.hero:hover .hero-bg {
-  transform: scale(1.015);
-}
+.hero-fallback.hidden { opacity: 0; pointer-events: none; }
 
 .hero-overlay {
   position: absolute;
   inset: 0;
   background: linear-gradient(
     to bottom,
-    rgba(0,0,0,0.5) 0%,
-    rgba(0,0,0,0.15) 40%,
-    rgba(0,0,0,0.4) 100%
+    rgba(0,0,0,0.45) 0%,
+    rgba(0,0,0,0.1) 40%,
+    rgba(0,0,0,0.55) 100%
   );
   z-index: 1;
 }
@@ -508,17 +528,30 @@ a { color: inherit; text-decoration: none; }
 </header>
 
 <!-- ── HERO ─────────────────────────── -->
-<section class="hero" id="hero" role="button" aria-label="Play BillJobs showreel">
-  <div class="hero-bg" id="heroBg"></div>
+<section class="hero" id="hero">
+  <!-- Fallback image mentre il video carica -->
+  <div class="hero-fallback" id="heroFallback"></div>
+
+  <!-- Reel in autoplay muted come sfondo -->
+  <div class="hero-video">
+    <iframe id="bgIframe"
+      src="https://www.youtube.com/embed/TrLO4PL-8jI?autoplay=1&mute=1&loop=1&playlist=TrLO4PL-8jI&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1"
+      title="BillJobs Reel"
+      allow="autoplay; encrypted-media"
+      allowfullscreen>
+    </iframe>
+  </div>
+
   <div class="hero-overlay"></div>
 
-  <button class="play-btn" id="playBtn" aria-label="Play video">
+  <!-- Play con audio: apre modal -->
+  <button class="play-btn" id="playBtn" aria-label="Watch with sound">
     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
       <path d="M6 4l14 8-14 8V4z"/>
     </svg>
   </button>
 
-  <span class="hero-label">BillJobs — Creative Production House</span>
+  <span class="hero-label">BillJobs — Who Is BillJobs? Reel</span>
 </section>
 
 <!-- ── STAT STRIP ─────────────────────── -->
@@ -663,17 +696,19 @@ a { color: inherit; text-decoration: none; }
     delay: 0.55
   });
 
-  /* ── Modal logic ───────────────────────────────── */
-  const YT_SRC = 'https://www.youtube.com/embed/TrLO4PL-8jI?autoplay=1&rel=0';
-  const backdrop = document.getElementById('modalBackdrop');
-  const modalInner = document.getElementById('modalInner');
-  const closeBtn = document.getElementById('modalClose');
-  const hero = document.getElementById('hero');
-  const playBtn = document.getElementById('playBtn');
-  let iframeEl = null;
+  /* ── Nascondi fallback dopo caricamento iframe ─── */
+  const fallback = document.getElementById('heroFallback');
+  setTimeout(() => { if (fallback) fallback.classList.add('hidden'); }, 2000);
 
-  function openModal(e) {
-    if (e) e.stopPropagation();
+  /* ── Modal con audio ────────────────────────────── */
+  const YT_SRC    = 'https://www.youtube.com/embed/TrLO4PL-8jI?autoplay=1&rel=0&modestbranding=1';
+  const backdrop  = document.getElementById('modalBackdrop');
+  const modalInner = document.getElementById('modalInner');
+  const closeBtn  = document.getElementById('modalClose');
+  const playBtn   = document.getElementById('playBtn');
+  let iframeEl    = null;
+
+  function openModal() {
     if (!iframeEl) {
       iframeEl = document.createElement('iframe');
       iframeEl.src = YT_SRC;
@@ -690,34 +725,14 @@ a { color: inherit; text-decoration: none; }
   function closeModal() {
     backdrop.classList.remove('open');
     document.body.style.overflow = '';
-    // Remove iframe to stop video
-    if (iframeEl) {
-      iframeEl.remove();
-      iframeEl = null;
-    }
+    if (iframeEl) { iframeEl.remove(); iframeEl = null; }
   }
 
-  // Open triggers
   playBtn.addEventListener('click', openModal);
-  hero.addEventListener('click', openModal);
-
-  // Close triggers
   closeBtn.addEventListener('click', closeModal);
-
-  backdrop.addEventListener('click', function (e) {
-    if (e.target === backdrop) closeModal();
-  });
-
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && backdrop.classList.contains('open')) {
-      closeModal();
-    }
-  });
-
-  // Prevent hero's click from propagating through modal inner
-  modalInner.addEventListener('click', function (e) {
-    e.stopPropagation();
-  });
+  backdrop.addEventListener('click', e => { if (e.target === backdrop) closeModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && backdrop.classList.contains('open')) closeModal(); });
+  modalInner.addEventListener('click', e => e.stopPropagation());
 
 })();
 </script>
