@@ -303,6 +303,62 @@ a { color: inherit; text-decoration: none; }
 }
 
 /* ─────────────────────────────────────────
+   AREAS
+───────────────────────────────────────── */
+.areas {
+  padding: 0 0 120px;
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.areas-list {
+  list-style: none;
+}
+
+.area-row {
+  display: grid;
+  grid-template-columns: 80px 1fr auto;
+  align-items: baseline;
+  gap: 0 4vw;
+  padding: 28px 5vw;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  transition: background 0.25s;
+}
+
+.area-row:first-child { border-top: 1px solid rgba(255,255,255,0.07); }
+.area-row:hover { background: rgba(255,255,255,0.025); }
+
+.area-num {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: rgba(255,255,255,0.3);
+}
+
+.area-name {
+  font-family: var(--font-ed);
+  font-size: clamp(28px, 4vw, 56px);
+  font-weight: 400;
+  color: var(--white);
+  line-height: 1.1;
+}
+
+.area-desc {
+  font-size: clamp(10px, 0.9vw, 12px);
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  text-align: right;
+  line-height: 1.6;
+}
+
+@media (max-width: 767px) {
+  .area-row { grid-template-columns: 40px 1fr; gap: 0 16px; padding: 22px 20px; }
+  .area-desc { display: none; }
+}
+
+/* ─────────────────────────────────────────
    CONTACT SECTION
 ───────────────────────────────────────── */
 .contact-section {
@@ -517,10 +573,7 @@ a { color: inherit; text-decoration: none; }
   <div class="header-inner">
     <a href="index.html" class="logo">BillJobs</a>
     <nav class="main-nav">
-      <a href="music.html">Music</a>
-      <a href="fashion.html">Fashion</a>
-      <a href="talent.html">Talent</a>
-      <a href="culture.html">Culture</a>
+      <a href="index.html">Work</a>
       <a href="who-is.html" class="active">Who Is</a>
       <a href="mailto:contact@billjobs.it">Contact</a>
     </nav>
@@ -586,6 +639,32 @@ a { color: inherit; text-decoration: none; }
     <p>Non si immagina. Si costruisce.</p>
     <p class="statement">We collaborate with artists, talents and brands to build distinctive visual identities through film, photography, creative direction and cultural storytelling.</p>
   </div>
+</section>
+
+<!-- ── AREAS ─────────────────────────── -->
+<section class="areas" id="areas">
+  <ul class="areas-list">
+    <li class="area-row">
+      <span class="area-num">01</span>
+      <span class="area-name">Music</span>
+      <span class="area-desc">Music Video · Live Session<br>Artist Branding · Visual Album</span>
+    </li>
+    <li class="area-row">
+      <span class="area-num">02</span>
+      <span class="area-name">Fashion</span>
+      <span class="area-desc">Campaign · Fashion Film<br>Lookbook · Editorial</span>
+    </li>
+    <li class="area-row">
+      <span class="area-num">03</span>
+      <span class="area-name">Talent</span>
+      <span class="area-desc">Models · Creators · Influencers<br>Personal Branding · Content Strategy</span>
+    </li>
+    <li class="area-row">
+      <span class="area-num">04</span>
+      <span class="area-name">Culture</span>
+      <span class="area-desc">Brand Collaboration · Visual Identity<br>Branded Content · AI · Website</span>
+    </li>
+  </ul>
 </section>
 
 <!-- ── CONTACTS ─────────────────────── -->
@@ -656,6 +735,16 @@ a { color: inherit; text-decoration: none; }
       start: 'top 82%',
       once: true
     }
+  });
+
+  // Areas
+  gsap.to('#areas', {
+    opacity: 1, y: 0, duration: 0.8, ease: 'power2.out',
+    scrollTrigger: { trigger: '#areas', start: 'top 82%', once: true }
+  });
+  gsap.from('.area-row', {
+    opacity: 0, y: 16, duration: 0.5, stagger: 0.08, ease: 'power2.out',
+    scrollTrigger: { trigger: '.areas-list', start: 'top 82%', once: true }
   });
 
   // Contact section fade-in
