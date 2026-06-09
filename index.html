@@ -1,575 +1,701 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bill Jobs Studio — True Creative Production</title>
-<meta name="description" content="Bill Jobs è uno studio creativo specializzato in music video, branded content, campagne social e identità visiva per artisti e brand. Dalla A alla Z.">
-<meta name="keywords" content="Bill Jobs, studio creativo, music video, branded content, campagne social, identità visiva, AI content, produzione video, artisti emergenti">
-<meta name="author" content="Bill Jobs Studio">
-<meta name="robots" content="index, follow">
-<meta property="og:title" content="Bill Jobs Studio — True Creative Production">
-<meta property="og:description" content="Studio creativo specializzato in music video, branded content e identità visiva per artisti e brand.">
-<meta property="og:image" content="https://www.m-dl.it/assets/img/logo_billjobs.png">
+<title>BillJobs — Creative Production House</title>
+<meta name="description" content="BillJobs is a creative production house for music, fashion and talent.">
+<meta property="og:title" content="BillJobs — Creative Production House">
+<meta property="og:image" content="https://www.billjobs.it/assets/img/who_is_billjobs.jpg">
 <meta property="og:url" content="https://www.billjobs.it">
 <meta property="og:type" content="website">
-<meta property="og:locale" content="it_IT">
 <link rel="canonical" href="https://www.billjobs.it">
-<link rel="icon" type="image/png" href="https://www.m-dl.it/assets/img/logo_billjobs.png">
+<link rel="icon" type="image/png" href="assets/img/logo_billjobs.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg: #080808;
-  --white: #ffffff;
-  --grey: #555555;
-  --grey-light: #888888;
-  --border: rgba(255,255,255,0.08);
+  --black: #000;
+  --white: #fff;
+  --grey: rgba(255,255,255,0.45);
   --font-ui: 'Space Grotesk', -apple-system, sans-serif;
-  --font-ed: 'DM Serif Display', serif;
+  --font-ed: 'DM Serif Display', Georgia, serif;
 }
 
-html {
-  background: var(--bg);
+html, body {
+  width: 100%; height: 100%;
+  background: var(--black);
   color: var(--white);
-  scroll-behavior: smooth;
-}
-
-body {
   font-family: var(--font-ui);
-  font-weight: 300;
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
+  overflow: hidden; /* lock scroll on homepage */
 }
 
 a { color: inherit; text-decoration: none; }
-img { display: block; max-width: 100%; }
 
-/* ── NAV ── */
-nav {
+/* ─────────────────────────────────────────
+   SLIDESHOW
+───────────────────────────────────────── */
+.slideshow {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+  pointer-events: none;
+}
+
+.slide.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Gradient overlay — darker at top for logo legibility */
+.slide::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to bottom,
+      rgba(0,0,0,0.55) 0%,
+      rgba(0,0,0,0.05) 35%,
+      rgba(0,0,0,0.05) 60%,
+      rgba(0,0,0,0.65) 100%);
+  z-index: 1;
+}
+
+/* Video fills the slide */
+.slide video {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+
+/* On mobile show portrait video, hide landscape */
+.slide video.desktop { display: block; }
+.slide video.mobile  { display: none; }
+
+/* Placeholder background when no video yet */
+.slide-bg {
+  position: absolute;
+  inset: 0;
+  background: #0a0a0a;
+}
+
+/* ─────────────────────────────────────────
+   HEADER — fixed overlay
+───────────────────────────────────────── */
+.site-header {
   position: fixed;
   top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 0 5vw;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s ease;
+}
+
+.site-header.visible {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Logo row */
+.logo-row {
+  display: flex;
+  align-items: baseline;
+  padding-top: 24px;
+}
+
+.logo {
+  font-family: var(--font-ui);
+  font-size: clamp(48px, 12vw, 130px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: var(--white);
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+/* Nav row */
+.main-nav {
+  display: flex;
+  gap: 0;
+  padding-top: 6px;
+  padding-bottom: 0;
+}
+
+.main-nav a {
+  font-size: clamp(9px, 1vw, 11px);
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--grey);
+  margin-right: 28px;
+  transition: color 0.2s;
+}
+
+.main-nav a:hover { color: var(--white); }
+
+/* Filter row — categories */
+.filter-nav {
+  display: flex;
+  gap: 0;
+  padding-top: 10px;
+}
+
+.filter-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: var(--font-ui);
+  font-size: clamp(9px, 1vw, 11px);
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--grey);
+  margin-right: 28px;
+  transition: color 0.2s;
+  position: relative;
+}
+
+.filter-btn::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 0; right: 0;
+  height: 1px;
+  background: var(--white);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+
+.filter-btn.active { color: var(--white); }
+.filter-btn.active::after { transform: scaleX(1); }
+.filter-btn:hover { color: rgba(255,255,255,0.7); }
+
+/* ─────────────────────────────────────────
+   PROJECT INFO — bottom left
+───────────────────────────────────────── */
+.slide-info {
+  position: fixed;
+  bottom: 52px;
+  left: 5vw;
+  z-index: 100;
+  opacity: 0;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  transform: translateY(6px);
+}
+
+.slide-info.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.info-client {
+  font-size: clamp(11px, 1.1vw, 13px);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--white);
+  display: inline;
+  margin-right: 8px;
+}
+
+.info-title {
+  font-size: clamp(11px, 1.1vw, 13px);
+  font-weight: 300;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--grey);
+  display: inline;
+}
+
+/* ─────────────────────────────────────────
+   PAGINATION — bottom center
+───────────────────────────────────────── */
+.pagination {
+  position: fixed;
+  bottom: 48px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.pagination.visible { opacity: 1; }
+
+.page-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: var(--font-ui);
+  font-size: clamp(10px, 1vw, 12px);
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  color: var(--grey);
+  transition: color 0.25s;
+  line-height: 1;
+}
+
+.page-btn.active { color: var(--white); font-weight: 600; }
+.page-btn:hover  { color: rgba(255,255,255,0.7); }
+
+/* Progress bar below active number */
+.page-btn::after {
+  content: '';
+  display: block;
+  height: 1px;
+  background: var(--white);
+  margin-top: 4px;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.page-btn.active::after { transform: scaleX(1); }
+
+/* ─────────────────────────────────────────
+   AUTO-PROGRESS BAR
+───────────────────────────────────────── */
+.progress-bar {
+  position: fixed;
+  bottom: 0; left: 0;
+  height: 2px;
+  width: 0%;
+  background: rgba(255,255,255,0.6);
+  z-index: 100;
+  transition: none;
+}
+
+/* ─────────────────────────────────────────
+   FOOTER STRIP — very bottom
+───────────────────────────────────────── */
+.site-footer {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
   z-index: 100;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 24px 6vw;
+  padding: 0 5vw;
+  height: 40px;
+  border-top: 1px solid rgba(255,255,255,0.08);
   opacity: 0;
+  transition: opacity 0.6s ease;
 }
 
-.nav-logo {
-  display: block;
-  height: 28px;
-  width: auto;
-  opacity: 0.9;
-  transition: opacity 0.2s;
-}
-.nav-logo:hover { opacity: 1; }
+.site-footer.visible { opacity: 1; }
 
-.nav-contact {
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--grey-light);
-  transition: color 0.25s;
-}
-.nav-contact:hover { color: var(--white); }
-
-/* ── HERO ── */
-.hero {
-  position: relative;
-  height: 100vh;
-  min-height: 600px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 0 6vw 10vh;
-  border-bottom: 1px solid var(--border);
-  overflow: hidden;
-}
-
-.hero-title-wrap {
-  overflow: hidden;
-  margin-bottom: 28px;
-}
-
-.hero-title {
-  font-family: var(--font-ed);
-  font-size: clamp(42px, 7.5vw, 110px);
-  font-weight: 400;
-  line-height: 1.05;
-  color: var(--white);
-  transform: translateY(110%);
-}
-
-.hero-sub {
-  font-size: clamp(13px, 1.3vw, 16px);
-  font-weight: 300;
-  color: var(--grey-light);
-  letter-spacing: 0.03em;
-  line-height: 1.7;
-  max-width: 520px;
-  opacity: 0;
-}
-
-/* ── TICKER ── */
-.ticker {
-  overflow: hidden;
-  border-bottom: 1px solid var(--border);
-  padding: 18px 0;
-  background: var(--bg);
-}
-
-.ticker-track {
-  display: flex;
-  width: max-content;
-  animation: ticker-scroll 28s linear infinite;
-}
-
-.ticker-item {
-  display: flex;
-  align-items: center;
-  white-space: nowrap;
-  font-size: 11px;
+.footer-link {
+  font-size: 9px;
   font-weight: 500;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--grey-light);
-  padding: 0 32px;
-}
-
-.ticker-item::after {
-  content: '·';
-  margin-left: 32px;
   color: var(--grey);
+  transition: color 0.2s;
 }
+.footer-link:hover { color: var(--white); }
 
-@keyframes ticker-scroll {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
-/* ── MANIFESTO ── */
-.manifesto {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  border-bottom: 1px solid var(--border);
-}
-
-.manifesto-left {
-  padding: 100px 6vw;
-  border-right: 1px solid var(--border);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.counter-wrap {
-  display: flex;
-  align-items: baseline;
-  gap: 4px;
-  margin-bottom: 16px;
-}
-
-.counter-number {
-  font-family: var(--font-ed);
-  font-size: clamp(72px, 10vw, 140px);
-  font-weight: 400;
-  line-height: 1;
-  color: var(--white);
-}
-
-.counter-plus {
-  font-family: var(--font-ed);
-  font-size: clamp(48px, 6vw, 80px);
-  color: var(--grey-light);
-  line-height: 1;
-}
-
-.counter-label {
-  font-size: 12px;
-  font-weight: 400;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--grey-light);
-  margin-top: 8px;
-}
-
-.manifesto-right {
-  padding: 100px 6vw;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.manifesto-quote {
-  font-family: var(--font-ed);
-  font-style: italic;
-  font-size: clamp(22px, 2.6vw, 36px);
-  font-weight: 400;
-  line-height: 1.3;
-  color: var(--white);
-  margin-bottom: 36px;
-}
-
-.manifesto-text {
-  font-size: 14px;
-  font-weight: 300;
-  color: var(--grey-light);
-  line-height: 1.85;
-  max-width: 480px;
-}
-
-.manifesto-text p + p { margin-top: 14px; }
-
-/* ── SERVICES ── */
-.services {
-  padding: 80px 6vw;
-  border-bottom: 1px solid var(--border);
-}
-
-.services-header {
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--grey);
-  margin-bottom: 56px;
-}
-
-.service-list {
-  list-style: none;
-}
-
-.service-item {
-  display: flex;
-  align-items: baseline;
-  gap: 24px;
-  padding: 22px 0;
-  border-bottom: 1px solid var(--border);
-  cursor: default;
-  transition: padding-left 0.3s ease;
-}
-
-.service-item:first-child { border-top: 1px solid var(--border); }
-
-.service-item:hover { padding-left: 14px; }
-
-.service-num {
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  color: var(--grey);
-  min-width: 28px;
-  flex-shrink: 0;
-  padding-top: 3px;
-}
-
-.service-name {
-  font-family: var(--font-ed);
-  font-size: clamp(22px, 3.2vw, 46px);
-  font-weight: 400;
-  color: var(--white);
-  line-height: 1.1;
-}
-
-/* ── REEL ── */
-.reel {
-  padding: 80px 6vw;
-  border-bottom: 1px solid var(--border);
-}
-
-.reel-label {
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--grey);
-  margin-bottom: 28px;
-}
-
-.reel-frame {
-  position: relative;
-  width: 100%;
-  max-width: 1100px;
-  aspect-ratio: 16/9;
-  background: #111;
-  overflow: hidden;
-}
-
-.reel-frame iframe {
-  position: absolute;
+/* ─────────────────────────────────────────
+   LOADER
+───────────────────────────────────────── */
+#loader {
+  position: fixed;
   inset: 0;
-  width: 100%;
-  height: 100%;
-  border: none;
-}
-
-/* ── FOOTER ── */
-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 36px 6vw;
-  gap: 24px;
-}
-
-.footer-copy {
-  font-size: 11px;
-  color: var(--grey);
-  letter-spacing: 0.04em;
-}
-
-.footer-links {
+  z-index: 500;
+  background: #000;
   display: flex;
   align-items: center;
-  gap: 28px;
+  justify-content: center;
+  transition: opacity 0.9s ease;
 }
 
-.footer-email {
-  font-size: 12px;
-  font-weight: 400;
-  letter-spacing: 0.08em;
-  color: var(--white);
-  border-bottom: 1px solid rgba(255,255,255,0.2);
-  padding-bottom: 1px;
-  transition: border-color 0.2s;
+#loader.hidden {
+  opacity: 0;
+  pointer-events: none;
 }
-.footer-email:hover { border-color: var(--white); }
 
-.footer-ig {
-  display: flex;
-  align-items: center;
-  color: var(--white);
-  opacity: 0.5;
-  transition: opacity 0.2s;
+.loader-logo {
+  width: 72px;
+  height: auto;
+  opacity: 0;
+  animation: loaderPulse 1.2s ease-in-out infinite alternate;
 }
-.footer-ig:hover { opacity: 1; }
-.footer-ig svg { width: 18px; height: 18px; }
 
-/* ── RESPONSIVE ── */
+@keyframes loaderPulse {
+  from { opacity: 0.3; }
+  to   { opacity: 0.8; }
+}
+
+/* ─────────────────────────────────────────
+   MOBILE
+───────────────────────────────────────── */
 @media (max-width: 767px) {
-  nav { padding: 20px 20px; }
+  .slide video.desktop { display: none; }
+  .slide video.mobile  { display: block; }
 
-  .hero { padding: 0 20px 10vh; }
+  .logo { font-size: clamp(40px, 14vw, 64px); }
 
-  .hero-title { font-size: clamp(38px, 11vw, 64px); }
+  .logo-row { padding-top: 20px; }
 
-  .manifesto { grid-template-columns: 1fr; }
+  .main-nav a { margin-right: 18px; font-size: 9px; letter-spacing: 0.14em; }
 
-  .manifesto-left {
-    padding: 64px 20px;
-    border-right: none;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .manifesto-right { padding: 64px 20px; }
-
-  .services { padding: 60px 20px; }
-
-  .service-name { font-size: clamp(24px, 7vw, 36px); }
-
-  .reel { padding: 60px 20px; }
-
-  footer {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 28px 20px;
-    gap: 16px;
-  }
+  .slide-info  { bottom: 56px; left: 20px; }
+  .pagination  { bottom: 54px; gap: 16px; }
+  .site-footer { padding: 0 20px; }
 }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav id="nav">
-  <a href="/"><img src="https://www.m-dl.it/assets/img/logo_billjobs.png" alt="Bill Jobs" class="nav-logo"></a>
-  <a href="mailto:contact@billjobs.it" class="nav-contact">contact@billjobs.it</a>
-</nav>
-
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-title-wrap">
-    <h1 class="hero-title">Dalla A alla Z.<br>Senza compromessi.</h1>
-  </div>
-  <p class="hero-sub">Studio creativo specializzato in produzione di contenuti per artisti e brand.</p>
-</section>
-
-<!-- TICKER -->
-<div class="ticker" aria-hidden="true">
-  <div class="ticker-track">
-    <span class="ticker-item">Music Video</span>
-    <span class="ticker-item">Regia &amp; Direzione Creativa</span>
-    <span class="ticker-item">Branded Content</span>
-    <span class="ticker-item">Campagne Social</span>
-    <span class="ticker-item">Identità Visiva &amp; Artwork</span>
-    <span class="ticker-item">AI-Generated Content</span>
-    <span class="ticker-item">Reel &amp; Short Format</span>
-    <span class="ticker-item">Post Produzione</span>
-    <span class="ticker-item">Website</span>
-    <!-- duplicate for seamless loop -->
-    <span class="ticker-item">Music Video</span>
-    <span class="ticker-item">Regia &amp; Direzione Creativa</span>
-    <span class="ticker-item">Branded Content</span>
-    <span class="ticker-item">Campagne Social</span>
-    <span class="ticker-item">Identità Visiva &amp; Artwork</span>
-    <span class="ticker-item">AI-Generated Content</span>
-    <span class="ticker-item">Reel &amp; Short Format</span>
-    <span class="ticker-item">Post Produzione</span>
-    <span class="ticker-item">Website</span>
-  </div>
+<!-- ── LOADER ────────────────────────── -->
+<div id="loader">
+  <img src="assets/img/logo_billjobs.png" alt="BillJobs" class="loader-logo">
 </div>
 
-<!-- MANIFESTO -->
-<section class="manifesto">
-  <div class="manifesto-left">
-    <div class="counter-wrap">
-      <span class="counter-number" id="counter">0</span>
-      <span class="counter-plus">+</span>
-    </div>
-    <p class="counter-label">Progetti completati</p>
-  </div>
-  <div class="manifesto-right">
-    <p class="manifesto-quote">&ldquo;Ideas are easy.<br>Making them work is a craft.&rdquo;</p>
-    <div class="manifesto-text">
-      <p>Bill Jobs è uno studio creativo che produce contenuti per artisti emergenti e brand. Music video, campagne social, identità visiva, reels — tutto sotto un unico tetto, con la stessa disciplina e la stessa cura per ogni formato.</p>
-      <p>Tecnologia e intuizione umana insieme: utilizziamo l'intelligenza artificiale come strumento creativo per generare immagini, video e asset visivi che amplificano l'identità del progetto.</p>
-      <p>Non si immagina. Si costruisce.</p>
-    </div>
-  </div>
-</section>
+<!-- ── SLIDESHOW ─────────────────────── -->
+<div class="slideshow" id="slideshow">
 
-<!-- SERVICES -->
-<section class="services">
-  <p class="services-header">Cosa facciamo</p>
-  <ul class="service-list">
-    <li class="service-item">
-      <span class="service-num">01</span>
-      <span class="service-name">Music Video</span>
-    </li>
-    <li class="service-item">
-      <span class="service-num">02</span>
-      <span class="service-name">Regia &amp; Direzione Creativa</span>
-    </li>
-    <li class="service-item">
-      <span class="service-num">03</span>
-      <span class="service-name">Branded Content</span>
-    </li>
-    <li class="service-item">
-      <span class="service-num">04</span>
-      <span class="service-name">Campagne Social</span>
-    </li>
-    <li class="service-item">
-      <span class="service-num">05</span>
-      <span class="service-name">Identità Visiva &amp; Artwork</span>
-    </li>
-    <li class="service-item">
-      <span class="service-num">06</span>
-      <span class="service-name">AI-Generated Content</span>
-    </li>
-    <li class="service-item">
-      <span class="service-num">07</span>
-      <span class="service-name">Reel &amp; Short Format</span>
-    </li>
-    <li class="service-item">
-      <span class="service-num">08</span>
-      <span class="service-name">Post Produzione</span>
-    </li>
-    <li class="service-item">
-      <span class="service-num">09</span>
-      <span class="service-name">Website</span>
-    </li>
-  </ul>
-</section>
-
-<!-- REEL -->
-<section class="reel">
-  <p class="reel-label">Bill Jobs — Reel</p>
-  <div class="reel-frame">
-    <iframe src="https://www.youtube.com/embed/TrLO4PL-8jI?rel=0&modestbranding=1" title="Bill Jobs — Reel" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  <!-- 01 — Playasur · Brand / AI Spot -->
+  <div class="slide active" data-client="Playasur" data-title="AI Cosmetic Spot" data-category="brand">
+    <div class="slide-bg"></div>
+    <video class="desktop" muted playsinline preload="auto">
+      <source src="assets/video/01_desktop.mp4" type="video/mp4">
+    </video>
+    <video class="mobile" muted playsinline preload="auto">
+      <source src="assets/video/01_mobile.mp4" type="video/mp4">
+    </video>
   </div>
-</section>
 
-<!-- FOOTER -->
-<footer>
-  <span class="footer-copy">&copy; 2026 Bill Jobs Studio</span>
-  <div class="footer-links">
-    <a href="mailto:contact@billjobs.it" class="footer-email">contact@billjobs.it</a>
-    <a href="https://www.instagram.com/billjobs_production" target="_blank" rel="noopener" aria-label="Instagram" class="footer-ig">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-        <circle cx="12" cy="12" r="3.5"/>
-        <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
-      </svg>
-    </a>
+  <!-- 02 — Syver · Fagliene · Music Video -->
+  <div class="slide" data-client="Syver" data-title="Fagliene" data-category="music">
+    <div class="slide-bg"></div>
+    <video class="desktop" muted playsinline preload="none">
+      <source src="assets/video/02_desktop.mp4" type="video/mp4">
+    </video>
+    <video class="mobile" muted playsinline preload="none">
+      <source src="assets/video/02_mobile.mp4" type="video/mp4">
+    </video>
   </div>
+
+  <!-- 03 — Tiberio · Ballo di occhi · Music Video -->
+  <div class="slide" data-client="Tiberio" data-title="Ballo di occhi" data-category="music">
+    <div class="slide-bg"></div>
+    <video class="desktop" muted playsinline preload="none">
+      <source src="assets/video/03_desktop.mp4" type="video/mp4">
+    </video>
+    <video class="mobile" muted playsinline preload="none">
+      <source src="assets/video/03_mobile.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- 04 — Tiberio · Eccesso · Music Video -->
+  <div class="slide" data-client="Tiberio" data-title="Eccesso" data-category="music">
+    <div class="slide-bg"></div>
+    <video class="desktop" muted playsinline preload="none">
+      <source src="assets/video/04_desktop.mp4" type="video/mp4">
+    </video>
+    <video class="mobile" muted playsinline preload="none">
+      <source src="assets/video/04_mobile.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- 05 — Maida · Madò · Music Video / AI -->
+  <div class="slide" data-client="Maida" data-title="Madò" data-category="music">
+    <div class="slide-bg"></div>
+    <video class="desktop" muted playsinline preload="none">
+      <source src="assets/video/05_desktop.mp4" type="video/mp4">
+    </video>
+    <video class="mobile" muted playsinline preload="none">
+      <source src="assets/video/05_mobile.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- 06 — Goa Goa · Winter 2024 · Fashion -->
+  <div class="slide" data-client="Goa Goa" data-title="Winter 2024" data-category="fashion">
+    <div class="slide-bg"></div>
+    <video class="desktop" muted playsinline preload="none">
+      <source src="assets/video/06_desktop.mp4" type="video/mp4">
+    </video>
+    <video class="mobile" muted playsinline preload="none">
+      <source src="assets/video/06_mobile.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- 07 — Post Scriptum · Spring Summer 2024 · Fashion -->
+  <div class="slide" data-client="Post Scriptum" data-title="Spring Summer 2024" data-category="fashion">
+    <div class="slide-bg"></div>
+    <video class="desktop" muted playsinline preload="none">
+      <source src="assets/video/07_desktop.mp4" type="video/mp4">
+    </video>
+    <video class="mobile" muted playsinline preload="none">
+      <source src="assets/video/07_mobile.mp4" type="video/mp4">
+    </video>
+  </div>
+
+
+  <!-- 08 — Wedding Film -->
+  <div class="slide" data-client="" data-title="Wedding Film" data-category="culture">
+    <div class="slide-bg"></div>
+    <video class="desktop" muted playsinline preload="none">
+      <source src="assets/video/08_desktop.mp4" type="video/mp4">
+    </video>
+    <video class="mobile" muted playsinline preload="none">
+      <source src="assets/video/08_mobile.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- 09 — placeholder -->
+  <div class="slide" data-client="" data-title="" data-category="">
+    <div class="slide-bg"></div>
+    <video class="desktop" muted playsinline preload="none">
+      <source src="assets/video/09_desktop.mp4" type="video/mp4">
+    </video>
+    <video class="mobile" muted playsinline preload="none">
+      <source src="assets/video/09_mobile.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- 10 — placeholder -->
+  <div class="slide" data-client="" data-title="" data-category="">
+    <div class="slide-bg"></div>
+    <video class="desktop" muted playsinline preload="none">
+      <source src="assets/video/10_desktop.mp4" type="video/mp4">
+    </video>
+    <video class="mobile" muted playsinline preload="none">
+      <source src="assets/video/10_mobile.mp4" type="video/mp4">
+    </video>
+  </div>
+
+</div><!-- /slideshow -->
+
+<!-- ── HEADER ───────────────────────── -->
+<header class="site-header" id="siteHeader">
+  <div class="logo-row">
+    <a href="/" class="logo">BillJobs</a>
+  </div>
+  <nav class="main-nav">
+    <a href="who-is.html">Who Is</a>
+    <a href="mailto:contact@billjobs.it">Contact</a>
+  </nav>
+  <div class="filter-nav" id="filterNav">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="music">Music</button>
+    <button class="filter-btn" data-filter="fashion">Fashion</button>
+    <button class="filter-btn" data-filter="talent">Talent</button>
+    <button class="filter-btn" data-filter="culture">Culture</button>
+    <button class="filter-btn" data-filter="brand">Brand</button>
+  </div>
+</header>
+
+<!-- ── PROJECT INFO ──────────────────── -->
+<div class="slide-info" id="slideInfo">
+  <span class="info-client" id="infoClient"></span>
+  <span class="info-title" id="infoTitle"></span>
+</div>
+
+<!-- ── PAGINATION ───────────────────── -->
+<div class="pagination" id="pagination"></div>
+
+<!-- ── PROGRESS BAR ─────────────────── -->
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- ── FOOTER ───────────────────────── -->
+<footer class="site-footer" id="siteFooter">
+  <a href="#" class="footer-link">Italy</a>
+  <a href="mailto:contact@billjobs.it" class="footer-link">Contact</a>
+  <a href="https://www.instagram.com/billjobs_production" target="_blank" rel="noopener" class="footer-link">Instagram</a>
 </footer>
 
-<!-- GSAP -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script>
-gsap.registerPlugin(ScrollTrigger);
+(function () {
+  const allSlides  = Array.from(document.querySelectorAll('.slide'));
+  const pagination = document.getElementById('pagination');
+  const progressBar= document.getElementById('progressBar');
+  const filterBtns = Array.from(document.querySelectorAll('.filter-btn'));
+  const loader     = document.getElementById('loader');
+  const isMob      = () => window.innerWidth <= 767;
 
-// Nav fade in
-gsap.to('#nav', {
-  opacity: 1,
-  duration: 1,
-  ease: 'power2.out',
-  delay: 0.3
-});
+  let pool         = [];
+  let currentIdx   = 0;
+  let endedHandler = null;
 
-// Hero title reveal from below
-gsap.to('.hero-title', {
-  translateY: '0%',
-  duration: 1.1,
-  ease: 'power3.out',
-  delay: 0.5
-});
+  function getVid(slide) {
+    return slide.querySelector(isMob() ? 'video.mobile' : 'video.desktop');
+  }
 
-// Hero subtitle fade in
-gsap.to('.hero-sub', {
-  opacity: 1,
-  duration: 1,
-  ease: 'power2.out',
-  delay: 0.9
-});
-
-// Counter animation with ScrollTrigger
-const counterEl = document.getElementById('counter');
-ScrollTrigger.create({
-  trigger: '.manifesto-left',
-  start: 'top 75%',
-  once: true,
-  onEnter: () => {
-    gsap.to({ val: 0 }, {
-      val: 20,
-      duration: 1.8,
-      ease: 'power2.out',
-      onUpdate: function () {
-        counterEl.textContent = Math.round(this.targets()[0].val);
+  // ── Progress bar via timeupdate (durata reale) ────────
+  function bindProgress(vid) {
+    progressBar.style.transition = 'none';
+    progressBar.style.width = '0%';
+    const onTime = () => {
+      if (vid.duration) {
+        progressBar.style.transition = 'none';
+        progressBar.style.width = (vid.currentTime / vid.duration * 100) + '%';
       }
+    };
+    vid.addEventListener('timeupdate', onTime);
+    vid.addEventListener('ended', () => vid.removeEventListener('timeupdate', onTime), { once: true });
+  }
+
+  // ── Precarica il video successivo ────────────────────
+  function preloadNext() {
+    const nextSlide = pool[(currentIdx + 1) % pool.length];
+    if (!nextSlide) return;
+    const v = getVid(nextSlide);
+    if (v && v.preload !== 'auto') {
+      v.preload = 'auto';
+      v.load();
+    }
+  }
+
+  // ── Vai a slide (idx nel pool) ────────────────────────
+  function goTo(idx) {
+    const btns = Array.from(pagination.querySelectorAll('.page-btn'));
+
+    if (pool[currentIdx]) {
+      const oldVid = getVid(pool[currentIdx]);
+      if (oldVid) {
+        if (endedHandler) oldVid.removeEventListener('ended', endedHandler);
+        oldVid.pause();
+      }
+      pool[currentIdx].classList.remove('active');
+      if (btns[currentIdx]) btns[currentIdx].classList.remove('active');
+    }
+
+    currentIdx = ((idx % pool.length) + pool.length) % pool.length;
+    const slide = pool[currentIdx];
+    slide.classList.add('active');
+    if (btns[currentIdx]) btns[currentIdx].classList.add('active');
+
+    const client = slide.dataset.client || '';
+    const title  = slide.dataset.title  || '';
+    const info   = document.getElementById('slideInfo');
+    info.classList.remove('visible');
+    setTimeout(() => {
+      document.getElementById('infoClient').textContent = client;
+      document.getElementById('infoTitle').textContent  = title;
+      if (client || title) info.classList.add('visible');
+    }, 300);
+
+    const vid = getVid(slide);
+    if (!vid) return;
+
+    endedHandler = () => goTo(currentIdx + 1);
+    vid.addEventListener('ended', endedHandler, { once: true });
+
+    bindProgress(vid);
+    preloadNext();
+
+    vid.currentTime = 0;
+    if (vid.readyState >= 3) {
+      vid.play().catch(() => {});
+    } else {
+      vid.preload = 'auto';
+      vid.load();
+      vid.addEventListener('canplay', () => vid.play().catch(() => {}), { once: true });
+    }
+  }
+
+  // ── Filtri ────────────────────────────────────────────
+  function applyFilter(filter) {
+    filterBtns.forEach(b => b.classList.toggle('active', b.dataset.filter === filter));
+
+    if (pool[currentIdx]) {
+      const v = getVid(pool[currentIdx]);
+      if (v) { if (endedHandler) v.removeEventListener('ended', endedHandler); v.pause(); }
+      pool[currentIdx].classList.remove('active');
+    }
+
+    allSlides.forEach(s => {
+      const has  = s.dataset.category !== '';
+      const show = has && (filter === 'all' || s.dataset.category === filter);
+      s.style.display = show ? '' : 'none';
+      if (!show) s.classList.remove('active');
+    });
+
+    pool = allSlides.filter(s => s.style.display !== 'none');
+    currentIdx = 0;
+    rebuildPagination();
+    goTo(0);
+  }
+
+  // ── Paginazione ───────────────────────────────────────
+  function rebuildPagination() {
+    pagination.innerHTML = '';
+    pool.forEach((_, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'page-btn' + (i === 0 ? ' active' : '');
+      btn.textContent = i + 1;
+      btn.addEventListener('click', () => goTo(i));
+      pagination.appendChild(btn);
     });
   }
-});
 
-// Service items stagger on scroll
-gsap.from('.service-item', {
-  scrollTrigger: {
-    trigger: '.service-list',
-    start: 'top 80%',
-  },
-  opacity: 0,
-  y: 20,
-  duration: 0.5,
-  stagger: 0.07,
-  ease: 'power2.out'
-});
+  // ── Tastiera ──────────────────────────────────────────
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') goTo(currentIdx + 1);
+    if (e.key === 'ArrowLeft')  goTo(currentIdx - 1);
+  });
+
+  // ── Swipe ─────────────────────────────────────────────
+  let tx = 0;
+  document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend',   e => {
+    const dx = e.changedTouches[0].clientX - tx;
+    if (Math.abs(dx) > 50) goTo(dx < 0 ? currentIdx + 1 : currentIdx - 1);
+  }, { passive: true });
+
+  // ── Filtri click ──────────────────────────────────────
+  filterBtns.forEach(b => b.addEventListener('click', () => applyFilter(b.dataset.filter)));
+
+  // ── Init: aspetta che il primo video sia pronto ───────
+  function init() {
+    allSlides.forEach(s => {
+      if (s.dataset.category === '') s.style.display = 'none';
+    });
+    pool = allSlides.filter(s => s.style.display !== 'none');
+    rebuildPagination();
+
+    const firstVid = getVid(pool[0]);
+    if (!firstVid) return;
+
+    const startAll = () => {
+      loader.classList.add('hidden');
+      document.getElementById('siteHeader').classList.add('visible');
+      document.getElementById('siteFooter').classList.add('visible');
+      document.getElementById('pagination').classList.add('visible');
+      goTo(0);
+    };
+
+    if (firstVid.readyState >= 3) {
+      startAll();
+    } else {
+      firstVid.addEventListener('canplay', startAll, { once: true });
+    }
+  }
+
+  init();
+})();
 </script>
 </body>
 </html>
