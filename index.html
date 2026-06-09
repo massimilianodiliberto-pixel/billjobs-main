@@ -192,12 +192,12 @@ a { color: inherit; text-decoration: none; }
 ───────────────────────────────────────── */
 .slide-info {
   position: fixed;
-  bottom: 52px;
+  bottom: 56px;
   left: 5vw;
   z-index: 100;
   opacity: 0;
-  transition: opacity 0.4s ease, transform 0.4s ease;
-  transform: translateY(6px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+  transform: translateY(14px);
 }
 
 .slide-info.visible {
@@ -206,22 +206,24 @@ a { color: inherit; text-decoration: none; }
 }
 
 .info-client {
-  font-size: clamp(11px, 1.1vw, 13px);
+  display: block;
+  font-size: clamp(16px, 2vw, 26px);
   font-weight: 600;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--white);
-  display: inline;
-  margin-right: 8px;
+  line-height: 1.15;
+  margin-bottom: 4px;
 }
 
 .info-title {
-  font-size: clamp(11px, 1.1vw, 13px);
+  display: block;
+  font-size: clamp(13px, 1.5vw, 20px);
   font-weight: 300;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--grey);
-  display: inline;
+  line-height: 1.15;
 }
 
 /* ─────────────────────────────────────────
@@ -549,26 +551,40 @@ a { color: inherit; text-decoration: none; }
   const loader     = document.getElementById('loader');
   const isMob      = () => window.innerWidth <= 767;
 
+  const ROTATION_MS  = 15000; // avanza dopo 15s anche se il video non finisce
+  const LOAD_SKIP_MS = 3000;  // salta al prossimo se non carica entro 3s
+
   let pool         = [];
   let currentIdx   = 0;
-  let endedHandler = null;
+  let rotationTimer = null;
+  let loadTimer     = null;
 
   function getVid(slide) {
     return slide.querySelector(isMob() ? 'video.mobile' : 'video.desktop');
   }
 
-  // ── Progress bar via timeupdate (durata reale) ────────
-  function bindProgress(vid) {
+  function clearTimers() {
+    clearTimeout(rotationTimer);
+    clearTimeout(loadTimer);
+  }
+
+  // ── Progress bar (segue il video reale oppure il timer da 15s) ───
+  let progressInterval = null;
+  function startProgress(vid) {
     progressBar.style.transition = 'none';
     progressBar.style.width = '0%';
-    const onTime = () => {
-      if (vid.duration) {
-        progressBar.style.transition = 'none';
-        progressBar.style.width = (vid.currentTime / vid.duration * 100) + '%';
+    clearInterval(progressInterval);
+    const start = Date.now();
+    progressInterval = setInterval(() => {
+      let pct;
+      if (vid && vid.duration && !isNaN(vid.duration)) {
+        pct = vid.currentTime / vid.duration * 100;
+      } else {
+        pct = Math.min(100, (Date.now() - start) / ROTATION_MS * 100);
       }
-    };
-    vid.addEventListener('timeupdate', onTime);
-    vid.addEventListener('ended', () => vid.removeEventListener('timeupdate', onTime), { once: true });
+      progressBar.style.width = pct + '%';
+      if (pct >= 100) clearInterval(progressInterval);
+    }, 100);
   }
 
   // ── Precarica il video successivo ────────────────────
@@ -584,14 +600,14 @@ a { color: inherit; text-decoration: none; }
 
   // ── Vai a slide (idx nel pool) ────────────────────────
   function goTo(idx) {
+    clearTimers();
+    clearInterval(progressInterval);
+
     const btns = Array.from(pagination.querySelectorAll('.page-btn'));
 
     if (pool[currentIdx]) {
       const oldVid = getVid(pool[currentIdx]);
-      if (oldVid) {
-        if (endedHandler) oldVid.removeEventListener('ended', endedHandler);
-        oldVid.pause();
-      }
+      if (oldVid) { oldVid.pause(); }
       pool[currentIdx].classList.remove('active');
       if (btns[currentIdx]) btns[currentIdx].classList.remove('active');
     }
@@ -601,32 +617,49 @@ a { color: inherit; text-decoration: none; }
     slide.classList.add('active');
     if (btns[currentIdx]) btns[currentIdx].classList.add('active');
 
-    const client = slide.dataset.client || '';
-    const title  = slide.dataset.title  || '';
+    // Aggiorna label progetto
     const info   = document.getElementById('slideInfo');
     info.classList.remove('visible');
     setTimeout(() => {
-      document.getElementById('infoClient').textContent = client;
-      document.getElementById('infoTitle').textContent  = title;
-      if (client || title) info.classList.add('visible');
+      document.getElementById('infoClient').textContent = slide.dataset.client || '';
+      document.getElementById('infoTitle').textContent  = slide.dataset.title  || '';
+      if (slide.dataset.client || slide.dataset.title) info.classList.add('visible');
     }, 300);
 
     const vid = getVid(slide);
-    if (!vid) return;
-
-    endedHandler = () => goTo(currentIdx + 1);
-    vid.addEventListener('ended', endedHandler, { once: true });
-
-    bindProgress(vid);
     preloadNext();
 
+    if (!vid) {
+      // nessun video: ruota dopo 15s
+      rotationTimer = setTimeout(() => goTo(currentIdx + 1), ROTATION_MS);
+      return;
+    }
+
     vid.currentTime = 0;
-    if (vid.readyState >= 3) {
+    startProgress(vid);
+
+    // Avanza quando il video finisce naturalmente
+    vid.addEventListener('ended', () => goTo(currentIdx + 1), { once: true });
+
+    // Avanza comunque dopo 15s (video più lunghi o loop interrotto)
+    rotationTimer = setTimeout(() => goTo(currentIdx + 1), ROTATION_MS);
+
+    // Se non parte entro 3s → salta al successivo
+    loadTimer = setTimeout(() => {
+      if (vid.readyState < 2) goTo(currentIdx + 1);
+    }, LOAD_SKIP_MS);
+
+    const tryPlay = () => {
+      clearTimeout(loadTimer);
       vid.play().catch(() => {});
+    };
+
+    if (vid.readyState >= 2) {
+      tryPlay();
     } else {
       vid.preload = 'auto';
       vid.load();
-      vid.addEventListener('canplay', () => vid.play().catch(() => {}), { once: true });
+      vid.addEventListener('canplay', tryPlay, { once: true });
     }
   }
 
