@@ -316,6 +316,37 @@ a { color: inherit; text-decoration: none; }
 .footer-link:hover { color: var(--white); }
 
 /* ─────────────────────────────────────────
+   LOADER
+───────────────────────────────────────── */
+#loader {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.9s ease;
+}
+
+#loader.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.loader-logo {
+  width: 72px;
+  height: auto;
+  opacity: 0;
+  animation: loaderPulse 1.2s ease-in-out infinite alternate;
+}
+
+@keyframes loaderPulse {
+  from { opacity: 0.3; }
+  to   { opacity: 0.8; }
+}
+
+/* ─────────────────────────────────────────
    MOBILE
 ───────────────────────────────────────── */
 @media (max-width: 767px) {
@@ -336,16 +367,21 @@ a { color: inherit; text-decoration: none; }
 </head>
 <body>
 
+<!-- ── LOADER ────────────────────────── -->
+<div id="loader">
+  <img src="assets/img/logo_billjobs.png" alt="BillJobs" class="loader-logo">
+</div>
+
 <!-- ── SLIDESHOW ─────────────────────── -->
 <div class="slideshow" id="slideshow">
 
   <!-- 01 — Playasur · Brand / AI Spot -->
   <div class="slide active" data-client="Playasur" data-title="AI Cosmetic Spot" data-category="brand">
     <div class="slide-bg"></div>
-    <video class="desktop" muted loop playsinline preload="none">
+    <video class="desktop" muted playsinline preload="auto">
       <source src="assets/video/01_desktop.mp4" type="video/mp4">
     </video>
-    <video class="mobile" muted loop playsinline preload="none">
+    <video class="mobile" muted playsinline preload="auto">
       <source src="assets/video/01_mobile.mp4" type="video/mp4">
     </video>
   </div>
@@ -353,10 +389,10 @@ a { color: inherit; text-decoration: none; }
   <!-- 02 — Syver · Fagliene · Music Video -->
   <div class="slide" data-client="Syver" data-title="Fagliene" data-category="music">
     <div class="slide-bg"></div>
-    <video class="desktop" muted loop playsinline preload="none">
+    <video class="desktop" muted playsinline preload="none">
       <source src="assets/video/02_desktop.mp4" type="video/mp4">
     </video>
-    <video class="mobile" muted loop playsinline preload="none">
+    <video class="mobile" muted playsinline preload="none">
       <source src="assets/video/02_mobile.mp4" type="video/mp4">
     </video>
   </div>
@@ -364,10 +400,10 @@ a { color: inherit; text-decoration: none; }
   <!-- 03 — Tiberio · Ballo di occhi · Music Video -->
   <div class="slide" data-client="Tiberio" data-title="Ballo di occhi" data-category="music">
     <div class="slide-bg"></div>
-    <video class="desktop" muted loop playsinline preload="none">
+    <video class="desktop" muted playsinline preload="none">
       <source src="assets/video/03_desktop.mp4" type="video/mp4">
     </video>
-    <video class="mobile" muted loop playsinline preload="none">
+    <video class="mobile" muted playsinline preload="none">
       <source src="assets/video/03_mobile.mp4" type="video/mp4">
     </video>
   </div>
@@ -375,10 +411,10 @@ a { color: inherit; text-decoration: none; }
   <!-- 04 — Tiberio · Eccesso · Music Video -->
   <div class="slide" data-client="Tiberio" data-title="Eccesso" data-category="music">
     <div class="slide-bg"></div>
-    <video class="desktop" muted loop playsinline preload="none">
+    <video class="desktop" muted playsinline preload="none">
       <source src="assets/video/04_desktop.mp4" type="video/mp4">
     </video>
-    <video class="mobile" muted loop playsinline preload="none">
+    <video class="mobile" muted playsinline preload="none">
       <source src="assets/video/04_mobile.mp4" type="video/mp4">
     </video>
   </div>
@@ -386,10 +422,10 @@ a { color: inherit; text-decoration: none; }
   <!-- 05 — Maida · Madò · Music Video / AI -->
   <div class="slide" data-client="Maida" data-title="Madò" data-category="music">
     <div class="slide-bg"></div>
-    <video class="desktop" muted loop playsinline preload="none">
+    <video class="desktop" muted playsinline preload="none">
       <source src="assets/video/05_desktop.mp4" type="video/mp4">
     </video>
-    <video class="mobile" muted loop playsinline preload="none">
+    <video class="mobile" muted playsinline preload="none">
       <source src="assets/video/05_mobile.mp4" type="video/mp4">
     </video>
   </div>
@@ -397,10 +433,10 @@ a { color: inherit; text-decoration: none; }
   <!-- 06 — Goa Goa · Winter 2024 · Fashion -->
   <div class="slide" data-client="Goa Goa" data-title="Winter 2024" data-category="fashion">
     <div class="slide-bg"></div>
-    <video class="desktop" muted loop playsinline preload="none">
+    <video class="desktop" muted playsinline preload="none">
       <source src="assets/video/06_desktop.mp4" type="video/mp4">
     </video>
-    <video class="mobile" muted loop playsinline preload="none">
+    <video class="mobile" muted playsinline preload="none">
       <source src="assets/video/06_mobile.mp4" type="video/mp4">
     </video>
   </div>
@@ -408,10 +444,10 @@ a { color: inherit; text-decoration: none; }
   <!-- 07 — Post Scriptum · Spring Summer 2024 · Fashion -->
   <div class="slide" data-client="Post Scriptum" data-title="Spring Summer 2024" data-category="fashion">
     <div class="slide-bg"></div>
-    <video class="desktop" muted loop playsinline preload="none">
+    <video class="desktop" muted playsinline preload="none">
       <source src="assets/video/07_desktop.mp4" type="video/mp4">
     </video>
-    <video class="mobile" muted loop playsinline preload="none">
+    <video class="mobile" muted playsinline preload="none">
       <source src="assets/video/07_mobile.mp4" type="video/mp4">
     </video>
   </div>
@@ -420,10 +456,10 @@ a { color: inherit; text-decoration: none; }
   <!-- 08 — Wedding Film -->
   <div class="slide" data-client="" data-title="Wedding Film" data-category="culture">
     <div class="slide-bg"></div>
-    <video class="desktop" muted loop playsinline preload="none">
+    <video class="desktop" muted playsinline preload="none">
       <source src="assets/video/08_desktop.mp4" type="video/mp4">
     </video>
-    <video class="mobile" muted loop playsinline preload="none">
+    <video class="mobile" muted playsinline preload="none">
       <source src="assets/video/08_mobile.mp4" type="video/mp4">
     </video>
   </div>
@@ -431,10 +467,10 @@ a { color: inherit; text-decoration: none; }
   <!-- 09 — placeholder -->
   <div class="slide" data-client="" data-title="" data-category="">
     <div class="slide-bg"></div>
-    <video class="desktop" muted loop playsinline preload="none">
+    <video class="desktop" muted playsinline preload="none">
       <source src="assets/video/09_desktop.mp4" type="video/mp4">
     </video>
-    <video class="mobile" muted loop playsinline preload="none">
+    <video class="mobile" muted playsinline preload="none">
       <source src="assets/video/09_mobile.mp4" type="video/mp4">
     </video>
   </div>
@@ -442,10 +478,10 @@ a { color: inherit; text-decoration: none; }
   <!-- 10 — placeholder -->
   <div class="slide" data-client="" data-title="" data-category="">
     <div class="slide-bg"></div>
-    <video class="desktop" muted loop playsinline preload="none">
+    <video class="desktop" muted playsinline preload="none">
       <source src="assets/video/10_desktop.mp4" type="video/mp4">
     </video>
-    <video class="mobile" muted loop playsinline preload="none">
+    <video class="mobile" muted playsinline preload="none">
       <source src="assets/video/10_mobile.mp4" type="video/mp4">
     </video>
   </div>
@@ -492,151 +528,173 @@ a { color: inherit; text-decoration: none; }
 
 <script>
 (function () {
-  const allSlides   = Array.from(document.querySelectorAll('.slide'));
-  const pagination  = document.getElementById('pagination');
-  const infoClient  = document.getElementById('infoClient');
-  const infoTitle   = document.getElementById('infoTitle');
-  const progressBar = document.getElementById('progressBar');
-  const filterBtns  = Array.from(document.querySelectorAll('.filter-btn'));
-  const DURATION    = 6000;
+  const allSlides  = Array.from(document.querySelectorAll('.slide'));
+  const pagination = document.getElementById('pagination');
+  const progressBar= document.getElementById('progressBar');
+  const filterBtns = Array.from(document.querySelectorAll('.filter-btn'));
+  const loader     = document.getElementById('loader');
+  const isMob      = () => window.innerWidth <= 767;
 
-  let activeFilter  = 'all';
-  let pool          = allSlides.slice(); // slides visible in current filter
-  let currentIdx    = 0;                // index within pool
-  let timer         = null;
+  let pool         = [];
+  let currentIdx   = 0;
+  let endedHandler = null;
 
-  // ── Filtering ────────────────────────────────────────
+  function getVid(slide) {
+    return slide.querySelector(isMob() ? 'video.mobile' : 'video.desktop');
+  }
+
+  // ── Progress bar via timeupdate (durata reale) ────────
+  function bindProgress(vid) {
+    progressBar.style.transition = 'none';
+    progressBar.style.width = '0%';
+    const onTime = () => {
+      if (vid.duration) {
+        progressBar.style.transition = 'none';
+        progressBar.style.width = (vid.currentTime / vid.duration * 100) + '%';
+      }
+    };
+    vid.addEventListener('timeupdate', onTime);
+    vid.addEventListener('ended', () => vid.removeEventListener('timeupdate', onTime), { once: true });
+  }
+
+  // ── Precarica il video successivo ────────────────────
+  function preloadNext() {
+    const nextSlide = pool[(currentIdx + 1) % pool.length];
+    if (!nextSlide) return;
+    const v = getVid(nextSlide);
+    if (v && v.preload !== 'auto') {
+      v.preload = 'auto';
+      v.load();
+    }
+  }
+
+  // ── Vai a slide (idx nel pool) ────────────────────────
+  function goTo(idx) {
+    const btns = Array.from(pagination.querySelectorAll('.page-btn'));
+
+    if (pool[currentIdx]) {
+      const oldVid = getVid(pool[currentIdx]);
+      if (oldVid) {
+        if (endedHandler) oldVid.removeEventListener('ended', endedHandler);
+        oldVid.pause();
+      }
+      pool[currentIdx].classList.remove('active');
+      if (btns[currentIdx]) btns[currentIdx].classList.remove('active');
+    }
+
+    currentIdx = ((idx % pool.length) + pool.length) % pool.length;
+    const slide = pool[currentIdx];
+    slide.classList.add('active');
+    if (btns[currentIdx]) btns[currentIdx].classList.add('active');
+
+    const client = slide.dataset.client || '';
+    const title  = slide.dataset.title  || '';
+    const info   = document.getElementById('slideInfo');
+    info.classList.remove('visible');
+    setTimeout(() => {
+      document.getElementById('infoClient').textContent = client;
+      document.getElementById('infoTitle').textContent  = title;
+      if (client || title) info.classList.add('visible');
+    }, 300);
+
+    const vid = getVid(slide);
+    if (!vid) return;
+
+    endedHandler = () => goTo(currentIdx + 1);
+    vid.addEventListener('ended', endedHandler, { once: true });
+
+    bindProgress(vid);
+    preloadNext();
+
+    vid.currentTime = 0;
+    if (vid.readyState >= 3) {
+      vid.play().catch(() => {});
+    } else {
+      vid.preload = 'auto';
+      vid.load();
+      vid.addEventListener('canplay', () => vid.play().catch(() => {}), { once: true });
+    }
+  }
+
+  // ── Filtri ────────────────────────────────────────────
   function applyFilter(filter) {
-    activeFilter = filter;
-
-    // Update filter button states
     filterBtns.forEach(b => b.classList.toggle('active', b.dataset.filter === filter));
 
-    // Hide all, show matching (escludi placeholder senza categoria)
+    if (pool[currentIdx]) {
+      const v = getVid(pool[currentIdx]);
+      if (v) { if (endedHandler) v.removeEventListener('ended', endedHandler); v.pause(); }
+      pool[currentIdx].classList.remove('active');
+    }
+
     allSlides.forEach(s => {
-      const hasContent = s.dataset.category !== '';
-      const match = hasContent && (filter === 'all' || s.dataset.category === filter);
-      s.style.display = match ? '' : 'none';
-      if (!match) s.classList.remove('active');
+      const has  = s.dataset.category !== '';
+      const show = has && (filter === 'all' || s.dataset.category === filter);
+      s.style.display = show ? '' : 'none';
+      if (!show) s.classList.remove('active');
     });
 
     pool = allSlides.filter(s => s.style.display !== 'none');
-
+    currentIdx = 0;
     rebuildPagination();
-    goTo(0, true);
+    goTo(0);
   }
 
-  // ── Pagination ───────────────────────────────────────
+  // ── Paginazione ───────────────────────────────────────
   function rebuildPagination() {
     pagination.innerHTML = '';
     pool.forEach((_, i) => {
       const btn = document.createElement('button');
       btn.className = 'page-btn' + (i === 0 ? ' active' : '');
       btn.textContent = i + 1;
-      btn.addEventListener('click', () => goTo(i, true));
+      btn.addEventListener('click', () => goTo(i));
       pagination.appendChild(btn);
     });
   }
 
-  function pageBtns() {
-    return Array.from(pagination.querySelectorAll('.page-btn'));
-  }
-
-  // ── Info label ───────────────────────────────────────
-  function updateInfo(slide) {
-    const client = slide.dataset.client || '';
-    const title  = slide.dataset.title  || '';
-    const info   = document.getElementById('slideInfo');
-    info.classList.remove('visible');
-    setTimeout(() => {
-      infoClient.textContent = client;
-      infoTitle.textContent  = title;
-      if (client || title) info.classList.add('visible');
-    }, 300);
-  }
-
-  // ── Progress bar ─────────────────────────────────────
-  function startProgress() {
-    progressBar.style.transition = 'none';
-    progressBar.style.width = '0%';
-    progressBar.offsetWidth; // reflow
-    progressBar.style.transition = `width ${DURATION}ms linear`;
-    progressBar.style.width = '100%';
-  }
-
-  // ── Go to slide (index in pool) ───────────────────────
-  function goTo(idx, userClick) {
-    const btns = pageBtns();
-
-    // Deactivate current
-    if (pool[currentIdx]) {
-      pool[currentIdx].classList.remove('active');
-      const oldVid = pool[currentIdx].querySelector(
-        window.innerWidth <= 767 ? 'video.mobile' : 'video.desktop'
-      );
-      if (oldVid) oldVid.pause();
-    }
-    if (btns[currentIdx]) btns[currentIdx].classList.remove('active');
-
-    currentIdx = ((idx % pool.length) + pool.length) % pool.length;
-
-    // Activate new
-    if (pool[currentIdx]) {
-      pool[currentIdx].classList.add('active');
-      const isMob = window.innerWidth <= 767;
-      const newVid = pool[currentIdx].querySelector(isMob ? 'video.mobile' : 'video.desktop');
-      if (newVid) {
-        newVid.preload = 'auto';
-        newVid.currentTime = 0;
-        const tryPlay = () => newVid.play().catch(() => {});
-        // Se non ha ancora caricato abbastanza, aspetta canplay
-        if (newVid.readyState >= 3) {
-          tryPlay();
-        } else {
-          newVid.addEventListener('canplay', tryPlay, { once: true });
-          newVid.load();
-        }
-      }
-      updateInfo(pool[currentIdx]);
-    }
-    if (btns[currentIdx]) btns[currentIdx].classList.add('active');
-
-    startProgress();
-    clearTimeout(timer);
-    timer = setTimeout(next, DURATION);
-  }
-
-  function next() { goTo(currentIdx + 1, false); }
-
-  // ── Filter button clicks ─────────────────────────────
-  filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => applyFilter(btn.dataset.filter));
-  });
-
-  // ── Keyboard ─────────────────────────────────────────
+  // ── Tastiera ──────────────────────────────────────────
   document.addEventListener('keydown', e => {
-    if (e.key === 'ArrowRight') goTo(currentIdx + 1, true);
-    if (e.key === 'ArrowLeft')  goTo(currentIdx - 1, true);
+    if (e.key === 'ArrowRight') goTo(currentIdx + 1);
+    if (e.key === 'ArrowLeft')  goTo(currentIdx - 1);
   });
 
-  // ── Touch swipe ──────────────────────────────────────
-  let touchStartX = 0;
-  document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
-  document.addEventListener('touchend', e => {
-    const dx = e.changedTouches[0].clientX - touchStartX;
-    if (Math.abs(dx) > 50) goTo(dx < 0 ? currentIdx + 1 : currentIdx - 1, true);
+  // ── Swipe ─────────────────────────────────────────────
+  let tx = 0;
+  document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend',   e => {
+    const dx = e.changedTouches[0].clientX - tx;
+    if (Math.abs(dx) > 50) goTo(dx < 0 ? currentIdx + 1 : currentIdx - 1);
   }, { passive: true });
 
-  // ── Init ─────────────────────────────────────────────
+  // ── Filtri click ──────────────────────────────────────
+  filterBtns.forEach(b => b.addEventListener('click', () => applyFilter(b.dataset.filter)));
+
+  // ── Init: aspetta che il primo video sia pronto ───────
   function init() {
-    document.getElementById('siteHeader').classList.add('visible');
-    document.getElementById('siteFooter').classList.add('visible');
-    document.getElementById('pagination').classList.add('visible');
+    allSlides.forEach(s => {
+      if (s.dataset.category === '') s.style.display = 'none';
+    });
+    pool = allSlides.filter(s => s.style.display !== 'none');
     rebuildPagination();
-    goTo(0, true);
+
+    const firstVid = getVid(pool[0]);
+    if (!firstVid) return;
+
+    const startAll = () => {
+      loader.classList.add('hidden');
+      document.getElementById('siteHeader').classList.add('visible');
+      document.getElementById('siteFooter').classList.add('visible');
+      document.getElementById('pagination').classList.add('visible');
+      goTo(0);
+    };
+
+    if (firstVid.readyState >= 3) {
+      startAll();
+    } else {
+      firstVid.addEventListener('canplay', startAll, { once: true });
+    }
   }
 
-  setTimeout(init, 400);
+  init();
 })();
 </script>
 </body>
