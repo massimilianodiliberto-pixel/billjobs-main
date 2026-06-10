@@ -113,19 +113,20 @@ a { color: inherit; text-decoration: none; }
 /* Logo row */
 .logo-row {
   display: flex;
-  align-items: baseline;
-  padding-top: 24px;
+  align-items: center;
+  padding-top: 20px;
 }
 
-.logo {
-  font-family: var(--font-ui);
-  font-size: clamp(48px, 12vw, 130px);
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  line-height: 1;
-  color: var(--white);
-  text-transform: uppercase;
+.logo-img-link {
+  display: inline-block;
   cursor: pointer;
+}
+
+.logo-img {
+  height: clamp(60px, 8vw, 100px);
+  width: auto;
+  display: block;
+  filter: brightness(0) invert(1);
 }
 
 /* Nav row */
@@ -368,7 +369,7 @@ a { color: inherit; text-decoration: none; }
   .slide video.desktop { display: none; }
   .slide video.mobile  { display: block; }
 
-  .logo { font-size: clamp(40px, 14vw, 64px); }
+  .logo-img { height: clamp(48px, 12vw, 72px); }
 
   .logo-row { padding-top: 20px; }
 
@@ -760,7 +761,9 @@ a { color: inherit; text-decoration: none; }
 <!-- ── HEADER ───────────────────────── -->
 <header class="site-header" id="siteHeader">
   <div class="logo-row">
-    <a href="/" class="logo">BillJobs</a>
+    <a href="/" class="logo-img-link">
+      <img src="assets/img/logo_header.png" alt="BillJobs" class="logo-img">
+    </a>
   </div>
   <nav class="main-nav">
     <a href="who-is.html">Who Is</a>
