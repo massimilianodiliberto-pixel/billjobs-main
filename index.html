@@ -804,39 +804,23 @@ a { color: inherit; text-decoration: none; }
   const loader     = document.getElementById('loader');
   const isMob      = () => window.innerWidth <= 767;
 
-  const ROTATION_MS  = 15000; // avanza dopo 15s anche se il video non finisce
-  const LOAD_SKIP_MS = 3000;  // salta al prossimo se non carica entro 3s
-
   let pool         = [];
   let currentIdx   = 0;
-  let rotationTimer = null;
-  let loadTimer     = null;
 
   function getVid(slide) {
     return slide.querySelector(isMob() ? 'video.mobile' : 'video.desktop');
   }
 
-  function clearTimers() {
-    clearTimeout(rotationTimer);
-    clearTimeout(loadTimer);
-  }
-
-  // ── Progress bar (segue il video reale oppure il timer da 15s) ───
+  // ── Progress bar — segue la durata reale del video ────
   let progressInterval = null;
   function startProgress(vid) {
     progressBar.style.transition = 'none';
     progressBar.style.width = '0%';
     clearInterval(progressInterval);
-    const start = Date.now();
     progressInterval = setInterval(() => {
-      let pct;
       if (vid && vid.duration && !isNaN(vid.duration)) {
-        pct = vid.currentTime / vid.duration * 100;
-      } else {
-        pct = Math.min(100, (Date.now() - start) / ROTATION_MS * 100);
+        progressBar.style.width = (vid.currentTime / vid.duration * 100) + '%';
       }
-      progressBar.style.width = pct + '%';
-      if (pct >= 100) clearInterval(progressInterval);
     }, 100);
   }
 
@@ -853,7 +837,6 @@ a { color: inherit; text-decoration: none; }
 
   // ── Vai a slide (idx nel pool) ────────────────────────
   function goTo(idx) {
-    clearTimers();
     clearInterval(progressInterval);
 
     const btns = Array.from(pagination.querySelectorAll('.page-btn'));
@@ -870,8 +853,7 @@ a { color: inherit; text-decoration: none; }
     slide.classList.add('active');
     if (btns[currentIdx]) btns[currentIdx].classList.add('active');
 
-    // Aggiorna label progetto
-    const info   = document.getElementById('slideInfo');
+    const info = document.getElementById('slideInfo');
     info.classList.remove('visible');
     setTimeout(() => {
       document.getElementById('infoClient').textContent = slide.dataset.client || '';
@@ -882,31 +864,15 @@ a { color: inherit; text-decoration: none; }
     const vid = getVid(slide);
     preloadNext();
 
-    if (!vid) {
-      // nessun video: ruota dopo 15s
-      rotationTimer = setTimeout(() => goTo(currentIdx + 1), ROTATION_MS);
-      return;
-    }
+    if (!vid) return;
 
     vid.currentTime = 0;
     startProgress(vid);
 
-    // Avanza quando il video finisce naturalmente
+    // Avanza solo quando il video finisce — nessun timer fisso
     vid.addEventListener('ended', () => goTo(currentIdx + 1), { once: true });
 
-    // Avanza comunque dopo 15s (video più lunghi o loop interrotto)
-    rotationTimer = setTimeout(() => goTo(currentIdx + 1), ROTATION_MS);
-
-    // Se non parte entro 3s → salta al successivo
-    loadTimer = setTimeout(() => {
-      if (vid.readyState < 2) goTo(currentIdx + 1);
-    }, LOAD_SKIP_MS);
-
-    const tryPlay = () => {
-      clearTimeout(loadTimer);
-      vid.play().catch(() => {});
-    };
-
+    const tryPlay = () => vid.play().catch(() => {});
     if (vid.readyState >= 2) {
       tryPlay();
     } else {
