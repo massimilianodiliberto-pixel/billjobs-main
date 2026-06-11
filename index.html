@@ -114,6 +114,7 @@ a { color: inherit; text-decoration: none; }
 .logo-row {
   display: flex;
   align-items: center;
+  gap: 24px;
   padding-top: 20px;
 }
 
@@ -127,6 +128,24 @@ a { color: inherit; text-decoration: none; }
   width: auto;
   display: block;
   filter: brightness(0) invert(1);
+}
+
+.voice-btn {
+  font-family: var(--font-ui);
+  font-size: clamp(12px, 1.3vw, 16px);
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--white);
+  text-decoration: none;
+  cursor: pointer;
+  animation: voiceGlow 2.5s ease-in-out infinite;
+  white-space: nowrap;
+}
+
+@keyframes voiceGlow {
+  0%, 100% { text-shadow: 0 0 6px rgba(255,255,255,0.4); opacity: 0.8; }
+  50%       { text-shadow: 0 0 20px rgba(255,255,255,1), 0 0 40px rgba(255,255,255,0.35); opacity: 1; }
 }
 
 /* Nav row */
@@ -162,7 +181,7 @@ a { color: inherit; text-decoration: none; }
   padding: 0;
   cursor: pointer;
   font-family: var(--font-ui);
-  font-size: clamp(9px, 1vw, 11px);
+  font-size: clamp(11px, 1.2vw, 14px);
   font-weight: 500;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -193,7 +212,7 @@ a { color: inherit; text-decoration: none; }
 ───────────────────────────────────────── */
 .slide-info {
   position: fixed;
-  bottom: 56px;
+  bottom: 100px;
   left: 5vw;
   z-index: 100;
   opacity: 0;
@@ -259,8 +278,10 @@ a { color: inherit; text-decoration: none; }
   line-height: 1;
 }
 
-.page-btn.active { color: var(--white); font-weight: 600; }
-.page-btn:hover  { color: rgba(255,255,255,0.7); }
+.page-btn.active  { color: var(--white); font-weight: 600; }
+.page-btn:hover   { color: rgba(255,255,255,0.7); }
+.page-btn.loading { color: var(--white); animation: btnPulse 0.7s ease-in-out infinite alternate; }
+@keyframes btnPulse { from { opacity: 0.25; } to { opacity: 1; } }
 
 /* Progress bar below active number */
 .page-btn::after {
@@ -756,6 +777,28 @@ a { color: inherit; text-decoration: none; }
     </video>
   </div>
 
+  <!-- 34 — Verco · placeholder -->
+  <div class="slide" data-client="" data-title="" data-category="">
+    <div class="slide-bg"></div>
+    <video class="desktop" muted playsinline preload="none">
+      <source src="assets/video/34_desktop.mp4" type="video/mp4">
+    </video>
+    <video class="mobile" muted playsinline preload="none">
+      <source src="assets/video/34_mobile.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- 35 — Gamapiù · placeholder -->
+  <div class="slide" data-client="" data-title="" data-category="">
+    <div class="slide-bg"></div>
+    <video class="desktop" muted playsinline preload="none">
+      <source src="assets/video/35_desktop.mp4" type="video/mp4">
+    </video>
+    <video class="mobile" muted playsinline preload="none">
+      <source src="assets/video/35_mobile.mp4" type="video/mp4">
+    </video>
+  </div>
+
 </div><!-- /slideshow -->
 
 <!-- ── HEADER ───────────────────────── -->
@@ -764,10 +807,10 @@ a { color: inherit; text-decoration: none; }
     <a href="/" class="logo-img-link">
       <img src="assets/img/logo_header.png" alt="BillJobs" class="logo-img">
     </a>
+    <a href="who-is.html" class="voice-btn">Voice</a>
   </div>
   <nav class="main-nav">
     <a href="who-is.html">Who Is</a>
-    <a href="mailto:contact@billjobs.it">Contact</a>
   </nav>
   <div class="filter-nav" id="filterNav">
     <button class="filter-btn active" data-filter="all">All</button>
@@ -793,7 +836,7 @@ a { color: inherit; text-decoration: none; }
 
 <!-- ── FOOTER ───────────────────────── -->
 <footer class="site-footer" id="siteFooter">
-  <a href="#" class="footer-link">Italy</a>
+  <a href="https://wa.me/39XXXXXXXXXX" target="_blank" rel="noopener" class="footer-link">WhatsApp</a>
   <a href="mailto:contact@billjobs.it" class="footer-link">Contact</a>
   <a href="https://www.instagram.com/billjobs_production" target="_blank" rel="noopener" class="footer-link">Instagram</a>
 </footer>
@@ -838,9 +881,12 @@ a { color: inherit; text-decoration: none; }
     }
   }
 
+  let skipTimer = null;
+
   // ── Vai a slide (idx nel pool) ────────────────────────
   function goTo(idx) {
     clearInterval(progressInterval);
+    clearTimeout(skipTimer);
 
     const btns = Array.from(pagination.querySelectorAll('.page-btn'));
 
@@ -848,13 +894,14 @@ a { color: inherit; text-decoration: none; }
       const oldVid = getVid(pool[currentIdx]);
       if (oldVid) { oldVid.pause(); }
       pool[currentIdx].classList.remove('active');
-      if (btns[currentIdx]) btns[currentIdx].classList.remove('active');
+      if (btns[currentIdx]) btns[currentIdx].classList.remove('active', 'loading');
     }
 
     currentIdx = ((idx % pool.length) + pool.length) % pool.length;
     const slide = pool[currentIdx];
     slide.classList.add('active');
-    if (btns[currentIdx]) btns[currentIdx].classList.add('active');
+    const curBtn = btns[currentIdx];
+    if (curBtn) curBtn.classList.add('active');
 
     const info = document.getElementById('slideInfo');
     info.classList.remove('visible');
@@ -872,16 +919,27 @@ a { color: inherit; text-decoration: none; }
     vid.currentTime = 0;
     startProgress(vid);
 
-    // Avanza solo quando il video finisce — nessun timer fisso
     vid.addEventListener('ended', () => goTo(currentIdx + 1), { once: true });
 
-    const tryPlay = () => vid.play().catch(() => {});
+    const tryPlay = () => {
+      clearTimeout(skipTimer);
+      if (curBtn) curBtn.classList.remove('loading');
+      vid.play().catch(() => {});
+    };
+
     if (vid.readyState >= 2) {
       tryPlay();
     } else {
       vid.preload = 'auto';
       vid.load();
+      // Numero lampeggia mentre carica
+      if (curBtn) curBtn.classList.add('loading');
       vid.addEventListener('canplay', tryPlay, { once: true });
+      // Skip automatico dopo 8s se non carica
+      skipTimer = setTimeout(() => {
+        if (curBtn) curBtn.classList.remove('loading');
+        goTo(currentIdx + 1);
+      }, 8000);
     }
   }
 
