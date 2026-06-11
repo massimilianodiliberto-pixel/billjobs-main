@@ -59,7 +59,7 @@ a { color: inherit; text-decoration: none; }
   padding-bottom: 16px;
 }
 
-.logo-img-link { display: inline-block; flex-shrink: 0; }
+.logo-img-link { display: inline-block; flex-shrink: 0; outline: none; -webkit-tap-highlight-color: transparent; }
 .logo-img {
   height: clamp(44px, 5vw, 72px);
   width: auto;
@@ -399,7 +399,7 @@ a { color: inherit; text-decoration: none; }
   margin-bottom: 4px;
 }
 
-.contact-email {
+.contact-link {
   font-family: var(--font-ed);
   font-size: clamp(22px, 3vw, 40px);
   font-weight: 400;
@@ -407,33 +407,13 @@ a { color: inherit; text-decoration: none; }
   transition: opacity 0.2s;
 }
 
-.contact-email:hover { opacity: 0.7; }
+.contact-link:hover { opacity: 0.65; }
 
 .contact-divider {
   width: 1px;
   height: 32px;
   background: rgba(255,255,255,0.15);
   margin: 4px 0;
-}
-
-.contact-ig {
-  font-size: clamp(10px, 1vw, 12px);
-  font-weight: 500;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--grey);
-  transition: color 0.2s;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.contact-ig:hover { color: var(--white); }
-
-.contact-ig svg {
-  width: 14px;
-  height: 14px;
-  fill: currentColor;
 }
 
 /* ─────────────────────────────────────────
@@ -696,14 +676,11 @@ a { color: inherit; text-decoration: none; }
 <!-- ── CONTACTS ─────────────────────── -->
 <section class="contact-section" id="contactSection">
   <span class="contact-label">Get in touch</span>
-  <a href="mailto:contact@billjobs.it" class="contact-email">contact@billjobs.it</a>
+  <a href="https://wa.me/39XXXXXXXXXX" target="_blank" rel="noopener" class="contact-link">WhatsApp</a>
   <div class="contact-divider"></div>
-  <a href="https://www.instagram.com/billjobs_production" target="_blank" rel="noopener" class="contact-ig">
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-    </svg>
-    @billjobs_production
-  </a>
+  <a href="mailto:contact@billjobs.it" class="contact-link">contact@billjobs.it</a>
+  <div class="contact-divider"></div>
+  <a href="https://www.instagram.com/billjobs_production" target="_blank" rel="noopener" class="contact-link">@billjobs_production</a>
 </section>
 
 <!-- ── FOOTER ───────────────────────── -->
