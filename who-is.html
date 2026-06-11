@@ -249,14 +249,14 @@ a { color: inherit; text-decoration: none; }
   align-items: center;
   border-top: 1px solid rgba(255,255,255,0.08);
   border-bottom: 1px solid rgba(255,255,255,0.08);
-  opacity: 0;
-  transform: translateY(20px);
 }
 
 .stat-item {
   flex: 1;
   padding: 48px 5vw;
   border-right: 1px solid rgba(255,255,255,0.08);
+  opacity: 0;
+  transform: translateY(16px);
 }
 
 .stat-item:last-child { border-right: none; }
@@ -276,7 +276,6 @@ a { color: inherit; text-decoration: none; }
   font-size: clamp(40px, 6vw, 80px);
   color: var(--white);
   line-height: 1;
-  margin-top: 0;
 }
 
 .stat-label {
@@ -289,65 +288,87 @@ a { color: inherit; text-decoration: none; }
 }
 
 /* ─────────────────────────────────────────
-   MANIFESTO
+   MANIFESTO — single column
 ───────────────────────────────────────── */
 .manifesto {
-  padding: 100px 5vw 100px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 60px 8vw;
-  align-items: start;
-  opacity: 0;
-  transform: translateY(40px);
+  padding: 100px 5vw 80px;
+  max-width: 860px;
 }
 
-.manifesto-heading {
+.manifesto-opening {
   font-family: var(--font-ed);
-  font-size: clamp(40px, 6vw, 92px);
+  font-size: clamp(26px, 3.2vw, 50px);
   font-weight: 400;
-  line-height: 1.0;
-  letter-spacing: -0.01em;
+  line-height: 1.2;
   color: var(--white);
-  position: sticky;
-  top: 140px;
-}
-
-.manifesto-body { padding-top: 8px; }
-
-.manifesto-quote {
-  font-family: var(--font-ed);
-  font-style: italic;
-  font-size: clamp(20px, 2.2vw, 30px);
-  font-weight: 400;
-  line-height: 1.35;
-  color: var(--white);
-  margin-bottom: 40px;
-  padding-bottom: 40px;
+  margin-bottom: 60px;
+  padding-bottom: 60px;
   border-bottom: 1px solid rgba(255,255,255,0.08);
+  opacity: 0;
+  transform: translateY(20px);
 }
 
-.manifesto-body p {
-  font-size: clamp(14px, 1.3vw, 17px);
+.manifesto-bio {
+  font-size: clamp(14px, 1.4vw, 18px);
   font-weight: 300;
   line-height: 1.8;
   color: var(--grey-text);
-  margin-bottom: 24px;
+  margin-bottom: 56px;
+  opacity: 0;
+  transform: translateY(20px);
 }
 
-.manifesto-body p:last-child { margin-bottom: 0; }
-
-.manifesto-body .statement {
-  font-size: clamp(16px, 1.6vw, 22px);
+.manifesto-pellicola {
+  font-family: var(--font-ed);
+  font-style: italic;
+  font-size: clamp(19px, 2.2vw, 32px);
   font-weight: 400;
-  color: rgba(255,255,255,0.85);
-  line-height: 1.6;
-  margin-top: 36px;
-  padding-top: 36px;
+  line-height: 1.45;
+  color: var(--white);
+  padding: 56px 0;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  margin-bottom: 56px;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.manifesto-bridge {
+  font-size: clamp(14px, 1.4vw, 18px);
+  font-weight: 300;
+  line-height: 1.8;
+  color: var(--grey-text);
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+/* ─────────────────────────────────────────
+   FINAL STATEMENT
+───────────────────────────────────────── */
+.final-statement {
+  padding: 80px 5vw 120px;
   border-top: 1px solid rgba(255,255,255,0.08);
 }
 
+.final-statement p {
+  font-family: var(--font-ed);
+  font-size: clamp(28px, 4.5vw, 72px);
+  font-weight: 400;
+  line-height: 1.15;
+  color: var(--white);
+  opacity: 0;
+  transform: translateY(24px);
+  max-width: 860px;
+}
 
-/* ─────────────────────────────────────────
+.final-statement p.glowing {
+  animation: textGlow 4s ease-in-out infinite;
+}
+
+@keyframes textGlow {
+  0%, 100% { text-shadow: none; }
+  50% { text-shadow: 0 0 40px rgba(255,255,255,0.10), 0 0 80px rgba(255,255,255,0.05); }
+}/* ─────────────────────────────────────────
    FOOTER STRIP
 ───────────────────────────────────────── */
 .site-footer {
@@ -397,20 +418,11 @@ a { color: inherit; text-decoration: none; }
   }
   .stat-item:last-child { border-bottom: none; }
 
-  .header-inner {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-    padding-top: 20px;
-  }
+  .header-inner { padding-top: 20px; }
 
-  .manifesto {
-    grid-template-columns: 1fr;
-    gap: 40px;
-    padding: 80px 5vw;
-  }
+  .manifesto { padding: 80px 5vw 60px; }
 
-  .manifesto-heading { position: static; }
+  .final-statement { padding: 60px 5vw 80px; }
 
   .hero-label { bottom: 28px; }
   .mute-btn { bottom: 28px; }
@@ -456,30 +468,37 @@ a { color: inherit; text-decoration: none; }
 
 <!-- ── STAT STRIP ─────────────────────── -->
 <div class="stat-strip" id="statStrip">
-  <div class="stat-item">
+  <div class="stat-item" id="statItem1">
     <div class="stat-number">
-      <span id="counter">0</span><span class="stat-plus">+</span>
+      <span id="counter1">0</span><span class="stat-plus">+</span>
     </div>
     <p class="stat-label">Progetti completati</p>
   </div>
-  <div class="stat-item">
+  <div class="stat-item" id="statItem2">
     <div class="stat-number">
-      <span>24</span>
+      <span id="counter2">0</span>
     </div>
     <p class="stat-label">Anni di esperienza</p>
+  </div>
+  <div class="stat-item" id="statItem3">
+    <div class="stat-number">
+      <span id="counter3">0</span>
+    </div>
+    <p class="stat-label">Lavori falliti</p>
   </div>
 </div>
 
 <!-- ── MANIFESTO ────────────────────── -->
 <section class="manifesto" id="manifesto">
-  <div class="manifesto-heading">Shaped<br>by<br>production.</div>
-  <div class="manifesto-body">
-    <p class="manifesto-quote">&ldquo;Built through production.<br>Refined through pressure.&rdquo;</p>
-    <p>A cinematic lab — independent, lateral, built on 24 years of real productions.</p>
-    <p>Not a studio. Not an agency. A production mind built between direction, systems and visual instinct. The part you usually never see: the person who reads a budget and feels a story. Who holds the visual and the logistical at the same time. Who knows the difference between a good idea and a producible one.</p>
-    <p>Music videos. Live shows. Feature development. Branded content. Every artist, every talent, every brand — any scale, any format.</p>
-    <p class="statement">The instinct is the same.<br>The frame changes.<br>The way of seeing does not.</p>
-  </div>
+  <p class="manifesto-opening">Ci sono idee bellissime che non verranno mai realizzate. E poi ci sono quelle possibili.</p>
+  <p class="manifesto-bio">Sono stato runner, direttore di produzione, scenografo, regista. Ho realizzato effetti speciali anche per il cinema.</p>
+  <p class="manifesto-pellicola">&ldquo;Ho iniziato quando si girava in pellicola. Quando ogni scelta pesava e il tempo sul set aveva un valore reale. Quel metodo non è sparito. È quello che ancora oggi permette alle idee di diventare concrete.&rdquo;</p>
+  <p class="manifesto-bridge">Perché tra immaginare qualcosa e farla esistere davvero c&rsquo;è un territorio che pochi conoscono. Io lavoro lì, dove la visione incontra la realtà.</p>
+</section>
+
+<!-- ── FINAL STATEMENT ───────────────── -->
+<section class="final-statement" id="finalStatement">
+  <p id="finalText">Bill Jobs non è un nome,<br>è un metodo con cui le idee<br>diventano cose vere.</p>
 </section>
 
 <!-- ── FOOTER ───────────────────────── -->
@@ -551,26 +570,60 @@ a { color: inherit; text-decoration: none; }
 
   /* ── GSAP scroll animations ─── */
 
-  // Stats + counter
-  gsap.to('#statStrip', {
-    opacity: 1, y: 0, duration: 0.8, ease: 'power2.out',
-    scrollTrigger: {
-      trigger: '#statStrip', start: 'top 82%', once: true,
-      onEnter: () => {
-        gsap.to({ val: 0 }, {
-          val: 150, duration: 2.2, ease: 'power2.out',
-          onUpdate: function () {
-            document.getElementById('counter').textContent = Math.round(this.targets()[0].val);
-          }
-        });
-      }
+  // Stats — staggered entrance + sequential counters
+  ScrollTrigger.create({
+    trigger: '#statStrip', start: 'top 82%', once: true,
+    onEnter: () => {
+      // Fade in each stat item with stagger
+      gsap.to(['#statItem1','#statItem2','#statItem3'], {
+        opacity: 1, y: 0, duration: 0.7, ease: 'power2.out', stagger: 0.18
+      });
+      // Counter 1: 0 → 150+
+      gsap.to({ val: 0 }, {
+        val: 150, duration: 2.2, ease: 'power2.out',
+        onUpdate: function () {
+          document.getElementById('counter1').textContent = Math.round(this.targets()[0].val);
+        }
+      });
+      // Counter 2: 0 → 24 (delayed)
+      gsap.to({ val: 0 }, {
+        val: 24, duration: 1.4, ease: 'power2.out', delay: 0.5,
+        onUpdate: function () {
+          document.getElementById('counter2').textContent = Math.round(this.targets()[0].val);
+        }
+      });
+      // Stat 3: 0 stays 0, reveals with a confident scale
+      gsap.from('#counter3', {
+        scale: 0.6, opacity: 0, duration: 0.6, ease: 'back.out(2)', delay: 1.0
+      });
     }
   });
 
-  // Manifesto
-  gsap.to('#manifesto', {
-    opacity: 1, y: 0, duration: 0.9, ease: 'power2.out',
-    scrollTrigger: { trigger: '#manifesto', start: 'top 82%', once: true }
+  // Manifesto paragraphs — each fades in on scroll with stagger
+  const manifestoEls = [
+    '.manifesto-opening',
+    '.manifesto-bio',
+    '.manifesto-pellicola',
+    '.manifesto-bridge'
+  ];
+
+  manifestoEls.forEach((sel, i) => {
+    gsap.to(sel, {
+      opacity: 1, y: 0, duration: 0.85, ease: 'power2.out',
+      scrollTrigger: { trigger: sel, start: 'top 84%', once: true }
+    });
+  });
+
+  // Final statement — reveal + glow
+  ScrollTrigger.create({
+    trigger: '#finalStatement', start: 'top 85%', once: true,
+    onEnter: () => {
+      const el = document.getElementById('finalText');
+      gsap.to(el, {
+        opacity: 1, y: 0, duration: 1.1, ease: 'power2.out',
+        onComplete: () => el.classList.add('glowing')
+      });
+    }
   });
 
 
