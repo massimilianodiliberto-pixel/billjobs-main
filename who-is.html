@@ -295,40 +295,37 @@ a { color: inherit; text-decoration: none; }
   max-width: 860px;
 }
 
-.manifesto-opening {
+.manifesto-lead-text {
   font-family: var(--font-ed);
-  font-size: clamp(26px, 3.2vw, 50px);
+  font-size: clamp(20px, 2.4vw, 36px);
   font-weight: 400;
-  line-height: 1.2;
-  color: var(--white);
-  margin-bottom: 60px;
-  padding-bottom: 60px;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
+  line-height: 1.4;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 48px;
   opacity: 0;
   transform: translateY(20px);
+}
+
+.manifesto-io-lavoro {
+  font-family: var(--font-ed);
+  font-size: clamp(36px, 6vw, 92px);
+  font-weight: 400;
+  line-height: 1.05;
+  color: var(--white);
+  margin-bottom: 80px;
+  padding-bottom: 80px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  opacity: 0;
+  transform: translateY(24px);
 }
 
 .manifesto-bio {
-  font-size: clamp(14px, 1.4vw, 18px);
-  font-weight: 300;
-  line-height: 1.8;
-  color: var(--grey-text);
-  margin-bottom: 56px;
-  opacity: 0;
-  transform: translateY(20px);
-}
-
-.manifesto-pellicola {
   font-family: var(--font-ed);
-  font-style: italic;
-  font-size: clamp(19px, 2.2vw, 32px);
+  font-size: clamp(17px, 1.8vw, 26px);
   font-weight: 400;
-  line-height: 1.45;
-  color: var(--white);
-  padding: 56px 0;
-  border-top: 1px solid rgba(255,255,255,0.08);
-  border-bottom: 1px solid rgba(255,255,255,0.08);
-  margin-bottom: 56px;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.75);
+  margin-bottom: 40px;
   opacity: 0;
   transform: translateY(20px);
 }
@@ -337,7 +334,6 @@ a { color: inherit; text-decoration: none; }
   display: flex;
   flex-wrap: wrap;
   gap: 6px 0;
-  margin-top: -32px;
   margin-bottom: 56px;
   opacity: 0;
   transform: translateY(16px);
@@ -348,7 +344,7 @@ a { color: inherit; text-decoration: none; }
   font-weight: 500;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.35);
+  color: rgba(255,255,255,0.3);
 }
 
 .manifesto-crew span::after {
@@ -358,15 +354,6 @@ a { color: inherit; text-decoration: none; }
 }
 
 .manifesto-crew span:last-child::after { content: ''; margin: 0; }
-
-.manifesto-bridge {
-  font-size: clamp(14px, 1.4vw, 18px);
-  font-weight: 300;
-  line-height: 1.8;
-  color: var(--grey-text);
-  opacity: 0;
-  transform: translateY(20px);
-}
 
 /* ─────────────────────────────────────────
    FINAL STATEMENT
@@ -400,10 +387,10 @@ a { color: inherit; text-decoration: none; }
 .site-footer {
   border-top: 1px solid rgba(255,255,255,0.08);
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  padding: 0 5vw;
-  height: 44px;
+  padding: 28px 5vw 32px;
+  gap: 16px;
 }
 
 .footer-label {
@@ -416,7 +403,9 @@ a { color: inherit; text-decoration: none; }
 
 .footer-links {
   display: flex;
-  gap: 28px;
+  width: 100%;
+  max-width: 360px;
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -453,8 +442,8 @@ a { color: inherit; text-decoration: none; }
   .hero-label { bottom: 28px; }
   .mute-btn { bottom: 28px; }
 
-  .site-footer { padding: 0 20px; flex-wrap: wrap; gap: 8px; height: auto; padding-top: 12px; padding-bottom: 12px; }
-  .footer-links { gap: 16px; }
+  .site-footer { padding: 20px 20px 24px; gap: 12px; }
+  .footer-links { max-width: 100%; }
 }
 </style>
 </head>
@@ -508,16 +497,23 @@ a { color: inherit; text-decoration: none; }
   </div>
   <div class="stat-item" id="statItem3">
     <div class="stat-number">
-      <span id="counter3">0</span>
+      <span id="counter3">0</span><span class="stat-plus">+</span>
     </div>
-    <p class="stat-label">Lavori falliti</p>
+    <p class="stat-label">Collaboratori</p>
+  </div>
+  <div class="stat-item" id="statItem4">
+    <div class="stat-number">
+      <span id="counter4">0</span>
+    </div>
+    <p class="stat-label">Clienti insoddisfatti</p>
   </div>
 </div>
 
 <!-- ── MANIFESTO ────────────────────── -->
 <section class="manifesto" id="manifesto">
-  <p class="manifesto-opening">Ci sono idee bellissime che non verranno mai realizzate. E poi ci sono quelle possibili.</p>
-  <p class="manifesto-bio">Sono stato runner, direttore di produzione, scenografo, regista. Ho realizzato effetti speciali per il cinema. In questo percorso ho costruito una rete di collaboratori — fino a gestire troupe di sessanta persone.</p>
+  <p class="manifesto-lead-text">Ci sono idee bellissime che non verranno mai realizzate. E poi ci sono idee possibili, quelle che trovano la strada per diventare reali. Perché tra immaginare qualcosa e farla esistere davvero c&rsquo;è un territorio che pochi conoscono.</p>
+  <p class="manifesto-io-lavoro">Io lavoro lì,<br>dove la visione<br>incontra la realtà.</p>
+  <p class="manifesto-bio">Sono stato runner, direttore di produzione, scenografo, regista. Ho realizzato effetti speciali per il cinema. In questo percorso ho costruito una rete di collaboratori tecnici fino a gestire troupe di sessanta persone.</p>
   <div class="manifesto-crew">
     <span>Direttori della fotografia</span>
     <span>Scenografi</span>
@@ -528,8 +524,6 @@ a { color: inherit; text-decoration: none; }
     <span>Attori</span>
     <span>Modelli</span>
   </div>
-  <p class="manifesto-pellicola">&ldquo;Ho iniziato quando si girava in pellicola. Quando ogni scelta pesava e il tempo sul set aveva un valore reale. Quel metodo non è sparito. È quello che ancora oggi permette alle idee di diventare concrete.&rdquo;</p>
-  <p class="manifesto-bridge">Perché tra immaginare qualcosa e farla esistere davvero c&rsquo;è un territorio che pochi conoscono. Io lavoro lì, dove la visione incontra la realtà.</p>
 </section>
 
 <!-- ── FINAL STATEMENT ───────────────── -->
@@ -611,7 +605,7 @@ a { color: inherit; text-decoration: none; }
     trigger: '#statStrip', start: 'top 82%', once: true,
     onEnter: () => {
       // Fade in each stat item with stagger
-      gsap.to(['#statItem1','#statItem2','#statItem3'], {
+      gsap.to(['#statItem1','#statItem2','#statItem3','#statItem4'], {
         opacity: 1, y: 0, duration: 0.7, ease: 'power2.out', stagger: 0.18
       });
       // Counter 1: 0 → 150+
@@ -628,19 +622,25 @@ a { color: inherit; text-decoration: none; }
           document.getElementById('counter2').textContent = Math.round(this.targets()[0].val);
         }
       });
-      // Stat 3: 0 stays 0, reveals with a confident scale
-      gsap.from('#counter3', {
-        scale: 0.6, opacity: 0, duration: 0.6, ease: 'back.out(2)', delay: 1.0
+      // Counter 3: 0 → 30+ (collaboratori)
+      gsap.to({ val: 0 }, {
+        val: 30, duration: 1.2, ease: 'power2.out', delay: 0.9,
+        onUpdate: function () {
+          document.getElementById('counter3').textContent = Math.round(this.targets()[0].val);
+        }
+      });
+      // Stat 4: 0 stays 0, reveals with a confident scale
+      gsap.from('#counter4', {
+        scale: 0.6, opacity: 0, duration: 0.6, ease: 'back.out(2)', delay: 1.3
       });
     }
   });
 
-  // Manifesto paragraphs — each fades in on scroll with stagger
+  // Manifesto paragraphs — each fades in on scroll
   const manifestoEls = [
-    '.manifesto-opening',
-    '.manifesto-bio',
-    '.manifesto-pellicola',
-    '.manifesto-bridge'
+    '.manifesto-lead-text',
+    '.manifesto-io-lavoro',
+    '.manifesto-bio'
   ];
 
   manifestoEls.forEach((sel) => {
