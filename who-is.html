@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Who Is BillJobs? — Creative Production House</title>
-<meta name="description" content="BillJobs is a creative production house that builds visual identities for artists, musicians, models, creators and fashion brands.">
+<meta name="description" content="BillJobs is a cinematic lab built on 24 years of real productions. Music videos, live shows, branded content. Any scale. Any format.">
 <meta property="og:title" content="Who Is BillJobs?">
 <meta property="og:image" content="https://www.billjobs.it/assets/img/who_is_billjobs.jpg">
 <meta property="og:url" content="https://www.billjobs.it/who-is.html">
@@ -35,11 +35,71 @@ html {
   scroll-behavior: smooth;
 }
 
-body {
-  overflow-x: hidden;
-}
+body { overflow-x: hidden; }
+body.locked { overflow: hidden; }
 
 a { color: inherit; text-decoration: none; }
+
+/* ─────────────────────────────────────────
+   ENTER SCREEN
+───────────────────────────────────────── */
+.enter-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: opacity 0.9s ease;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.enter-screen.out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.enter-logo {
+  height: clamp(56px, 7vw, 90px);
+  width: auto;
+  filter: brightness(0) invert(1);
+  opacity: 0;
+  animation: fadeUp 1s ease 0.4s forwards;
+}
+
+.enter-cta {
+  position: absolute;
+  bottom: 48px;
+  font-family: var(--font-ui);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  opacity: 0;
+  animation: fadeUp 1s ease 1s forwards;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.enter-cta::before,
+.enter-cta::after {
+  content: '';
+  display: block;
+  width: 20px;
+  height: 1px;
+  background: rgba(255,255,255,0.2);
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
 
 /* ─────────────────────────────────────────
    NAV — fixed overlay
@@ -49,6 +109,7 @@ a { color: inherit; text-decoration: none; }
   top: 0; left: 0; right: 0;
   z-index: 200;
   padding: 0 5vw;
+  opacity: 0;
 }
 
 .header-inner {
@@ -70,7 +131,6 @@ a { color: inherit; text-decoration: none; }
 .main-nav {
   display: flex;
   align-items: baseline;
-  gap: 0;
   flex-wrap: wrap;
   justify-content: flex-end;
 }
@@ -86,10 +146,9 @@ a { color: inherit; text-decoration: none; }
 }
 
 .main-nav a:hover { color: var(--white); }
-.main-nav a.active { color: var(--white); }
 
 /* ─────────────────────────────────────────
-   HERO — fullscreen image
+   HERO — fullscreen reel
 ───────────────────────────────────────── */
 .hero {
   position: relative;
@@ -99,7 +158,6 @@ a { color: inherit; text-decoration: none; }
   overflow: hidden;
 }
 
-/* YouTube autoplay background */
 .hero-video {
   position: absolute;
   inset: 0;
@@ -111,8 +169,8 @@ a { color: inherit; text-decoration: none; }
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 177.78vh;   /* 16/9 × 100vh */
-  height: 56.25vw;   /* 9/16 × 100vw */
+  width: 177.78vh;
+  height: 56.25vw;
   min-width: 100%;
   min-height: 100%;
   transform: translate(-50%, -50%);
@@ -120,7 +178,6 @@ a { color: inherit; text-decoration: none; }
   pointer-events: none;
 }
 
-/* Fallback image shown until iframe loads */
 .hero-fallback {
   position: absolute;
   inset: 0;
@@ -128,7 +185,7 @@ a { color: inherit; text-decoration: none; }
   background-size: cover;
   background-position: center;
   z-index: 0;
-  transition: opacity 1s ease;
+  transition: opacity 1.5s ease;
 }
 
 .hero-fallback.hidden { opacity: 0; pointer-events: none; }
@@ -138,68 +195,13 @@ a { color: inherit; text-decoration: none; }
   inset: 0;
   background: linear-gradient(
     to bottom,
-    rgba(0,0,0,0.45) 0%,
-    rgba(0,0,0,0.1) 40%,
-    rgba(0,0,0,0.55) 100%
+    rgba(0,0,0,0.5) 0%,
+    rgba(0,0,0,0.08) 45%,
+    rgba(0,0,0,0.65) 100%
   );
   z-index: 1;
 }
 
-/* Play button */
-.play-btn {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 14px;
-  cursor: pointer;
-  background: none;
-  border: none;
-  padding: 0;
-}
-
-.play-circle {
-  width: 88px;
-  height: 88px;
-  border-radius: 50%;
-  border: 1.5px solid rgba(255,255,255,0.85);
-  background: rgba(0,0,0,0.25);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: border-color 0.2s, background 0.2s, transform 0.2s;
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-}
-
-.play-btn:hover .play-circle {
-  border-color: var(--white);
-  background: rgba(255,255,255,0.12);
-  transform: scale(1.06);
-}
-
-.play-btn svg {
-  width: 26px;
-  height: 26px;
-  fill: var(--white);
-  margin-left: 4px;
-}
-
-.play-label {
-  font-family: var(--font-ui);
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.7);
-  white-space: nowrap;
-}
-
-/* Hero label bottom-left */
 .hero-label {
   position: absolute;
   bottom: 40px;
@@ -212,13 +214,39 @@ a { color: inherit; text-decoration: none; }
   color: var(--grey);
 }
 
+/* Mute toggle */
+.mute-btn {
+  position: absolute;
+  bottom: 34px;
+  right: 5vw;
+  z-index: 2;
+  background: none;
+  border: 1px solid rgba(255,255,255,0.22);
+  color: rgba(255,255,255,0.55);
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s, color 0.2s;
+  padding: 0;
+}
+
+.mute-btn.visible { display: flex; }
+.mute-btn:hover { border-color: rgba(255,255,255,0.55); color: var(--white); }
+.mute-btn svg { width: 14px; height: 14px; fill: currentColor; }
+.mute-btn .icon-unmute { display: none; }
+.mute-btn.muted .icon-mute { display: none; }
+.mute-btn.muted .icon-unmute { display: block; }
+
 /* ─────────────────────────────────────────
    STAT STRIP
 ───────────────────────────────────────── */
 .stat-strip {
   display: flex;
   align-items: center;
-  gap: 0;
   border-top: 1px solid rgba(255,255,255,0.08);
   border-bottom: 1px solid rgba(255,255,255,0.08);
   opacity: 0;
@@ -240,14 +268,15 @@ a { color: inherit; text-decoration: none; }
   line-height: 1;
   color: var(--white);
   display: flex;
-  align-items: baseline;
-  gap: 4px;
+  align-items: flex-start;
 }
 
 .stat-plus {
   font-family: var(--font-ed);
-  font-size: clamp(32px, 4vw, 56px);
-  color: rgba(255,255,255,0.4);
+  font-size: clamp(40px, 6vw, 80px);
+  color: var(--white);
+  line-height: 1;
+  margin-top: 0;
 }
 
 .stat-label {
@@ -260,7 +289,7 @@ a { color: inherit; text-decoration: none; }
 }
 
 /* ─────────────────────────────────────────
-   MANIFESTO SECTION
+   MANIFESTO
 ───────────────────────────────────────── */
 .manifesto {
   padding: 100px 5vw 100px;
@@ -274,25 +303,23 @@ a { color: inherit; text-decoration: none; }
 
 .manifesto-heading {
   font-family: var(--font-ed);
-  font-size: clamp(36px, 5.5vw, 84px);
+  font-size: clamp(40px, 6vw, 92px);
   font-weight: 400;
-  line-height: 1.05;
+  line-height: 1.0;
   letter-spacing: -0.01em;
   color: var(--white);
   position: sticky;
   top: 140px;
 }
 
-.manifesto-body {
-  padding-top: 8px;
-}
+.manifesto-body { padding-top: 8px; }
 
 .manifesto-quote {
   font-family: var(--font-ed);
   font-style: italic;
   font-size: clamp(20px, 2.2vw, 30px);
   font-weight: 400;
-  line-height: 1.3;
+  line-height: 1.35;
   color: var(--white);
   margin-bottom: 40px;
   padding-bottom: 40px;
@@ -310,69 +337,13 @@ a { color: inherit; text-decoration: none; }
 .manifesto-body p:last-child { margin-bottom: 0; }
 
 .manifesto-body .statement {
-  font-size: clamp(15px, 1.5vw, 20px);
+  font-size: clamp(16px, 1.6vw, 22px);
   font-weight: 400;
-  color: rgba(255,255,255,0.75);
-  line-height: 1.55;
+  color: rgba(255,255,255,0.85);
+  line-height: 1.6;
   margin-top: 36px;
   padding-top: 36px;
   border-top: 1px solid rgba(255,255,255,0.08);
-}
-
-/* ─────────────────────────────────────────
-   AREAS
-───────────────────────────────────────── */
-.areas {
-  padding: 0 0 120px;
-  opacity: 0;
-  transform: translateY(30px);
-}
-
-.areas-list {
-  list-style: none;
-}
-
-.area-row {
-  display: grid;
-  grid-template-columns: 80px 1fr auto;
-  align-items: baseline;
-  gap: 0 4vw;
-  padding: 28px 5vw;
-  border-bottom: 1px solid rgba(255,255,255,0.07);
-  transition: background 0.25s;
-}
-
-.area-row:first-child { border-top: 1px solid rgba(255,255,255,0.07); }
-.area-row:hover { background: rgba(255,255,255,0.025); }
-
-.area-num {
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  color: rgba(255,255,255,0.3);
-}
-
-.area-name {
-  font-family: var(--font-ed);
-  font-size: clamp(28px, 4vw, 56px);
-  font-weight: 400;
-  color: var(--white);
-  line-height: 1.1;
-}
-
-.area-desc {
-  font-size: clamp(10px, 0.9vw, 12px);
-  font-weight: 400;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.3);
-  text-align: right;
-  line-height: 1.6;
-}
-
-@media (max-width: 767px) {
-  .area-row { grid-template-columns: 40px 1fr; gap: 0 16px; padding: 22px 20px; }
-  .area-desc { display: none; }
 }
 
 /* ─────────────────────────────────────────
@@ -440,83 +411,16 @@ a { color: inherit; text-decoration: none; }
 .footer-link:hover { color: var(--white); }
 
 /* ─────────────────────────────────────────
-   VIDEO MODAL
-───────────────────────────────────────── */
-.modal-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 500;
-  background: rgba(0,0,0,0.92);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.35s ease;
-}
-
-.modal-backdrop.open {
-  opacity: 1;
-  pointer-events: all;
-}
-
-.modal-inner {
-  position: relative;
-  width: min(880px, 92vw);
-  aspect-ratio: 16 / 9;
-  transform: scale(0.94);
-  transition: transform 0.35s ease;
-}
-
-.modal-backdrop.open .modal-inner {
-  transform: scale(1);
-}
-
-.modal-inner iframe {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  border: none;
-  display: block;
-}
-
-.modal-close {
-  position: absolute;
-  top: -44px;
-  right: 0;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: rgba(255,255,255,0.6);
-  font-family: var(--font-ui);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 0;
-  transition: color 0.2s;
-}
-
-.modal-close:hover { color: var(--white); }
-
-.modal-close svg {
-  width: 16px;
-  height: 16px;
-  stroke: currentColor;
-  fill: none;
-  stroke-width: 1.5;
-}
-
-/* ─────────────────────────────────────────
    MOBILE
 ───────────────────────────────────────── */
 @media (max-width: 767px) {
   .stat-strip { flex-direction: column; }
-  .stat-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); padding: 36px 20px; width: 100%; }
+  .stat-item {
+    border-right: none;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    padding: 36px 20px;
+    width: 100%;
+  }
   .stat-item:last-child { border-bottom: none; }
 
   .header-inner {
@@ -526,35 +430,21 @@ a { color: inherit; text-decoration: none; }
     padding-top: 20px;
   }
 
-  .main-nav {
-    justify-content: flex-start;
-    gap: 0;
-  }
-
-  .main-nav a {
-    margin-left: 0;
-    margin-right: 18px;
-    font-size: 9px;
-    letter-spacing: 0.14em;
-  }
+  .main-nav { justify-content: flex-start; }
+  .main-nav a { margin-left: 0; margin-right: 18px; font-size: 9px; letter-spacing: 0.14em; }
 
   .manifesto {
     grid-template-columns: 1fr;
     gap: 40px;
-    padding: 80px 5vw 80px;
+    padding: 80px 5vw;
   }
 
-  .manifesto-heading {
-    position: static;
-  }
+  .manifesto-heading { position: static; }
 
   .hero-label { bottom: 28px; }
+  .mute-btn { bottom: 28px; }
 
-  .play-btn { width: 60px; height: 60px; }
-  .play-btn svg { width: 18px; height: 18px; }
-
-  .contact-section { padding: 60px 5vw 60px; }
-
+  .contact-section { padding: 60px 5vw; }
   .site-footer { padding: 0 20px; }
 }
 
@@ -563,7 +453,13 @@ a { color: inherit; text-decoration: none; }
 }
 </style>
 </head>
-<body>
+<body class="locked">
+
+<!-- ── ENTER SCREEN ──────────────────── -->
+<div class="enter-screen" id="enterScreen">
+  <img src="assets/img/logo_header.png" alt="BillJobs" class="enter-logo">
+  <span class="enter-cta">Enter</span>
+</div>
 
 <!-- ── HEADER ───────────────────────── -->
 <header class="site-header" id="siteHeader">
@@ -580,32 +476,19 @@ a { color: inherit; text-decoration: none; }
 
 <!-- ── HERO ─────────────────────────── -->
 <section class="hero" id="hero">
-  <!-- Fallback image mentre il video carica -->
   <div class="hero-fallback" id="heroFallback"></div>
-
-  <!-- Reel in autoplay muted come sfondo -->
-  <div class="hero-video">
-    <iframe id="bgIframe"
-      src="https://www.youtube.com/embed/TrLO4PL-8jI?autoplay=1&mute=1&loop=1&playlist=TrLO4PL-8jI&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1"
-      title="BillJobs Reel"
-      allow="autoplay; encrypted-media"
-      allowfullscreen>
-    </iframe>
-  </div>
-
+  <div class="hero-video" id="heroVideo"></div>
   <div class="hero-overlay"></div>
+  <span class="hero-label">BillJobs — Showreel</span>
 
-  <!-- Play con audio: apre modal -->
-  <button class="play-btn" id="playBtn" aria-label="Watch with sound">
-    <div class="play-circle">
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path d="M6 4l14 8-14 8V4z"/>
-      </svg>
-    </div>
-    <span class="play-label">Watch with sound</span>
+  <button class="mute-btn" id="muteBtn" aria-label="Mute video">
+    <svg class="icon-mute" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+    </svg>
+    <svg class="icon-unmute" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+    </svg>
   </button>
-
-  <span class="hero-label">BillJobs — Who Is BillJobs? Reel</span>
 </section>
 
 <!-- ── STAT STRIP ─────────────────────── -->
@@ -622,55 +505,18 @@ a { color: inherit; text-decoration: none; }
     </div>
     <p class="stat-label">Anni di esperienza</p>
   </div>
-  <div class="stat-item">
-    <div class="stat-number">
-      <span>5</span>
-    </div>
-    <p class="stat-label">Aree di produzione</p>
-  </div>
 </div>
 
 <!-- ── MANIFESTO ────────────────────── -->
 <section class="manifesto" id="manifesto">
-  <div class="manifesto-heading">Who Is<br>BillJobs?</div>
+  <div class="manifesto-heading">Shaped<br>by<br>production.</div>
   <div class="manifesto-body">
-    <p class="manifesto-quote">&ldquo;Ideas are easy.<br>Making them work is a craft.&rdquo;</p>
-    <p>Bill Jobs è uno studio creativo che produce contenuti per artisti emergenti e brand. Music video, campagne social, identità visiva, reels — tutto sotto un unico tetto, con la stessa disciplina e la stessa cura per ogni formato.</p>
-    <p>Tecnologia e intuizione umana insieme: utilizziamo l'intelligenza artificiale come strumento creativo per generare immagini, video e asset visivi che amplificano l'identità del progetto.</p>
-    <p>Non si immagina. Si costruisce.</p>
-    <p class="statement">We collaborate with artists, talents and brands to build distinctive visual identities through film, photography, creative direction and cultural storytelling.</p>
+    <p class="manifesto-quote">&ldquo;Built through production.<br>Refined through pressure.&rdquo;</p>
+    <p>A cinematic lab — independent, lateral, built on 24 years of real productions.</p>
+    <p>Not a studio. Not an agency. A production mind built between direction, systems and visual instinct. The part you usually never see: the person who reads a budget and feels a story. Who holds the visual and the logistical at the same time. Who knows the difference between a good idea and a producible one.</p>
+    <p>Music videos. Live shows. Feature development. Branded content. Artists at every stage, talents and brands — any scale, any format.</p>
+    <p class="statement">The instinct is the same.<br>The frame changes.<br>The way of seeing does not.</p>
   </div>
-</section>
-
-<!-- ── AREAS ─────────────────────────── -->
-<section class="areas" id="areas">
-  <ul class="areas-list">
-    <li class="area-row">
-      <span class="area-num">01</span>
-      <span class="area-name">Music</span>
-      <span class="area-desc">Music Video · Live Session<br>Artist Branding · Visual Album</span>
-    </li>
-    <li class="area-row">
-      <span class="area-num">02</span>
-      <span class="area-name">Fashion</span>
-      <span class="area-desc">Campaign · Fashion Film<br>Lookbook · Editorial</span>
-    </li>
-    <li class="area-row">
-      <span class="area-num">03</span>
-      <span class="area-name">Talent</span>
-      <span class="area-desc">Models · Creators · Testimonial<br>Personal Branding · Content</span>
-    </li>
-    <li class="area-row">
-      <span class="area-num">04</span>
-      <span class="area-name">Film</span>
-      <span class="area-desc">Wedding Film · Short Film<br>Teaser · Cinematic Narrative</span>
-    </li>
-    <li class="area-row">
-      <span class="area-num">05</span>
-      <span class="area-name">Brand</span>
-      <span class="area-desc">Spot · Institutional Video<br>Social Content · Visual Identity</span>
-    </li>
-  </ul>
 </section>
 
 <!-- ── CONTACTS ─────────────────────── -->
@@ -690,17 +536,6 @@ a { color: inherit; text-decoration: none; }
   <a href="https://www.instagram.com/billjobs_production" target="_blank" rel="noopener" class="footer-link">Instagram</a>
 </footer>
 
-<!-- ── VIDEO MODAL ───────────────────── -->
-<div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-label="BillJobs showreel video">
-  <div class="modal-inner" id="modalInner">
-    <button class="modal-close" id="modalClose" aria-label="Close video">
-      <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-      Close
-    </button>
-    <!-- iframe injected by JS to prevent autoplay until opened -->
-  </div>
-</div>
-
 <!-- ── GSAP ─────────────────────────── -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
@@ -709,13 +544,62 @@ a { color: inherit; text-decoration: none; }
 (function () {
   'use strict';
 
-  /* ── GSAP scroll animations ─────────────────────── */
   gsap.registerPlugin(ScrollTrigger);
 
-  // Stat strip fade-in + counter
+  const enterScreen  = document.getElementById('enterScreen');
+  const heroVideo    = document.getElementById('heroVideo');
+  const heroFallback = document.getElementById('heroFallback');
+  const muteBtn      = document.getElementById('muteBtn');
+  let   iframeEl     = null;
+  let   isMuted      = false;
+
+  /* ── Enter screen click ─── */
+  enterScreen.addEventListener('click', function () {
+    document.body.classList.remove('locked');
+    enterScreen.classList.add('out');
+
+    // Inject YouTube iframe WITH audio — browser allows it after the user gesture above
+    iframeEl = document.createElement('iframe');
+    iframeEl.src = [
+      'https://www.youtube.com/embed/TrLO4PL-8jI',
+      '?autoplay=1&loop=1&playlist=TrLO4PL-8jI',
+      '&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&enablejsapi=1'
+    ].join('');
+    iframeEl.title = 'BillJobs Showreel';
+    iframeEl.allow = 'autoplay; encrypted-media';
+    heroVideo.appendChild(iframeEl);
+
+    // Show mute button
+    muteBtn.classList.add('visible');
+
+    // Fade in header
+    gsap.to('#siteHeader', { opacity: 1, y: 0, duration: 0.9, ease: 'power2.out', delay: 0.5 });
+
+    // Fade out fallback image once video has time to buffer
+    setTimeout(() => heroFallback.classList.add('hidden'), 2500);
+
+    // Remove enter screen node after fade completes
+    setTimeout(() => { if (enterScreen.parentNode) enterScreen.remove(); }, 1000);
+  }, { once: true });
+
+  /* ── Mute / unmute via postMessage ─── */
+  muteBtn.addEventListener('click', function () {
+    if (!iframeEl) return;
+    isMuted = !isMuted;
+    muteBtn.classList.toggle('muted', isMuted);
+    iframeEl.contentWindow.postMessage(
+      JSON.stringify({ event: 'command', func: isMuted ? 'mute' : 'unMute', args: [] }),
+      'https://www.youtube.com'
+    );
+  });
+
+  /* ── GSAP scroll animations ─── */
+
+  // Stats + counter
   gsap.to('#statStrip', {
     opacity: 1, y: 0, duration: 0.8, ease: 'power2.out',
-    scrollTrigger: { trigger: '#statStrip', start: 'top 82%', once: true,
+    scrollTrigger: {
+      trigger: '#statStrip', start: 'top 82%', once: true,
       onEnter: () => {
         gsap.to({ val: 0 }, {
           val: 150, duration: 2.2, ease: 'power2.out',
@@ -727,104 +611,17 @@ a { color: inherit; text-decoration: none; }
     }
   });
 
-  // Manifesto fade-in
+  // Manifesto
   gsap.to('#manifesto', {
-    opacity: 1,
-    y: 0,
-    duration: 0.9,
-    ease: 'power2.out',
-    scrollTrigger: {
-      trigger: '#manifesto',
-      start: 'top 82%',
-      once: true
-    }
+    opacity: 1, y: 0, duration: 0.9, ease: 'power2.out',
+    scrollTrigger: { trigger: '#manifesto', start: 'top 82%', once: true }
   });
 
-  // Areas
-  gsap.to('#areas', {
-    opacity: 1, y: 0, duration: 0.8, ease: 'power2.out',
-    scrollTrigger: { trigger: '#areas', start: 'top 82%', once: true }
-  });
-  gsap.from('.area-row', {
-    opacity: 0, y: 16, duration: 0.5, stagger: 0.08, ease: 'power2.out',
-    scrollTrigger: { trigger: '.areas-list', start: 'top 82%', once: true }
-  });
-
-  // Contact section fade-in
+  // Contact
   gsap.to('#contactSection', {
-    opacity: 1,
-    y: 0,
-    duration: 0.8,
-    ease: 'power2.out',
-    scrollTrigger: {
-      trigger: '#contactSection',
-      start: 'top 85%',
-      once: true
-    }
+    opacity: 1, y: 0, duration: 0.8, ease: 'power2.out',
+    scrollTrigger: { trigger: '#contactSection', start: 'top 85%', once: true }
   });
-
-  /* ── Hero nav fade-in on load ───────────────────── */
-  gsap.from('#siteHeader', {
-    opacity: 0,
-    y: -10,
-    duration: 0.8,
-    ease: 'power2.out',
-    delay: 0.2
-  });
-
-  gsap.from('.play-btn', {
-    opacity: 0,
-    scale: 0.85,
-    duration: 0.9,
-    ease: 'back.out(1.6)',
-    delay: 0.45
-  });
-
-  gsap.from('.hero-label', {
-    opacity: 0,
-    y: 8,
-    duration: 0.7,
-    ease: 'power2.out',
-    delay: 0.55
-  });
-
-  /* ── Nascondi fallback dopo caricamento iframe ─── */
-  const fallback = document.getElementById('heroFallback');
-  setTimeout(() => { if (fallback) fallback.classList.add('hidden'); }, 2000);
-
-  /* ── Modal con audio ────────────────────────────── */
-  const YT_SRC    = 'https://www.youtube.com/embed/TrLO4PL-8jI?autoplay=1&rel=0&modestbranding=1';
-  const backdrop  = document.getElementById('modalBackdrop');
-  const modalInner = document.getElementById('modalInner');
-  const closeBtn  = document.getElementById('modalClose');
-  const playBtn   = document.getElementById('playBtn');
-  let iframeEl    = null;
-
-  function openModal() {
-    if (!iframeEl) {
-      iframeEl = document.createElement('iframe');
-      iframeEl.src = YT_SRC;
-      iframeEl.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
-      iframeEl.allowFullscreen = true;
-      iframeEl.title = 'BillJobs showreel';
-      modalInner.appendChild(iframeEl);
-    }
-    backdrop.classList.add('open');
-    document.body.style.overflow = 'hidden';
-    closeBtn.focus();
-  }
-
-  function closeModal() {
-    backdrop.classList.remove('open');
-    document.body.style.overflow = '';
-    if (iframeEl) { iframeEl.remove(); iframeEl = null; }
-  }
-
-  playBtn.addEventListener('click', openModal);
-  closeBtn.addEventListener('click', closeModal);
-  backdrop.addEventListener('click', e => { if (e.target === backdrop) closeModal(); });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape' && backdrop.classList.contains('open')) closeModal(); });
-  modalInner.addEventListener('click', e => e.stopPropagation());
 
 })();
 </script>
