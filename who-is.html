@@ -333,6 +333,32 @@ a { color: inherit; text-decoration: none; }
   transform: translateY(20px);
 }
 
+.manifesto-crew {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 0;
+  margin-top: -32px;
+  margin-bottom: 56px;
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+.manifesto-crew span {
+  font-size: clamp(9px, 0.85vw, 11px);
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+}
+
+.manifesto-crew span::after {
+  content: '·';
+  margin: 0 10px;
+  color: rgba(255,255,255,0.15);
+}
+
+.manifesto-crew span:last-child::after { content: ''; margin: 0; }
+
 .manifesto-bridge {
   font-size: clamp(14px, 1.4vw, 18px);
   font-weight: 300;
@@ -491,7 +517,17 @@ a { color: inherit; text-decoration: none; }
 <!-- ── MANIFESTO ────────────────────── -->
 <section class="manifesto" id="manifesto">
   <p class="manifesto-opening">Ci sono idee bellissime che non verranno mai realizzate. E poi ci sono quelle possibili.</p>
-  <p class="manifesto-bio">Sono stato runner, direttore di produzione, scenografo, regista. Ho realizzato effetti speciali anche per il cinema.</p>
+  <p class="manifesto-bio">Sono stato runner, direttore di produzione, scenografo, regista. Ho realizzato effetti speciali per il cinema. In questo percorso ho costruito una rete di collaboratori — fino a gestire troupe di sessanta persone.</p>
+  <div class="manifesto-crew">
+    <span>Direttori della fotografia</span>
+    <span>Scenografi</span>
+    <span>Stylist</span>
+    <span>Fonici</span>
+    <span>Elettricisti</span>
+    <span>Macchinisti</span>
+    <span>Attori</span>
+    <span>Modelli</span>
+  </div>
   <p class="manifesto-pellicola">&ldquo;Ho iniziato quando si girava in pellicola. Quando ogni scelta pesava e il tempo sul set aveva un valore reale. Quel metodo non è sparito. È quello che ancora oggi permette alle idee di diventare concrete.&rdquo;</p>
   <p class="manifesto-bridge">Perché tra immaginare qualcosa e farla esistere davvero c&rsquo;è un territorio che pochi conoscono. Io lavoro lì, dove la visione incontra la realtà.</p>
 </section>
@@ -607,11 +643,21 @@ a { color: inherit; text-decoration: none; }
     '.manifesto-bridge'
   ];
 
-  manifestoEls.forEach((sel, i) => {
+  manifestoEls.forEach((sel) => {
     gsap.to(sel, {
       opacity: 1, y: 0, duration: 0.85, ease: 'power2.out',
       scrollTrigger: { trigger: sel, start: 'top 84%', once: true }
     });
+  });
+
+  // Crew list — each tag staggers in after bio
+  gsap.to('.manifesto-crew', {
+    opacity: 1, y: 0, duration: 0.7, ease: 'power2.out',
+    scrollTrigger: { trigger: '.manifesto-crew', start: 'top 86%', once: true }
+  });
+  gsap.from('.manifesto-crew span', {
+    opacity: 0, y: 8, duration: 0.4, stagger: 0.06, ease: 'power2.out',
+    scrollTrigger: { trigger: '.manifesto-crew', start: 'top 86%', once: true }
   });
 
   // Final statement — reveal + glow
