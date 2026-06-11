@@ -346,46 +346,6 @@ a { color: inherit; text-decoration: none; }
   border-top: 1px solid rgba(255,255,255,0.08);
 }
 
-/* ─────────────────────────────────────────
-   CONTACT SECTION
-───────────────────────────────────────── */
-.contact-section {
-  border-top: 1px solid rgba(255,255,255,0.1);
-  padding: 80px 5vw 80px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  text-align: center;
-  opacity: 0;
-  transform: translateY(30px);
-}
-
-.contact-label {
-  font-size: clamp(9px, 0.9vw, 10px);
-  font-weight: 500;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: var(--grey);
-  margin-bottom: 4px;
-}
-
-.contact-link {
-  font-family: var(--font-ed);
-  font-size: clamp(22px, 3vw, 40px);
-  font-weight: 400;
-  color: var(--white);
-  transition: opacity 0.2s;
-}
-
-.contact-link:hover { opacity: 0.65; }
-
-.contact-divider {
-  width: 1px;
-  height: 32px;
-  background: rgba(255,255,255,0.15);
-  margin: 4px 0;
-}
 
 /* ─────────────────────────────────────────
    FOOTER STRIP
@@ -397,6 +357,20 @@ a { color: inherit; text-decoration: none; }
   align-items: center;
   padding: 0 5vw;
   height: 44px;
+}
+
+.footer-label {
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+}
+
+.footer-links {
+  display: flex;
+  gap: 28px;
+  align-items: center;
 }
 
 .footer-link {
@@ -430,9 +404,6 @@ a { color: inherit; text-decoration: none; }
     padding-top: 20px;
   }
 
-  .main-nav { justify-content: flex-start; }
-  .main-nav a { margin-left: 0; margin-right: 18px; font-size: 9px; letter-spacing: 0.14em; }
-
   .manifesto {
     grid-template-columns: 1fr;
     gap: 40px;
@@ -444,12 +415,8 @@ a { color: inherit; text-decoration: none; }
   .hero-label { bottom: 28px; }
   .mute-btn { bottom: 28px; }
 
-  .contact-section { padding: 60px 5vw; }
-  .site-footer { padding: 0 20px; }
-}
-
-@media (max-width: 480px) {
-  .main-nav a { margin-right: 14px; }
+  .site-footer { padding: 0 20px; flex-wrap: wrap; gap: 8px; height: auto; padding-top: 12px; padding-bottom: 12px; }
+  .footer-links { gap: 16px; }
 }
 </style>
 </head>
@@ -467,10 +434,6 @@ a { color: inherit; text-decoration: none; }
     <a href="index.html" class="logo-img-link">
       <img src="assets/img/logo_header.png" alt="BillJobs" class="logo-img">
     </a>
-    <nav class="main-nav">
-      <a href="index.html">Work</a>
-      <a href="mailto:contact@billjobs.it">Contact</a>
-    </nav>
   </div>
 </header>
 
@@ -519,21 +482,14 @@ a { color: inherit; text-decoration: none; }
   </div>
 </section>
 
-<!-- ── CONTACTS ─────────────────────── -->
-<section class="contact-section" id="contactSection">
-  <span class="contact-label">Get in touch</span>
-  <a href="https://wa.me/393334639596" target="_blank" rel="noopener" class="contact-link">WhatsApp</a>
-  <div class="contact-divider"></div>
-  <a href="mailto:contact@billjobs.it" class="contact-link">contact@billjobs.it</a>
-  <div class="contact-divider"></div>
-  <a href="https://www.instagram.com/billjobs_production" target="_blank" rel="noopener" class="contact-link">@billjobs_production</a>
-</section>
-
 <!-- ── FOOTER ───────────────────────── -->
 <footer class="site-footer">
-  <a href="https://wa.me/393334639596" target="_blank" rel="noopener" class="footer-link">WhatsApp</a>
-  <a href="mailto:contact@billjobs.it" class="footer-link">Email</a>
-  <a href="https://www.instagram.com/billjobs_production" target="_blank" rel="noopener" class="footer-link">Instagram</a>
+  <span class="footer-label">Get in touch</span>
+  <div class="footer-links">
+    <a href="https://wa.me/393334639596" target="_blank" rel="noopener" class="footer-link">WhatsApp</a>
+    <a href="mailto:contact@billjobs.it" class="footer-link">Email</a>
+    <a href="https://www.instagram.com/billjobs_production" target="_blank" rel="noopener" class="footer-link">Instagram</a>
+  </div>
 </footer>
 
 <!-- ── GSAP ─────────────────────────── -->
@@ -617,11 +573,6 @@ a { color: inherit; text-decoration: none; }
     scrollTrigger: { trigger: '#manifesto', start: 'top 82%', once: true }
   });
 
-  // Contact
-  gsap.to('#contactSection', {
-    opacity: 1, y: 0, duration: 0.8, ease: 'power2.out',
-    scrollTrigger: { trigger: '#contactSection', start: 'top 85%', once: true }
-  });
 
 })();
 </script>
