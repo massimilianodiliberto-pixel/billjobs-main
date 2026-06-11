@@ -404,6 +404,30 @@ a { color: inherit; text-decoration: none; }
   40%           { opacity: 1;   transform: scale(1);   }
 }
 
+/* Buffer dots — centered overlay during video loading */
+.buffer-dots {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 99;
+  display: flex;
+  gap: 9px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+.buffer-dots.visible { opacity: 1; }
+.buffer-dots span {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.55);
+  animation: dotPulse 1.3s ease-in-out infinite;
+}
+.buffer-dots span:nth-child(2) { animation-delay: 0.22s; }
+.buffer-dots span:nth-child(3) { animation-delay: 0.44s; }
+
 /* ─────────────────────────────────────────
    MOBILE
 ───────────────────────────────────────── */
@@ -445,8 +469,12 @@ a { color: inherit; text-decoration: none; }
 <!-- ── LOADER ────────────────────────── -->
 <div id="loader">
   <img src="assets/img/logo_billjobs.png" alt="BillJobs" class="loader-logo">
-  <div class="loader-dots"><span></span><span></span><span></span></div>
   <span class="loader-hint">tap to enter</span>
+</div>
+
+<!-- Buffer dots — shown while video is loading between slides -->
+<div class="buffer-dots" id="bufferDots">
+  <span></span><span></span><span></span>
 </div>
 
 <!-- ── SLIDESHOW ─────────────────────── -->
@@ -896,8 +924,9 @@ a { color: inherit; text-decoration: none; }
   const pagination = document.getElementById('pagination');
   const progressBar= document.getElementById('progressBar');
   const filterBtns = Array.from(document.querySelectorAll('.filter-btn'));
-  const loader     = document.getElementById('loader');
-  const isMob      = () => window.innerWidth <= 767;
+  const loader      = document.getElementById('loader');
+  const bufferDots  = document.getElementById('bufferDots');
+  const isMob       = () => window.innerWidth <= 767;
 
   let pool         = [];
   let currentIdx   = 0;
@@ -991,6 +1020,7 @@ a { color: inherit; text-decoration: none; }
 
     const tryPlay = () => {
       clearTimeout(skipTimer);
+      bufferDots.classList.remove('visible');
       const ab = pagination.querySelector('.page-btn.active');
       if (ab) ab.classList.remove('loading');
       vid.play().catch(() => {});
@@ -1001,10 +1031,12 @@ a { color: inherit; text-decoration: none; }
     } else {
       vid.preload = 'auto';
       vid.load();
+      bufferDots.classList.add('visible');
       const ab = pagination.querySelector('.page-btn.active');
       if (ab) ab.classList.add('loading');
       vid.addEventListener('canplay', tryPlay, { once: true });
       skipTimer = setTimeout(() => {
+        bufferDots.classList.remove('visible');
         const ab2 = pagination.querySelector('.page-btn.active');
         if (ab2) ab2.classList.remove('loading');
         goTo(currentIdx + 1);
