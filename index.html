@@ -707,8 +707,8 @@ a { color: inherit; text-decoration: none; }
     </video>
   </div>
 
-  <!-- 13 — Giulia Petronio · Venezia · Talent -->
-  <div class="slide" data-client="" data-title="Giulia Petronio" data-category="talent">
+  <!-- 13 — Giulia Petronio · Talent -->
+  <div class="slide" data-client="Giulia Petronio" data-title="Fashion Film" data-category="talent">
     <div class="slide-bg"></div>
     <video class="desktop" muted playsinline preload="none">
       <source src="assets/video/13_desktop.mp4" type="video/mp4">
@@ -718,8 +718,8 @@ a { color: inherit; text-decoration: none; }
     </video>
   </div>
 
-  <!-- 14 — Cotril · Margherita Buoncristiani · Talent -->
-  <div class="slide" data-client="" data-title="Margherita Buoncristiani" data-category="talent">
+  <!-- 14 — Margherita Buoncristiani · Talent -->
+  <div class="slide" data-client="Margherita Buoncristiani" data-title="Fashion Film" data-category="talent">
     <div class="slide-bg"></div>
     <video class="desktop" muted playsinline preload="none">
       <source src="assets/video/14_desktop.mp4" type="video/mp4">
@@ -729,8 +729,8 @@ a { color: inherit; text-decoration: none; }
     </video>
   </div>
 
-  <!-- 15 — Andrea Perca · Milano Vol. 1 · Talent -->
-  <div class="slide" data-client="" data-title="Andrea Perreca Vol.1" data-category="talent">
+  <!-- 15 — Andrea Perreca Vol.1 · Talent -->
+  <div class="slide" data-client="Andrea Perreca Vol.1" data-title="Fashion Film" data-category="talent">
     <div class="slide-bg"></div>
     <video class="desktop" muted playsinline preload="none">
       <source src="assets/video/15_desktop.mp4" type="video/mp4">
@@ -740,8 +740,8 @@ a { color: inherit; text-decoration: none; }
     </video>
   </div>
 
-  <!-- 16 — Andrea Perca · Milano Vol. 2 · Talent -->
-  <div class="slide" data-client="" data-title="Andrea Perreca Vol.2" data-category="talent">
+  <!-- 16 — Andrea Perreca Vol.2 · Talent -->
+  <div class="slide" data-client="Andrea Perreca Vol.2" data-title="Fashion Film" data-category="talent">
     <div class="slide-bg"></div>
     <video class="desktop" muted playsinline preload="none">
       <source src="assets/video/16_desktop.mp4" type="video/mp4">
@@ -751,8 +751,8 @@ a { color: inherit; text-decoration: none; }
     </video>
   </div>
 
-  <!-- 17 — placeholder -->
-  <div class="slide" data-client="" data-title="Elisa Barranau" data-category="talent">
+  <!-- 17 — Elisa Barranau · Talent -->
+  <div class="slide" data-client="Elisa Barranau" data-title="Fashion Film" data-category="talent">
     <div class="slide-bg"></div>
     <video class="desktop" muted playsinline preload="none">
       <source src="assets/video/17_desktop.mp4" type="video/mp4">
@@ -762,8 +762,8 @@ a { color: inherit; text-decoration: none; }
     </video>
   </div>
 
-  <!-- 18 — placeholder -->
-  <div class="slide" data-client="" data-title="Isabella Bonifazio" data-category="talent">
+  <!-- 18 — Isabella Bonifazio · Talent -->
+  <div class="slide" data-client="Isabella Bonifazio" data-title="Fashion Film" data-category="talent">
     <div class="slide-bg"></div>
     <video class="desktop" muted playsinline preload="none">
       <source src="assets/video/18_desktop.mp4" type="video/mp4">
@@ -773,8 +773,8 @@ a { color: inherit; text-decoration: none; }
     </video>
   </div>
 
-  <!-- 19 — placeholder -->
-  <div class="slide" data-client="" data-title="Chiara Paladin" data-category="talent">
+  <!-- 19 — Chiara Paladin · Talent -->
+  <div class="slide" data-client="Chiara Paladin" data-title="Fashion Film" data-category="talent">
     <div class="slide-bg"></div>
     <video class="desktop" muted playsinline preload="none">
       <source src="assets/video/19_desktop.mp4" type="video/mp4">
@@ -784,8 +784,8 @@ a { color: inherit; text-decoration: none; }
     </video>
   </div>
 
-  <!-- 20 — placeholder -->
-  <div class="slide" data-client="" data-title="Roberta Sardella" data-category="talent">
+  <!-- 20 — Roberta Sardella · Talent -->
+  <div class="slide" data-client="Roberta Sardella" data-title="Fashion Film" data-category="talent">
     <div class="slide-bg"></div>
     <video class="desktop" muted playsinline preload="none">
       <source src="assets/video/20_desktop.mp4" type="video/mp4">
@@ -1071,7 +1071,10 @@ a { color: inherit; text-decoration: none; }
 
   function updatePaginationActive() {
     Array.from(pagination.querySelectorAll('.page-btn'))
-      .forEach((btn, i) => btn.classList.toggle('active', i === currentIdx));
+      .forEach((btn, i) => {
+        btn.classList.toggle('active', i === currentIdx);
+        btn.classList.remove('loading');
+      });
     scrollPaginationToActive();
   }
 
