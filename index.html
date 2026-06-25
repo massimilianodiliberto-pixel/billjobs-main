@@ -404,6 +404,7 @@ a { color: inherit; text-decoration: none; }
 }
 
 .loader-hint {
+  display: none; /* shown via JS only on iOS — Android/desktop auto-start */
   font-family: var(--font-ui);
   font-size: 9px;
   font-weight: 500;
@@ -1240,17 +1241,20 @@ a { color: inherit; text-decoration: none; }
       startAll();
     }, { once: true });
 
-    // On touch devices (mobile), only the tap triggers start.
-    // iOS ignores preload="auto" and canplay rarely fires without a gesture,
-    // so a timeout fallback would just show a blank screen — skip it.
-    const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-    if (isTouch) return;
+    // iOS (including modern iPads on iPadOS 13+) requires a user gesture to
+    // start video — show "tap to enter" and wait. Android Chrome allows muted
+    // autoplay so it falls through to the same auto-start path as desktop.
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+                  (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    if (isIOS) {
+      document.querySelector('.loader-hint').style.display = 'block';
+      return;
+    }
 
-    // Desktop only: auto-start when enough data is ready (readyState >= 3)
+    // Desktop + Android: auto-start when enough data is ready
     if (firstVid.readyState >= 3) { startAll(); return; }
     firstVid.addEventListener('canplay', startAll, { once: true });
-    // Desktop failsafe — if canplay never fires (e.g. video 404)
-    setTimeout(startAll, 8000);
+    setTimeout(startAll, 8000); // failsafe if canplay never fires
   }
 
   init();
