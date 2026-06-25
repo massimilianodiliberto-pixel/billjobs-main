@@ -36,7 +36,8 @@
 <link rel="icon" type="image/png" href="assets/img/favicon_black.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap"></noscript>
 
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -51,8 +52,11 @@
 }
 
 html {
+  background: #000;
   background: var(--black);
+  color: #fff;
   color: var(--white);
+  font-family: -apple-system, sans-serif;
   font-family: var(--font-ui);
   -webkit-font-smoothing: antialiased;
   scroll-behavior: smooth;
@@ -68,7 +72,7 @@ a { color: inherit; text-decoration: none; }
 ───────────────────────────────────────── */
 .enter-screen {
   position: fixed;
-  inset: 0;
+  top: 0; right: 0; bottom: 0; left: 0;
   z-index: 1000;
   background: #000;
   display: flex;
@@ -183,7 +187,7 @@ a { color: inherit; text-decoration: none; }
 
 .hero-video {
   position: absolute;
-  inset: 0;
+  top: 0; right: 0; bottom: 0; left: 0;
   z-index: 0;
 }
 
@@ -201,7 +205,7 @@ a { color: inherit; text-decoration: none; }
 
 .hero-fallback {
   position: absolute;
-  inset: 0;
+  top: 0; right: 0; bottom: 0; left: 0;
   background-image: url('assets/img/who_is_billjobs.jpg');
   background-size: cover;
   background-position: center;
@@ -213,7 +217,7 @@ a { color: inherit; text-decoration: none; }
 
 .hero-overlay {
   position: absolute;
-  inset: 0;
+  top: 0; right: 0; bottom: 0; left: 0;
   background: linear-gradient(
     to bottom,
     rgba(0,0,0,0.5) 0%,

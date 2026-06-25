@@ -37,7 +37,8 @@
 <link rel="icon" type="image/png" href="assets/img/favicon_black.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap"></noscript>
 
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -52,11 +53,14 @@
 
 html, body {
   width: 100%; height: 100%;
+  background: #000;
   background: var(--black);
+  color: #fff;
   color: var(--white);
+  font-family: -apple-system, sans-serif;
   font-family: var(--font-ui);
   -webkit-font-smoothing: antialiased;
-  overflow: hidden; /* lock scroll on homepage */
+  overflow: hidden;
 }
 
 a { color: inherit; text-decoration: none; }
@@ -66,14 +70,14 @@ a { color: inherit; text-decoration: none; }
 ───────────────────────────────────────── */
 .slideshow {
   position: fixed;
-  inset: 0;
+  top: 0; right: 0; bottom: 0; left: 0;
   z-index: 0;
   background: #000;
 }
 
 .slide {
   position: absolute;
-  inset: 0;
+  top: 0; right: 0; bottom: 0; left: 0;
   opacity: 0;
   transition: opacity 1.2s ease;
   pointer-events: none;
@@ -89,7 +93,7 @@ a { color: inherit; text-decoration: none; }
 .slide::after {
   content: '';
   position: absolute;
-  inset: 0;
+  top: 0; right: 0; bottom: 0; left: 0;
   background:
     linear-gradient(to bottom,
       rgba(0,0,0,0.55) 0%,
@@ -102,7 +106,7 @@ a { color: inherit; text-decoration: none; }
 /* Video fills the slide */
 .slide video {
   position: absolute;
-  inset: 0;
+  top: 0; right: 0; bottom: 0; left: 0;
   width: 100%; height: 100%;
   object-fit: cover;
   background: #000;
@@ -115,7 +119,7 @@ a { color: inherit; text-decoration: none; }
 /* Placeholder background when no video yet */
 .slide-bg {
   position: absolute;
-  inset: 0;
+  top: 0; right: 0; bottom: 0; left: 0;
   background: #0a0a0a;
 }
 
@@ -375,7 +379,7 @@ a { color: inherit; text-decoration: none; }
 ───────────────────────────────────────── */
 #loader {
   position: fixed;
-  inset: 0;
+  top: 0; right: 0; bottom: 0; left: 0;
   z-index: 500;
   background: #000;
   display: flex;
@@ -1140,7 +1144,7 @@ a { color: inherit; text-decoration: none; }
       tryPlay();
     } else {
       vid.preload = 'auto';
-      vid.load();
+      if (vid.networkState !== 2) vid.load(); // 2=NETWORK_LOADING: don't abort in-progress load
       bufferDots.classList.add('visible');
       const ab = pagination.querySelector('.page-btn.active');
       if (ab) ab.classList.add('loading');
