@@ -1137,14 +1137,14 @@ a { color: inherit; text-decoration: none; }
       bufferDots.classList.remove('visible');
       const ab = pagination.querySelector('.page-btn.active');
       if (ab) ab.classList.remove('loading');
-      vid.play().catch(() => {});
+      if (vid.paused) vid.play().catch(() => {});
     };
 
     if (vid.readyState >= 2) {
       tryPlay();
     } else {
       vid.preload = 'auto';
-      if (vid.networkState !== 2) vid.load(); // 2=NETWORK_LOADING: don't abort in-progress load
+      if (vid.networkState !== 2 && vid.paused) vid.load(); // skip if already loading or play() already called
       bufferDots.classList.add('visible');
       const ab = pagination.querySelector('.page-btn.active');
       if (ab) ab.classList.add('loading');
@@ -1212,6 +1212,8 @@ a { color: inherit; text-decoration: none; }
   function init() {
     allSlides.forEach(s => {
       if (s.dataset.category === '') s.style.display = 'none';
+      // webkit-playsinline needed for old iOS (pre-10) inline video playback
+      s.querySelectorAll('video').forEach(v => v.setAttribute('webkit-playsinline', ''));
     });
     pool = allSlides.filter(s => s.style.display !== 'none');
     rebuildPagination();
@@ -1230,23 +1232,25 @@ a { color: inherit; text-decoration: none; }
       goTo(0);
     };
 
-    // Tap on loader — play() subito per catturare la gesture iOS
+    // Tap: play() called synchronously inside gesture so iOS captures it,
+    // then startAll() — goTo() checks vid.paused so it won't call .load()
+    // and interrupt the play() we just started
     loader.addEventListener('click', () => {
-      if (firstVid) firstVid.play().catch(() => {});
+      firstVid.play().catch(() => {});
       startAll();
     }, { once: true });
 
-    if (firstVid.readyState >= 2) {
-      startAll();
-      return;
-    }
+    // On touch devices (mobile), only the tap triggers start.
+    // iOS ignores preload="auto" and canplay rarely fires without a gesture,
+    // so a timeout fallback would just show a blank screen — skip it.
+    const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    if (isTouch) return;
 
-    // canplay = abbastanza dati per riprodurre
+    // Desktop only: auto-start when enough data is ready (readyState >= 3)
+    if (firstVid.readyState >= 3) { startAll(); return; }
     firstVid.addEventListener('canplay', startAll, { once: true });
-    // loadeddata = primo frame disponibile (più rapido)
-    firstVid.addEventListener('loadeddata', startAll, { once: true });
-    // Fallback: parte comunque dopo 4 secondi
-    setTimeout(startAll, 4000);
+    // Desktop failsafe — if canplay never fires (e.g. video 404)
+    setTimeout(startAll, 8000);
   }
 
   init();
