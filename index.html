@@ -389,6 +389,8 @@ a { color: inherit; text-decoration: none; }
   gap: 32px;
   transition: opacity 0.9s ease;
   cursor: pointer;
+  touch-action: manipulation; /* elimina il delay 300ms su iOS */
+  -webkit-tap-highlight-color: transparent;
 }
 
 #loader.hidden {
@@ -1103,13 +1105,18 @@ a { color: inherit; text-decoration: none; }
     clearInterval(progressInterval);
     clearTimeout(skipTimer);
 
-    if (pool[currentIdx]) {
+    const nextIdx = ((idx % pool.length) + pool.length) % pool.length;
+
+    // Solo se si cambia slide: pause del video uscente e rimozione classe active.
+    // Se nextIdx === currentIdx (es. al primo goTo(0) dopo tap su iOS) si salta
+    // il pause per non interrompere il play() già avviato nel gestore gesture.
+    if (pool[currentIdx] && nextIdx !== currentIdx) {
       const oldVid = getVid(pool[currentIdx]);
       if (oldVid) oldVid.pause();
       pool[currentIdx].classList.remove('active');
     }
 
-    currentIdx = ((idx % pool.length) + pool.length) % pool.length;
+    currentIdx = nextIdx;
     const slide = pool[currentIdx];
     slide.classList.add('active');
     updatePaginationActive();
@@ -1233,13 +1240,19 @@ a { color: inherit; text-decoration: none; }
       goTo(0);
     };
 
-    // Tap: play() called synchronously inside gesture so iOS captures it,
-    // then startAll() — goTo() checks vid.paused so it won't call .load()
-    // and interrupt the play() we just started
-    loader.addEventListener('click', () => {
+    // Tap: play() deve essere chiamato sincrono nella gesture per iOS.
+    // touchend è più affidabile di click su iOS (click può non sparare se c'è
+    // anche solo un micro-spostamento). preventDefault() su touchend blocca
+    // il click fantasma successivo; started guard previene doppia esecuzione.
+    const handleTap = () => {
       firstVid.play().catch(() => {});
       startAll();
-    }, { once: true });
+    };
+    loader.addEventListener('touchend', (e) => {
+      e.preventDefault();
+      handleTap();
+    }, { once: true, passive: false });
+    loader.addEventListener('click', handleTap, { once: true });
 
     // iOS (including modern iPads on iPadOS 13+) requires a user gesture to
     // start video — show "tap to enter" and wait. Android Chrome allows muted
