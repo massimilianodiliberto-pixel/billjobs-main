@@ -1033,7 +1033,8 @@ a { color: inherit; text-decoration: none; }
   let currentIdx   = 0;
 
   function getVid(slide) {
-    return slide.querySelector(isMob() ? 'video.mobile' : 'video.desktop');
+    // Dopo init() rimane solo la classe corretta per la piattaforma
+    return slide.querySelector('video');
   }
 
   // ── Progress bar — segue la durata reale del video ────
@@ -1218,9 +1219,19 @@ a { color: inherit; text-decoration: none; }
 
   // ── Init ─────────────────────────────────────────────
   function init() {
+    const mobile = isMob();
+
     allSlides.forEach(s => {
       if (s.dataset.category === '') s.style.display = 'none';
-      // webkit-playsinline needed for old iOS (pre-10) inline video playback
+
+      // Rimuove dal DOM i video della piattaforma opposta: su mobile
+      // elimina i .desktop, su desktop elimina i .mobile. Dimezza il numero
+      // di elementi <video> attivi (da 74 a 37) evitando crash di memoria
+      // su iOS con WebContent process limits stretti.
+      s.querySelectorAll(mobile ? 'video.desktop' : 'video.mobile')
+       .forEach(v => v.remove());
+
+      // webkit-playsinline per vecchi iOS (pre-10)
       s.querySelectorAll('video').forEach(v => v.setAttribute('webkit-playsinline', ''));
     });
     pool = allSlides.filter(s => s.style.display !== 'none');
