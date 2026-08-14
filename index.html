@@ -422,51 +422,15 @@ a { color: inherit; text-decoration: none; }
   animation: loaderPulse 1.2s ease-in-out infinite alternate;
 }
 
-/* Stato del loader: barra di avanzamento + etichetta.
-   Prima era una scritta da 9px al 30% di opacita': illeggibile, e non
-   diceva ne' che stava caricando ne' perche' toccare. */
-.loader-status {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 14px;
-}
-
-.loader-track {
-  width: 140px;
-  height: 2px;
-  background: rgba(255,255,255,0.14);
-  overflow: hidden;
-}
-
-.loader-fill {
-  height: 100%;
-  width: 0%;
-  background: rgba(255,255,255,0.85);
-  transition: width 0.35s ease;
-}
-
-.loader-label {
+.loader-hint {
+  display: none; /* shown via JS only on iOS — Android/desktop auto-start */
   font-family: var(--font-ui);
   font-size: 9px;
   font-weight: 500;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.7);
-  text-align: center;
-}
-
-/* Quando il video e' pronto: stessa dimensione discreta di sempre, ma
-   bianca piena invece che grigia, con una pulsazione appena accennata. */
-.loader-status.ready .loader-track { display: none; }
-.loader-status.ready .loader-label {
-  color: #fff;
-  animation: hintPulse 1.6s ease-in-out infinite alternate;
-}
-
-@keyframes hintPulse {
-  from { opacity: 0.72; }
-  to   { opacity: 1; }
+  color: rgba(255,255,255,0.3);
+  animation: loaderPulse 1.2s ease-in-out infinite alternate;
 }
 
 @keyframes loaderPulse {
@@ -501,62 +465,53 @@ a { color: inherit; text-decoration: none; }
   50%      { transform: translateX(-6px); opacity: 0.75; }
 }
 
-/* Indicatore di caricamento fra una slide e l'altra.
-   Tre pallini che pulsano non dicono a che punto e' il download: qui c'e'
-   una barra che avanza davvero, cosi' si distingue "sta caricando" da
-   "si e' piantato". */
-.buffer-ind {
+/* Buffer dots — centered overlay during video loading */
+.buffer-dots {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 99;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
+  gap: 9px;
   opacity: 0;
   transition: opacity 0.3s ease;
   pointer-events: none;
 }
-.buffer-ind.visible { opacity: 1; }
-
-.buffer-track {
-  width: 120px;
-  height: 2px;
-  background: rgba(255,255,255,0.2);
-  box-shadow: 0 0 8px rgba(0,0,0,0.9);
-  overflow: hidden;
-  position: relative;
+.buffer-dots.visible { opacity: 1; }
+.buffer-dots span {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.85);
+  /* leggibili anche sopra un frame chiaro e affollato */
+  box-shadow: 0 0 6px rgba(0,0,0,0.9);
+  animation: dotPulse 1.3s ease-in-out infinite;
 }
+.buffer-dots span:nth-child(2) { animation-delay: 0.22s; }
+.buffer-dots span:nth-child(3) { animation-delay: 0.44s; }
 
-.buffer-fill {
-  height: 100%;
-  width: 0%;
-  background: rgba(255,255,255,0.95);
-  transition: width 0.3s ease;
-}
-
-/* Finche' la durata e' ignota non si sa la percentuale: si scorre */
-.buffer-ind.unknown .buffer-fill {
-  width: 35%;
-  animation: bufferSlide 1.4s ease-in-out infinite;
-}
-@keyframes bufferSlide {
-  0%   { transform: translateX(-100%); }
-  100% { transform: translateX(340%); }
-}
-
-.buffer-label {
+/* Avviso connessione lenta — sotto i buffer dots */
+.slow-notice {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 26px);
+  z-index: 99;
   font-family: var(--font-ui);
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 500;
-  letter-spacing: 0.24em;
+  letter-spacing: 0.25em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.8);
+  color: rgba(255,255,255,0.75);
+  /* leggibile anche sopra un frame chiaro e affollato */
   text-shadow: 0 0 8px rgba(0,0,0,0.95), 0 1px 3px rgba(0,0,0,0.9);
   white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
 }
+.slow-notice.visible { opacity: 1; }
 
 /* ─────────────────────────────────────────
    MOBILE
@@ -631,17 +586,14 @@ a { color: inherit; text-decoration: none; }
 <!-- ── LOADER ────────────────────────── -->
 <div id="loader">
   <img src="assets/img/logo_billjobs.png" alt="BillJobs" class="loader-logo">
-  <div class="loader-status" id="loaderStatus" style="display:none">
-    <div class="loader-track"><div class="loader-fill" id="loaderFill"></div></div>
-    <span class="loader-label" id="loaderLabel">loading</span>
-  </div>
+  <span class="loader-hint">tap to enter</span>
 </div>
 
-<!-- Indicatore di caricamento fra le slide -->
-<div class="buffer-ind" id="bufferInd">
-  <div class="buffer-track"><div class="buffer-fill" id="bufferFill"></div></div>
-  <span class="buffer-label" id="bufferLabel">loading</span>
+<!-- Buffer dots — shown while video is loading between slides -->
+<div class="buffer-dots" id="bufferDots">
+  <span></span><span></span><span></span>
 </div>
+<div class="slow-notice" id="slowNotice">slow connection</div>
 
 <!-- Swipe hint — mobile only, fades after first interaction -->
 <div class="swipe-hint" id="swipeHint">
@@ -1119,48 +1071,10 @@ a { color: inherit; text-decoration: none; }
   const progressBar= document.getElementById('progressBar');
   const filterBtns = Array.from(document.querySelectorAll('.filter-btn'));
   const loader      = document.getElementById('loader');
-  const bufferInd   = document.getElementById('bufferInd');
-  const bufferFill  = document.getElementById('bufferFill');
-  const bufferLabel = document.getElementById('bufferLabel');
+  const bufferDots  = document.getElementById('bufferDots');
+  const slowNotice  = document.getElementById('slowNotice');
   const swipeHint   = document.getElementById('swipeHint');
   const isMob       = () => window.innerWidth <= 767;
-
-  // Diventa true quando lo slideshow è davvero partito: prima di allora
-  // swipe, tap e frecce non devono muovere nulla.
-  let showStarted = false;
-
-  // ── Quanto del video è già scaricato ─────────────────
-  function bufferedPct(vid) {
-    if (!vid || !vid.duration || isNaN(vid.duration) || !vid.buffered.length) return null;
-    let end = 0;
-    for (let i = 0; i < vid.buffered.length; i++) end = Math.max(end, vid.buffered.end(i));
-    return Math.min(100, Math.round(end / vid.duration * 100));
-  }
-
-  // ── Indicatore di caricamento con avanzamento reale ──
-  let bufTimer = null;
-  function showBuffer(vid) {
-    bufferInd.classList.add('visible');
-    clearInterval(bufTimer);
-    const tick = () => {
-      const p = bufferedPct(vid);
-      if (p === null) {
-        // durata ancora ignota: barra indeterminata invece di uno 0% fermo
-        bufferInd.classList.add('unknown');
-        bufferLabel.textContent = 'loading';
-      } else {
-        bufferInd.classList.remove('unknown');
-        bufferFill.style.width = p + '%';
-        bufferLabel.textContent = 'loading ' + p + '%';
-      }
-    };
-    tick();
-    bufTimer = setInterval(tick, 300);
-  }
-  function hideBuffer() {
-    clearInterval(bufTimer);
-    bufferInd.classList.remove('visible');
-  }
 
   let pool         = [];
   let currentIdx   = 0;
@@ -1203,23 +1117,21 @@ a { color: inherit; text-decoration: none; }
   }
 
   let skipTimer = null;
+  let slowTimer = null;
   let infoTimer = null;
-  let indTimer  = null;
 
   // Token di navigazione: ogni goTo() lo incrementa. I callback asincroni
   // (canplay, error, timer) confrontano il proprio token con quello corrente
   // e si annullano se nel frattempo l'utente è passato a un'altra slide.
   let navToken = 0;
 
-  // Tutti i listener agganciati al video corrente, per poterli staccare in
-  // blocco: senza, due goTo() ravvicinate ne lasciano due sullo stesso video
+  // Riferimenti all'handler 'ended' attivo, per poterlo rimuovere: senza
+  // questo due goTo() ravvicinate lasciano due listener sullo stesso video
   // e alla fine della riproduzione si saltano due slide invece di una.
-  let mediaVid = null, mediaOn = [];
-  function detachMedia() {
-    if (mediaVid) mediaOn.forEach(h => mediaVid.removeEventListener(h[0], h[1]));
-    mediaVid = null;
-    mediaOn = [];
-  }
+  let endedVid = null, endedHandler = null;
+
+  function showSlow() { slowNotice.classList.add('visible'); }
+  function hideSlow() { slowNotice.classList.remove('visible'); }
 
   // ── Pagination — scrollable strip ────────────────────
   function rebuildPagination() {
@@ -1253,15 +1165,14 @@ a { color: inherit; text-decoration: none; }
   // ── Swipe hint — solo le prime 3 slide della sessione ─
   // Mostrarle a ogni cambio slide diventa rumore per chi ha già capito
   // come si naviga: il contatore in sessionStorage le limita all'onboarding.
-  // Il contatore vive solo per questa apertura della pagina: con
-  // sessionStorage le frecce sparivano per sempre dopo le prime tre volte
-  // e chi tornava sul sito non le vedeva più.
   let hintTimer = null;
   let hintShown = 0;
+  try { hintShown = parseInt(sessionStorage.getItem('bjHint') || '0', 10) || 0; } catch (e) {}
 
   function showSwipeHint() {
     if (!isMob() || hintShown >= 3) return;
     hintShown++;
+    try { sessionStorage.setItem('bjHint', String(hintShown)); } catch (e) {}
     clearTimeout(hintTimer);
     swipeHint.classList.add('visible');
     hintTimer = setTimeout(() => swipeHint.classList.remove('visible'), 2200);
@@ -1271,15 +1182,20 @@ a { color: inherit; text-decoration: none; }
   function goTo(idx) {
     clearInterval(progressInterval);
     clearTimeout(skipTimer);
+    clearTimeout(slowTimer);
     clearTimeout(infoTimer);
-    clearTimeout(indTimer);
+    hideSlow();
 
     const token = ++navToken;
     const nextIdx = ((idx % pool.length) + pool.length) % pool.length;
 
-    // Stacca i listener della navigazione precedente prima di registrarne
-    // altri, altrimenti si accumulano e si salta una slide di troppo.
-    detachMedia();
+    // Stacca l'handler 'ended' della navigazione precedente prima di
+    // registrarne uno nuovo, altrimenti si accumulano e si salta una slide.
+    if (endedVid && endedHandler) {
+      endedVid.removeEventListener('ended', endedHandler);
+      endedVid = null;
+      endedHandler = null;
+    }
 
     // Solo se si cambia slide: pause del video uscente e rimozione classe active.
     // Se nextIdx === currentIdx (es. al primo goTo(0) dopo tap su iOS) si salta
@@ -1310,44 +1226,22 @@ a { color: inherit; text-decoration: none; }
     vid.currentTime = 0;
     startProgress(vid);
 
-    mediaVid = vid;
-    const on = (ev, fn) => { vid.addEventListener(ev, fn); mediaOn.push([ev, fn]); };
-
-    on('ended', () => { if (token === navToken) goTo(currentIdx + 1); });
-
-    // L'indicatore compare solo se la partenza tarda più di 350ms, così sulle
-    // transizioni rapide non lampeggia, e sparisce solo quando i fotogrammi
-    // scorrono davvero.
-    indTimer = setTimeout(() => { if (token === navToken) showBuffer(vid); }, 350);
-    const inMoto = () => {
-      if (token !== navToken) return;
-      clearTimeout(indTimer);
-      hideBuffer();
-    };
-    on('playing', inMoto);
-
-    // Buffer esaurito a metà riproduzione: senza questi l'indicatore non
-    // ricompare e il sito sembra piantato mentre in realtà sta scaricando.
-    on('waiting', () => { if (token === navToken) showBuffer(vid); });
-    on('stalled', () => { if (token === navToken) showBuffer(vid); });
+    endedHandler = () => { if (token === navToken) goTo(currentIdx + 1); };
+    endedVid = vid;
+    vid.addEventListener('ended', endedHandler);
 
     const tryPlay = () => {
       if (token !== navToken) return;
       clearTimeout(skipTimer);
+      clearTimeout(slowTimer);
+      hideSlow();
+      bufferDots.classList.remove('visible');
       const ab = pagination.querySelector('.page-btn.active');
       if (ab) ab.classList.remove('loading');
-      if (!vid.paused) { inMoto(); return; }
-      // La promise di play() si risolve quando la riproduzione inizia davvero.
-      // Nasconderlo su 'canplay' lo faceva sparire mentre il video era ancora
-      // fermo: si vedeva "caricamento finito" e poi cinque secondi di nulla.
-      const pr = vid.play();
-      if (pr && pr.then) pr.then(inMoto).catch(() => {});
+      if (vid.paused) vid.play().catch(() => {});
     };
 
-    // Serve readyState 3 (HAVE_FUTURE_DATA): con 2 il video ha solo il
-    // fotogramma corrente, parte e si inchioda un istante dopo — ed è
-    // esattamente il caso in cui l'indicatore spariva troppo presto.
-    if (vid.readyState >= 3) {
+    if (vid.readyState >= 2) {
       tryPlay();
     } else {
       vid.preload = 'auto';
@@ -1355,18 +1249,26 @@ a { color: inherit; text-decoration: none; }
       // richiamarlo su un video già avviato annulla il play() partito nel gesto
       // dell'utente, e su iOS la prima slide non parte più.
       if (vid.readyState === 0 && vid.networkState !== 2) vid.load();
+      bufferDots.classList.add('visible');
       const ab = pagination.querySelector('.page-btn.active');
       if (ab) ab.classList.add('loading');
-      on('canplay', tryPlay);
+      vid.addEventListener('canplay', tryPlay, { once: true });
 
       // File mancante o corrotto: inutile far aspettare, si passa oltre subito.
-      on('error', () => { if (token === navToken) goTo(currentIdx + 1); });
+      vid.addEventListener('error', () => {
+        if (token === navToken) goTo(currentIdx + 1);
+      }, { once: true });
+
+      // 6s — il video sta ancora arrivando: lo si dice invece di lasciare
+      // l'utente davanti a tre puntini senza spiegazione.
+      slowTimer = setTimeout(() => { if (token === navToken) showSlow(); }, 6000);
 
       // 15s — con la rete lenta saltare subito peggiora le cose (il video
       // successivo riparte da zero), quindi si attende molto di più di prima.
       skipTimer = setTimeout(() => {
         if (token !== navToken) return;
-        hideBuffer();
+        bufferDots.classList.remove('visible');
+        hideSlow();
         const ab2 = pagination.querySelector('.page-btn.active');
         if (ab2) ab2.classList.remove('loading');
         goTo(currentIdx + 1);
@@ -1399,7 +1301,6 @@ a { color: inherit; text-decoration: none; }
 
   // ── Tastiera ──────────────────────────────────────────
   document.addEventListener('keydown', e => {
-    if (!showStarted) return;
     if (e.key === 'ArrowRight') goTo(currentIdx + 1);
     if (e.key === 'ArrowLeft')  goTo(currentIdx - 1);
   });
@@ -1411,9 +1312,6 @@ a { color: inherit; text-decoration: none; }
     ty = e.touches[0].clientY;
   }, { passive: true });
   document.addEventListener('touchend', e => {
-    // Finché il loader è in campo, il dito serve solo a entrare: senza questa
-    // guardia lo stesso tocco entrava E faceva avanzare, partendo dalla seconda.
-    if (!showStarted) return;
     const dx = e.changedTouches[0].clientX - tx;
     const dy = e.changedTouches[0].clientY - ty;
     if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
@@ -1459,12 +1357,9 @@ a { color: inherit; text-decoration: none; }
     firstVid.load();
 
     let started = false;
-    let loaderTick = null;
     const startAll = () => {
       if (started) return;
       started = true;
-      showStarted = true;
-      clearInterval(loaderTick);
       loader.classList.add('hidden');
       document.getElementById('siteHeader').classList.add('visible');
       document.getElementById('siteFooter').classList.add('visible');
@@ -1481,15 +1376,10 @@ a { color: inherit; text-decoration: none; }
       startAll();
     };
     loader.addEventListener('touchend', (e) => {
-      // stopPropagation è essenziale: preventDefault blocca il click fantasma
-      // ma NON la risalita dell'evento. Senza, lo stesso tocco arrivava anche
-      // al gestore su document che avanza le slide, e si entrava già alla
-      // seconda invece che alla prima.
       e.preventDefault();
-      e.stopPropagation();
       handleTap();
     }, { once: true, passive: false });
-    loader.addEventListener('click', (e) => { e.stopPropagation(); handleTap(); }, { once: true });
+    loader.addEventListener('click', handleTap, { once: true });
 
     // iOS (including modern iPads on iPadOS 13+) requires a user gesture to
     // start video — show "tap to enter" and wait. Android Chrome allows muted
@@ -1497,29 +1387,7 @@ a { color: inherit; text-decoration: none; }
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
                   (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
     if (isIOS) {
-      // Mostra l'avanzamento reale del primo video invece di una scritta fissa
-      // illeggibile: si capisce che sta caricando, e quando è pronto l'invito
-      // a toccare diventa esplicito.
-      const st = document.getElementById('loaderStatus');
-      const fill = document.getElementById('loaderFill');
-      const label = document.getElementById('loaderLabel');
-      st.style.display = 'flex';
-
-      const aggiorna = () => {
-        if (firstVid.readyState >= 3) {
-          clearInterval(loaderTick);
-          st.classList.add('ready');
-          label.textContent = 'tap to enter';
-          return;
-        }
-        const p = bufferedPct(firstVid);
-        if (p !== null) {
-          fill.style.width = p + '%';
-          label.textContent = 'loading ' + p + '%';
-        }
-      };
-      aggiorna();
-      loaderTick = setInterval(aggiorna, 300);
+      document.querySelector('.loader-hint').style.display = 'block';
       return;
     }
 
