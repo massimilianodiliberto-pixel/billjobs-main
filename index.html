@@ -473,12 +473,54 @@ a { color: inherit; text-decoration: none; }
   transform: translate(-50%, -50%);
   z-index: 99;
   display: flex;
-  gap: 9px;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
   opacity: 0;
   transition: opacity 0.3s ease;
   pointer-events: none;
 }
 .buffer-dots.visible { opacity: 1; }
+
+.buffer-row { display: flex; gap: 9px; }
+
+/* Barra con l'avanzamento reale del download, sotto i pallini */
+.buffer-track {
+  width: 110px;
+  height: 2px;
+  background: rgba(255,255,255,0.22);
+  box-shadow: 0 0 8px rgba(0,0,0,0.9);
+  overflow: hidden;
+}
+
+.buffer-fill {
+  height: 100%;
+  width: 0%;
+  background: rgba(255,255,255,0.95);
+  transition: width 0.3s ease;
+}
+
+/* Finche' la durata del video e' ignota non c'e' una percentuale da
+   mostrare: la barra scorre invece di restare ferma a zero. */
+.buffer-dots.unknown .buffer-fill {
+  width: 35%;
+  animation: bufferSlide 1.4s ease-in-out infinite;
+}
+@keyframes bufferSlide {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(315%); }
+}
+
+.buffer-label {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.8);
+  text-shadow: 0 0 8px rgba(0,0,0,0.95), 0 1px 3px rgba(0,0,0,0.9);
+  white-space: nowrap;
+}
 .buffer-dots span {
   width: 5px;
   height: 5px;
@@ -591,7 +633,9 @@ a { color: inherit; text-decoration: none; }
 
 <!-- Buffer dots — shown while video is loading between slides -->
 <div class="buffer-dots" id="bufferDots">
-  <span></span><span></span><span></span>
+  <div class="buffer-row"><span></span><span></span><span></span></div>
+  <div class="buffer-track"><div class="buffer-fill" id="bufferFill"></div></div>
+  <span class="buffer-label" id="bufferLabel">loading</span>
 </div>
 <div class="slow-notice" id="slowNotice">slow connection</div>
 
@@ -1072,6 +1116,8 @@ a { color: inherit; text-decoration: none; }
   const filterBtns = Array.from(document.querySelectorAll('.filter-btn'));
   const loader      = document.getElementById('loader');
   const bufferDots  = document.getElementById('bufferDots');
+  const bufferFill  = document.getElementById('bufferFill');
+  const bufferLabel = document.getElementById('bufferLabel');
   const slowNotice  = document.getElementById('slowNotice');
   const swipeHint   = document.getElementById('swipeHint');
   const isMob       = () => window.innerWidth <= 767;
@@ -1129,9 +1175,50 @@ a { color: inherit; text-decoration: none; }
   // questo due goTo() ravvicinate lasciano due listener sullo stesso video
   // e alla fine della riproduzione si saltano due slide invece di una.
   let endedVid = null, endedHandler = null;
+  let indTimer = null;
+
+  // Listener aggiuntivi dell'indicatore, staccati in blocco a ogni goTo():
+  // se restassero attaccati, il video vecchio continuerebbe a comandare
+  // l'indicatore della slide nuova.
+  let mediaExtra = [];
 
   function showSlow() { slowNotice.classList.add('visible'); }
   function hideSlow() { slowNotice.classList.remove('visible'); }
+
+  // ── Quanto del video è già scaricato ─────────────────
+  function bufferedPct(vid) {
+    if (!vid || !vid.duration || isNaN(vid.duration) || !vid.buffered.length) return null;
+    let end = 0;
+    for (let i = 0; i < vid.buffered.length; i++) end = Math.max(end, vid.buffered.end(i));
+    return Math.min(100, Math.round(end / vid.duration * 100));
+  }
+
+  // ── Indicatore: pallini + barra con l'avanzamento vero ──
+  // Si aggiorna ogni 300ms leggendo video.buffered, così la durata
+  // dell'indicatore corrisponde al caricamento effettivo invece di
+  // sparire su 'canplay' dopo pochi secondi a caso.
+  let bufTimer = null;
+  function showBuffer(vid) {
+    bufferDots.classList.add('visible');
+    clearInterval(bufTimer);
+    const tick = () => {
+      const p = bufferedPct(vid);
+      if (p === null) {
+        bufferDots.classList.add('unknown');
+        bufferLabel.textContent = 'loading';
+      } else {
+        bufferDots.classList.remove('unknown');
+        bufferFill.style.width = p + '%';
+        bufferLabel.textContent = 'loading ' + p + '%';
+      }
+    };
+    tick();
+    bufTimer = setInterval(tick, 300);
+  }
+  function hideBuffer() {
+    clearInterval(bufTimer);
+    bufferDots.classList.remove('visible');
+  }
 
   // ── Pagination — scrollable strip ────────────────────
   function rebuildPagination() {
@@ -1191,6 +1278,10 @@ a { color: inherit; text-decoration: none; }
 
     // Stacca l'handler 'ended' della navigazione precedente prima di
     // registrarne uno nuovo, altrimenti si accumulano e si salta una slide.
+    clearTimeout(indTimer);
+    mediaExtra.forEach(h => h[0].removeEventListener(h[1], h[2]));
+    mediaExtra = [];
+
     if (endedVid && endedHandler) {
       endedVid.removeEventListener('ended', endedHandler);
       endedVid = null;
@@ -1230,18 +1321,41 @@ a { color: inherit; text-decoration: none; }
     endedVid = vid;
     vid.addEventListener('ended', endedHandler);
 
+    // L'indicatore compare solo se la partenza tarda più di 350ms — sulle
+    // transizioni immediate non deve lampeggiare — e sparisce quando i
+    // fotogrammi scorrono davvero, non appena il video "potrebbe" partire.
+    indTimer = setTimeout(() => { if (token === navToken) showBuffer(vid); }, 350);
+    const inMoto = () => {
+      if (token !== navToken) return;
+      clearTimeout(indTimer);
+      clearTimeout(slowTimer);
+      hideSlow();
+      hideBuffer();
+    };
+    vid.addEventListener('playing', inMoto);
+
+    // Se il buffer si esaurisce a metà riproduzione l'indicatore deve tornare,
+    // altrimenti il sito sembra piantato mentre sta ancora scaricando.
+    const onAttesa = () => { if (token === navToken) showBuffer(vid); };
+    vid.addEventListener('waiting', onAttesa);
+    vid.addEventListener('stalled', onAttesa);
+    mediaExtra = [[vid, 'playing', inMoto], [vid, 'waiting', onAttesa], [vid, 'stalled', onAttesa]];
+
     const tryPlay = () => {
       if (token !== navToken) return;
       clearTimeout(skipTimer);
-      clearTimeout(slowTimer);
-      hideSlow();
-      bufferDots.classList.remove('visible');
       const ab = pagination.querySelector('.page-btn.active');
       if (ab) ab.classList.remove('loading');
-      if (vid.paused) vid.play().catch(() => {});
+      if (!vid.paused) { inMoto(); return; }
+      // La promise di play() si risolve quando la riproduzione inizia davvero.
+      const pr = vid.play();
+      if (pr && pr.then) pr.then(inMoto).catch(() => {});
     };
 
-    if (vid.readyState >= 2) {
+    // readyState 3 (HAVE_FUTURE_DATA): con 2 il video ha solo il fotogramma
+    // corrente, parte e si inchioda subito — ed è il caso in cui l'indicatore
+    // spariva dopo pochi secondi lasciando lo schermo fermo.
+    if (vid.readyState >= 3) {
       tryPlay();
     } else {
       vid.preload = 'auto';
@@ -1249,7 +1363,6 @@ a { color: inherit; text-decoration: none; }
       // richiamarlo su un video già avviato annulla il play() partito nel gesto
       // dell'utente, e su iOS la prima slide non parte più.
       if (vid.readyState === 0 && vid.networkState !== 2) vid.load();
-      bufferDots.classList.add('visible');
       const ab = pagination.querySelector('.page-btn.active');
       if (ab) ab.classList.add('loading');
       vid.addEventListener('canplay', tryPlay, { once: true });
@@ -1267,7 +1380,7 @@ a { color: inherit; text-decoration: none; }
       // successivo riparte da zero), quindi si attende molto di più di prima.
       skipTimer = setTimeout(() => {
         if (token !== navToken) return;
-        bufferDots.classList.remove('visible');
+        hideBuffer();
         hideSlow();
         const ab2 = pagination.querySelector('.page-btn.active');
         if (ab2) ab2.classList.remove('loading');
