@@ -1,9 +1,15 @@
 <!DOCTYPE html>
-<html lang="en" style="background:#000;color-scheme:dark">
+<!-- Il bianco iniziale è voluto: Safari dipinge comunque bianco fra una
+     navigazione e l'altra e non lo si può impedire. Invece di subirlo, la
+     pagina parte dallo stesso bianco e vira al nero come un flash di
+     pellicola, così il difetto diventa l'apertura. Per lo stesso motivo
+     non c'è color-scheme:dark, che farebbe dipingere nero prima del CSS
+     e produrrebbe un fastidioso nero-bianco-nero. -->
+<html lang="en" style="background:#fff">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="color-scheme" content="dark">
+<!-- niente color-scheme: la pagina deve dipingere bianco al primo frame -->
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <title>BillJobs — Creative Production House</title>
@@ -398,16 +404,25 @@ a { color: inherit; text-decoration: none; }
   position: fixed;
   top: 0; right: 0; bottom: 0; left: 0;
   z-index: 500;
-  background: #000;
+  /* Parte dal bianco che il browser dipinge comunque e vira al nero:
+     il flash che non si può togliere diventa l'apertura del sito. */
+  background: #fff;
+  animation: aperturaFlash 0.8s ease-out forwards;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 32px;
+  gap: 26px;
   transition: opacity 0.9s ease;
   cursor: pointer;
   touch-action: manipulation; /* elimina il delay 300ms su iOS */
   -webkit-tap-highlight-color: transparent;
+}
+
+@keyframes aperturaFlash {
+  0%   { background: #fff; }
+  20%  { background: #fff; }
+  100% { background: #000; }
 }
 
 #loader.hidden {
@@ -415,11 +430,12 @@ a { color: inherit; text-decoration: none; }
   pointer-events: none;
 }
 
+/* Logo e testi entrano a nero già fatto, non sopra il bianco */
 .loader-logo {
   width: 72px;
   height: auto;
   opacity: 0;
-  animation: loaderPulse 1.2s ease-in-out infinite alternate;
+  animation: loaderPulse 1.2s ease-in-out 0.7s infinite alternate;
 }
 
 .loader-hint {
@@ -429,13 +445,41 @@ a { color: inherit; text-decoration: none; }
   font-weight: 500;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.3);
-  animation: loaderPulse 1.2s ease-in-out infinite alternate;
+  color: #fff;
+  opacity: 0;
+  animation: hintPulse 1.6s ease-in-out 0.9s infinite alternate;
+}
+
+/* Avvertenza sulla connessione: i video sono a piena qualità di ripresa,
+   quindi pesanti. Dirlo in anticipo trasforma l'attesa in una scelta
+   dichiarata invece che in un difetto. */
+.loader-note {
+  max-width: 78vw;
+  font-family: var(--font-ui);
+  font-size: 8px;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  line-height: 1.9;
+  text-align: center;
+  color: rgba(255,255,255,0.34);
+  opacity: 0;
+  animation: noteEntra 1.1s ease 1.15s forwards;
 }
 
 @keyframes loaderPulse {
   from { opacity: 0.3; }
   to   { opacity: 0.8; }
+}
+
+@keyframes hintPulse {
+  from { opacity: 0.65; }
+  to   { opacity: 1; }
+}
+
+@keyframes noteEntra {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 .loader-dots {
@@ -621,6 +665,7 @@ a { color: inherit; text-decoration: none; }
 <div id="loader">
   <img src="assets/img/logo_billjobs.png" alt="BillJobs" class="loader-logo">
   <span class="loader-hint">tap to enter</span>
+  <p class="loader-note">Full-quality footage, uncompressed for you<br>A fast connection is recommended</p>
 </div>
 
 <!-- Buffer dots — shown while video is loading between slides -->
@@ -1512,6 +1557,9 @@ a { color: inherit; text-decoration: none; }
     const startAll = () => {
       if (started) return;
       started = true;
+      // Il bianco inline serviva solo all'apertura: da qui in poi lo sfondo
+      // deve essere nero, altrimenti resta dietro alle slide.
+      document.documentElement.style.background = '#000';
       loader.classList.add('hidden');
       document.getElementById('siteHeader').classList.add('visible');
       document.getElementById('siteFooter').classList.add('visible');
