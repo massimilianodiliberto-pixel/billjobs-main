@@ -448,20 +448,25 @@ a { color: inherit; text-decoration: none; }
 
 .loader-label {
   font-family: var(--font-ui);
-  font-size: 12px;
+  font-size: 9px;
   font-weight: 500;
-  letter-spacing: 0.28em;
+  letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.62);
+  color: rgba(255,255,255,0.7);
   text-align: center;
 }
 
-/* Quando il video e' pronto: l'invito a toccare, ben visibile */
+/* Quando il video e' pronto: stessa dimensione discreta di sempre, ma
+   bianca piena invece che grigia, con una pulsazione appena accennata. */
 .loader-status.ready .loader-track { display: none; }
 .loader-status.ready .loader-label {
-  font-size: 14px;
-  color: rgba(255,255,255,0.92);
-  animation: loaderPulse 1.3s ease-in-out infinite alternate;
+  color: #fff;
+  animation: hintPulse 1.6s ease-in-out infinite alternate;
+}
+
+@keyframes hintPulse {
+  from { opacity: 0.72; }
+  to   { opacity: 1; }
 }
 
 @keyframes loaderPulse {
@@ -1199,6 +1204,7 @@ a { color: inherit; text-decoration: none; }
 
   let skipTimer = null;
   let infoTimer = null;
+  let indTimer  = null;
 
   // Token di navigazione: ogni goTo() lo incrementa. I callback asincroni
   // (canplay, error, timer) confrontano il proprio token con quello corrente
@@ -1266,6 +1272,7 @@ a { color: inherit; text-decoration: none; }
     clearInterval(progressInterval);
     clearTimeout(skipTimer);
     clearTimeout(infoTimer);
+    clearTimeout(indTimer);
 
     const token = ++navToken;
     const nextIdx = ((idx % pool.length) + pool.length) % pool.length;
@@ -1308,19 +1315,33 @@ a { color: inherit; text-decoration: none; }
 
     on('ended', () => { if (token === navToken) goTo(currentIdx + 1); });
 
+    // L'indicatore compare solo se la partenza tarda più di 350ms, così sulle
+    // transizioni rapide non lampeggia, e sparisce solo quando i fotogrammi
+    // scorrono davvero.
+    indTimer = setTimeout(() => { if (token === navToken) showBuffer(vid); }, 350);
+    const inMoto = () => {
+      if (token !== navToken) return;
+      clearTimeout(indTimer);
+      hideBuffer();
+    };
+    on('playing', inMoto);
+
     // Buffer esaurito a metà riproduzione: senza questi l'indicatore non
     // ricompare e il sito sembra piantato mentre in realtà sta scaricando.
     on('waiting', () => { if (token === navToken) showBuffer(vid); });
     on('stalled', () => { if (token === navToken) showBuffer(vid); });
-    on('playing', () => { if (token === navToken) hideBuffer(); });
 
     const tryPlay = () => {
       if (token !== navToken) return;
       clearTimeout(skipTimer);
-      hideBuffer();
       const ab = pagination.querySelector('.page-btn.active');
       if (ab) ab.classList.remove('loading');
-      if (vid.paused) vid.play().catch(() => {});
+      if (!vid.paused) { inMoto(); return; }
+      // La promise di play() si risolve quando la riproduzione inizia davvero.
+      // Nasconderlo su 'canplay' lo faceva sparire mentre il video era ancora
+      // fermo: si vedeva "caricamento finito" e poi cinque secondi di nulla.
+      const pr = vid.play();
+      if (pr && pr.then) pr.then(inMoto).catch(() => {});
     };
 
     // Serve readyState 3 (HAVE_FUTURE_DATA): con 2 il video ha solo il
@@ -1334,7 +1355,6 @@ a { color: inherit; text-decoration: none; }
       // richiamarlo su un video già avviato annulla il play() partito nel gesto
       // dell'utente, e su iOS la prima slide non parte più.
       if (vid.readyState === 0 && vid.networkState !== 2) vid.load();
-      showBuffer(vid);
       const ab = pagination.querySelector('.page-btn.active');
       if (ab) ab.classList.add('loading');
       on('canplay', tryPlay);
