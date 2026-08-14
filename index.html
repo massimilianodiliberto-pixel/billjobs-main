@@ -1245,7 +1245,10 @@ a { color: inherit; text-decoration: none; }
       tryPlay();
     } else {
       vid.preload = 'auto';
-      if (vid.networkState !== 2 && vid.paused) vid.load(); // skip if already loading or play() already called
+      // load() solo se l'elemento non ha ancora nulla e non sta già scaricando:
+      // richiamarlo su un video già avviato annulla il play() partito nel gesto
+      // dell'utente, e su iOS la prima slide non parte più.
+      if (vid.readyState === 0 && vid.networkState !== 2) vid.load();
       bufferDots.classList.add('visible');
       const ab = pagination.querySelector('.page-btn.active');
       if (ab) ab.classList.add('loading');
@@ -1348,9 +1351,10 @@ a { color: inherit; text-decoration: none; }
 
     // Ora in pagina è rimasto solo il video della piattaforma giusta: si può
     // far partire il download senza rischiare di scaricare quello sbagliato.
-    // Si cambia solo l'attributo, senza load(): al momento del play ci pensa
-    // goTo(), e un load() qui verrebbe annullato e rifatto da capo.
+    // Il load() serve: su iOS il video deve avere già dati quando l'utente
+    // tocca, altrimenti il play() dentro il gesto non ha nulla da riprodurre.
     firstVid.preload = 'auto';
+    firstVid.load();
 
     let started = false;
     const startAll = () => {
