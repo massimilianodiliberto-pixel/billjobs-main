@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="it" style="background:#000;color-scheme:dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="robots" content="noindex, nofollow">
+<title>Test — quanti video regge questo telefono</title>
+<link rel="icon" type="image/png" href="assets/img/favicon_black.png">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #000; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  padding: 20px 18px 60px;
+  -webkit-text-size-adjust: 100%;
+}
+h1 { font-size: 17px; font-weight: 600; margin-bottom: 4px; }
+.sub { font-size: 12px; color: rgba(255,255,255,0.45); margin-bottom: 20px; line-height: 1.45; }
+
+.box {
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 16px;
+}
+.box h2 {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.16em;
+  text-transform: uppercase; color: rgba(255,255,255,0.4);
+  margin-bottom: 10px;
+}
+
+/* esito dell'ultimo tentativo */
+#verdict { font-size: 15px; line-height: 1.5; }
+#verdict.crash  { color: #ff6b6b; }
+#verdict.ok     { color: #51cf66; }
+#verdict.idle   { color: rgba(255,255,255,0.5); }
+
+/* storico */
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+td { padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,0.07); }
+td:first-child { font-weight: 600; width: 34%; }
+td:last-child { text-align: right; }
+.esito-ok    { color: #51cf66; }
+.esito-crash { color: #ff6b6b; }
+
+/* pulsanti */
+.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; }
+button {
+  font-family: inherit; font-size: 17px; font-weight: 600;
+  padding: 16px 0; border-radius: 9px; cursor: pointer;
+  background: #fff; color: #000; border: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+button.done  { background: rgba(255,255,255,0.13); color: rgba(255,255,255,0.75); }
+button.fatal { background: rgba(255,107,107,0.2); color: #ff6b6b; }
+#reset {
+  background: none; border: 1px solid rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.5); font-size: 13px; font-weight: 500;
+  padding: 12px 0; width: 100%; margin-top: 6px;
+}
+
+/* barra di stato durante il test */
+#running {
+  display: none; position: fixed; left: 0; right: 0; bottom: 0;
+  background: #111; border-top: 1px solid rgba(255,255,255,0.15);
+  padding: 14px 18px calc(14px + env(safe-area-inset-bottom, 0px));
+  font-size: 14px; font-weight: 600;
+}
+#running.on { display: block; }
+#bar { height: 3px; background: #fff; width: 0%; margin-top: 8px; transition: width 0.25s linear; }
+
+/* i video di prova: fuori vista ma veri e renderizzati */
+#stage { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; }
+#stage .s { position: absolute; top: 0; right: 0; bottom: 0; left: 0; opacity: 0; }
+#stage .s.active { opacity: 1; }
+#stage video { width: 100%; height: 100%; object-fit: cover; }
+</style>
+</head>
+<body>
+
+<div id="stage"></div>
+
+<h1>Quanti video regge questo telefono</h1>
+<p class="sub">
+  Stessi video del sito, stesso bitrate, niente ricompresso.
+  Cambia solo <strong>quanti elementi video</strong> esistono insieme nella pagina.<br>
+  Se Safari crasha, <strong>riapri questa pagina</strong>: il risultato resta salvato.
+</p>
+
+<div class="box">
+  <h2>Ultimo tentativo</h2>
+  <div id="verdict" class="idle">Nessun test ancora eseguito.</div>
+</div>
+
+<div class="box">
+  <h2>Risultati</h2>
+  <table id="storico"><tr><td colspan="2" style="color:rgba(255,255,255,0.35)">— vuoto —</td></tr></table>
+</div>
+
+<div class="box">
+  <h2>Prova con</h2>
+  <div class="grid" id="pulsanti"></div>
+  <button id="reset">Azzera risultati</button>
+</div>
+
+<p class="sub" id="info"></p>
+
+<div id="running">
+  <span id="rtxt">Test in corso…</span>
+  <div id="bar"></div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  var LIVELLI = [6, 12, 16, 20, 24, 37];
+  var DURATA  = 9000;                 // quanto si tiene sotto sforzo prima di dichiarare "regge"
+  var K_STATO = 'bjTestInCorso';      // scritto PRIMA di rischiare: se crasha resta qui
+  var K_ESITI = 'bjTestEsiti';
+
+  var stage    = document.getElementById('stage');
+  var verdict  = document.getElementById('verdict');
+  var storico  = document.getElementById('storico');
+  var pulsanti = document.getElementById('pulsanti');
+  var running  = document.getElementById('running');
+  var rtxt     = document.getElementById('rtxt');
+  var bar      = document.getElementById('bar');
+
+  function leggi(k, def) {
+    try { var v = localStorage.getItem(k); return v ? JSON.parse(v) : def; }
+    catch (e) { return def; }
+  }
+  function scrivi(k, v) {
+    try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {}
+  }
+
+  // ── All'apertura: se risulta un test "in corso", vuol dire che la pagina
+  //    è morta durante quel test. Quello è il crash che stiamo cercando.
+  var inCorso = leggi(K_STATO, null);
+  var esiti   = leggi(K_ESITI, {});
+
+  if (inCorso) {
+    esiti[inCorso.n] = 'crash';
+    scrivi(K_ESITI, esiti);
+    scrivi(K_STATO, null);
+    verdict.className = 'crash';
+    verdict.innerHTML = 'Con <strong>' + inCorso.n + ' video</strong> la pagina è morta.<br>' +
+                        '<span style="font-size:13px;opacity:0.75">È esattamente il crash che stiamo cercando.</span>';
+  }
+
+  function disegnaStorico() {
+    var chiavi = Object.keys(esiti).map(Number).sort(function (a, b) { return a - b; });
+    if (!chiavi.length) {
+      storico.innerHTML = '<tr><td colspan="2" style="color:rgba(255,255,255,0.35)">— vuoto —</td></tr>';
+      return;
+    }
+    storico.innerHTML = chiavi.map(function (n) {
+      var ok = esiti[n] === 'ok';
+      return '<tr><td>' + n + ' video</td><td class="' + (ok ? 'esito-ok' : 'esito-crash') + '">' +
+             (ok ? 'regge' : 'crash') + '</td></tr>';
+    }).join('');
+
+    // riepilogo: soglia trovata
+    var reggeMax = chiavi.filter(function (n) { return esiti[n] === 'ok'; }).pop();
+    var crashMin = chiavi.filter(function (n) { return esiti[n] === 'crash'; })[0];
+    if (reggeMax && crashMin) {
+      storico.innerHTML += '<tr><td colspan="2" style="padding-top:12px;border:none;' +
+        'font-size:13px;color:#ffd43b">Il limite sta fra ' + reggeMax + ' e ' + crashMin + '.</td></tr>';
+    }
+  }
+
+  function disegnaPulsanti() {
+    pulsanti.innerHTML = '';
+    LIVELLI.forEach(function (n) {
+      var b = document.createElement('button');
+      b.textContent = n;
+      if (esiti[n] === 'ok')    b.className = 'done';
+      if (esiti[n] === 'crash') b.className = 'fatal';
+      b.addEventListener('click', function () { avvia(n); });
+      pulsanti.appendChild(b);
+    });
+  }
+
+  // ── Il test vero ────────────────────────────────────────
+  function avvia(n) {
+    // Si segna l'intenzione PRIMA di creare qualsiasi cosa: se il processo
+    // viene ucciso subito dopo, alla riapertura sappiamo dove è successo.
+    scrivi(K_STATO, { n: n });
+
+    running.classList.add('on');
+    rtxt.textContent = 'Creo ' + n + ' elementi video…';
+    bar.style.width = '0%';
+
+    setTimeout(function () {
+      stage.innerHTML = '';
+      for (var i = 0; i < n; i++) {
+        var d = document.createElement('div');
+        d.className = 's' + (i === 0 ? ' active' : '');
+        var v = document.createElement('video');
+        v.muted = true;
+        v.setAttribute('playsinline', '');
+        v.setAttribute('webkit-playsinline', '');
+        v.preload = i === 0 ? 'auto' : 'none';     // identico al sito
+        var s = document.createElement('source');
+        // i 37 video mobile reali, ciclati se n > 37
+        s.src = 'assets/video/' + String(i % 37).padStart(2, '0') + '_mobile.mp4';
+        s.type = 'video/mp4';
+        v.appendChild(s);
+        d.appendChild(v);
+        stage.appendChild(d);
+      }
+
+      // Come fa il sito: riproduce il primo. Il play() sta dentro il gesto
+      // del tap sul pulsante, quindi iOS lo consente.
+      // A fine test gli elementi vengono rimossi dal documento: la promise di
+      // play() rimasta in sospeso viene rifiutata, va assorbita o Safari
+      // segnala un errore non gestito.
+      var primo = stage.querySelector('video');
+      if (primo) {
+        try {
+          var pr = primo.play();
+          if (pr && pr.catch) pr.catch(function () {});
+        } catch (e) {}
+      }
+
+      rtxt.textContent = n + ' elementi creati — resisti…';
+
+      var t0 = Date.now();
+      var iv = setInterval(function () {
+        var p = Math.min(100, (Date.now() - t0) / DURATA * 100);
+        bar.style.width = p + '%';
+        if (p >= 100) {
+          clearInterval(iv);
+          // Sopravvissuto: si registra e si libera tutto
+          esiti[n] = 'ok';
+          scrivi(K_ESITI, esiti);
+          scrivi(K_STATO, null);
+          stage.innerHTML = '';
+          running.classList.remove('on');
+          verdict.className = 'ok';
+          verdict.innerHTML = 'Con <strong>' + n + ' video</strong> ha retto.';
+          disegnaStorico();
+          disegnaPulsanti();
+        }
+      }, 250);
+    }, 400);
+  }
+
+  document.getElementById('reset').addEventListener('click', function () {
+    esiti = {};
+    scrivi(K_ESITI, {});
+    scrivi(K_STATO, null);
+    verdict.className = 'idle';
+    verdict.textContent = 'Risultati azzerati.';
+    disegnaStorico();
+    disegnaPulsanti();
+  });
+
+  document.getElementById('info').textContent =
+    'Schermo ' + window.innerWidth + '×' + window.innerHeight +
+    ' · densità ' + (window.devicePixelRatio || 1) + '×' +
+    (navigator.deviceMemory ? ' · RAM ~' + navigator.deviceMemory + ' GB' : '');
+
+  disegnaStorico();
+  disegnaPulsanti();
+})();
+</script>
+</body>
+</html>
