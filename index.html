@@ -516,10 +516,14 @@ a { color: inherit; text-decoration: none; }
   font-size: 9px;
   font-weight: 500;
   letter-spacing: 0.24em;
+  /* letter-spacing aggiunge spazio anche DOPO l'ultima lettera: senza questo
+     rientro il testo risulta spostato a sinistra rispetto alla barra. */
+  text-indent: 0.24em;
   text-transform: uppercase;
   color: rgba(255,255,255,0.8);
   text-shadow: 0 0 8px rgba(0,0,0,0.95), 0 1px 3px rgba(0,0,0,0.9);
   white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
 .buffer-dots span {
   width: 5px;
@@ -1242,7 +1246,12 @@ a { color: inherit; text-decoration: none; }
     scrollPaginationToActive();
   }
 
+  // Quando l'utente sta scorrendo la striscia per cercare un numero lontano,
+  // riposizionarla sull'attivo gliela strappa di mano: si lascia stare.
+  let striscaToccata = 0;
+
   function scrollPaginationToActive() {
+    if (Date.now() - striscaToccata < 4000) return;
     const ab = pagination.querySelector('.page-btn.active');
     if (!ab) return;
     const offset = ab.offsetLeft - pagination.offsetWidth / 2 + ab.offsetWidth / 2;
@@ -1332,24 +1341,33 @@ a { color: inherit; text-decoration: none; }
       hideSlow();
       hideBuffer();
     };
-    vid.addEventListener('playing', inMoto);
+
+    // Prova che il video si sta muovendo davvero: il tempo avanza. Ne' la
+    // promise di play() ne' l'evento 'playing' bastano — su iOS scattano
+    // quando la riproduzione e' "avviata", e poi restano ancora secondi sul
+    // primo fotogramma: era questo a far sparire l'indicatore troppo presto.
+    const onProgresso = () => {
+      if (token === navToken && vid.currentTime > 0.15) inMoto();
+    };
+    vid.addEventListener('timeupdate', onProgresso);
+    vid.addEventListener('playing', onProgresso);
 
     // Se il buffer si esaurisce a metà riproduzione l'indicatore deve tornare,
     // altrimenti il sito sembra piantato mentre sta ancora scaricando.
     const onAttesa = () => { if (token === navToken) showBuffer(vid); };
     vid.addEventListener('waiting', onAttesa);
     vid.addEventListener('stalled', onAttesa);
-    mediaExtra = [[vid, 'playing', inMoto], [vid, 'waiting', onAttesa], [vid, 'stalled', onAttesa]];
+    mediaExtra = [[vid, 'timeupdate', onProgresso], [vid, 'playing', onProgresso],
+                  [vid, 'waiting', onAttesa], [vid, 'stalled', onAttesa]];
 
     const tryPlay = () => {
       if (token !== navToken) return;
       clearTimeout(skipTimer);
       const ab = pagination.querySelector('.page-btn.active');
       if (ab) ab.classList.remove('loading');
-      if (!vid.paused) { inMoto(); return; }
-      // La promise di play() si risolve quando la riproduzione inizia davvero.
-      const pr = vid.play();
-      if (pr && pr.then) pr.then(inMoto).catch(() => {});
+      // Non si nasconde nulla qui: ci pensa onProgresso quando il tempo del
+      // video comincia davvero ad avanzare.
+      if (vid.paused) { const pr = vid.play(); if (pr && pr.catch) pr.catch(() => {}); }
     };
 
     // readyState 3 (HAVE_FUTURE_DATA): con 2 il video ha solo il fotogramma
@@ -1420,11 +1438,20 @@ a { color: inherit; text-decoration: none; }
 
   // ── Swipe + tap per avanzare ──────────────────────────
   let tx = 0, ty = 0;
+
+  // La paginazione e la barra dei filtri scorrono orizzontalmente da sole.
+  // Senza questa esclusione, trascinarle contava anche come swipe sul video:
+  // si cambiava slide e la striscia dei numeri tornava di scatto sull'attivo,
+  // rendendo impossibile scorrere fino ai numeri lontani.
+  const suStriscia = (t) => !!(t && t.closest && t.closest('#pagination, .filter-nav'));
+
   document.addEventListener('touchstart', e => {
+    if (suStriscia(e.target)) { striscaToccata = Date.now(); return; }
     tx = e.touches[0].clientX;
     ty = e.touches[0].clientY;
   }, { passive: true });
   document.addEventListener('touchend', e => {
+    if (suStriscia(e.target)) return;
     const dx = e.changedTouches[0].clientX - tx;
     const dy = e.changedTouches[0].clientY - ty;
     if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
@@ -1489,10 +1516,15 @@ a { color: inherit; text-decoration: none; }
       startAll();
     };
     loader.addEventListener('touchend', (e) => {
+      // stopPropagation è indispensabile: preventDefault blocca il click
+      // fantasma ma NON la risalita dell'evento. Senza, lo stesso tocco
+      // arriva anche al gestore su document che avanza le slide, e si entra
+      // già alla seconda invece che alla prima.
       e.preventDefault();
+      e.stopPropagation();
       handleTap();
     }, { once: true, passive: false });
-    loader.addEventListener('click', handleTap, { once: true });
+    loader.addEventListener('click', (e) => { e.stopPropagation(); handleTap(); }, { once: true });
 
     // iOS (including modern iPads on iPadOS 13+) requires a user gesture to
     // start video — show "tap to enter" and wait. Android Chrome allows muted
