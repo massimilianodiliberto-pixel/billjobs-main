@@ -10,13 +10,13 @@
 <meta name="description" content="BillJobs is a creative production house for music, fashion and talent.">
 <meta property="og:title" content="BillJobs — Creative Production House">
 <meta property="og:description" content="BillJobs è un laboratorio cinematografico indipendente. Music video, fashion film, branded content, talent reel. 24 anni di produzioni reali.">
-<meta property="og:image" content="https://www.billjobs.it/assets/img/who_is_billjobs.jpg">
-<meta property="og:url" content="https://www.billjobs.it">
+<meta property="og:image" content="https://billjobs.it/assets/img/who_is_billjobs.jpg">
+<meta property="og:url" content="https://billjobs.it">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="BillJobs — Creative Production House">
 <meta name="twitter:description" content="Music video, fashion film, branded content. 24 anni di produzioni reali.">
-<meta name="twitter:image" content="https://www.billjobs.it/assets/img/who_is_billjobs.jpg">
+<meta name="twitter:image" content="https://billjobs.it/assets/img/who_is_billjobs.jpg">
 <link rel="apple-touch-icon" href="assets/img/logo_billjobs.png">
 <meta name="theme-color" content="#000000">
 <script type="application/ld+json">
@@ -24,16 +24,16 @@
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
   "name": "BillJobs",
-  "url": "https://www.billjobs.it",
-  "logo": "https://www.billjobs.it/assets/img/logo_billjobs.png",
-  "image": "https://www.billjobs.it/assets/img/who_is_billjobs.jpg",
+  "url": "https://billjobs.it",
+  "logo": "https://billjobs.it/assets/img/logo_billjobs.png",
+  "image": "https://billjobs.it/assets/img/who_is_billjobs.jpg",
   "description": "BillJobs è un laboratorio cinematografico indipendente specializzato in music video, fashion film, branded content e talent reel. 24 anni di produzioni reali.",
   "founder": { "@type": "Person", "name": "Bill Jobs" },
   "areaServed": "IT",
   "knowsAbout": ["Music Video", "Fashion Film", "Branded Content", "Creative Production", "Regia"]
 }
 </script>
-<link rel="canonical" href="https://www.billjobs.it">
+<link rel="canonical" href="https://billjobs.it">
 <link rel="icon" type="image/png" href="assets/img/favicon_black.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -511,20 +511,8 @@ a { color: inherit; text-decoration: none; }
   100% { transform: translateX(315%); }
 }
 
-.buffer-label {
-  font-family: var(--font-ui);
-  font-size: 9px;
-  font-weight: 500;
-  letter-spacing: 0.24em;
-  /* letter-spacing aggiunge spazio anche DOPO l'ultima lettera: senza questo
-     rientro il testo risulta spostato a sinistra rispetto alla barra. */
-  text-indent: 0.24em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.8);
-  text-shadow: 0 0 8px rgba(0,0,0,0.95), 0 1px 3px rgba(0,0,0,0.9);
-  white-space: nowrap;
-  font-variant-numeric: tabular-nums;
-}
+/* Nessuna scritta accanto alla barra: l'avanzamento si legge dalla barra
+   stessa, e una parola in piu' sopra il video appesantiva l'immagine. */
 .buffer-dots span {
   width: 5px;
   height: 5px;
@@ -639,7 +627,6 @@ a { color: inherit; text-decoration: none; }
 <div class="buffer-dots" id="bufferDots">
   <div class="buffer-row"><span></span><span></span><span></span></div>
   <div class="buffer-track"><div class="buffer-fill" id="bufferFill"></div></div>
-  <span class="buffer-label" id="bufferLabel">loading</span>
 </div>
 <div class="slow-notice" id="slowNotice">slow connection</div>
 
@@ -1121,7 +1108,6 @@ a { color: inherit; text-decoration: none; }
   const loader      = document.getElementById('loader');
   const bufferDots  = document.getElementById('bufferDots');
   const bufferFill  = document.getElementById('bufferFill');
-  const bufferLabel = document.getElementById('bufferLabel');
   const slowNotice  = document.getElementById('slowNotice');
   const swipeHint   = document.getElementById('swipeHint');
   const isMob       = () => window.innerWidth <= 767;
@@ -1186,6 +1172,11 @@ a { color: inherit; text-decoration: none; }
   // l'indicatore della slide nuova.
   let mediaExtra = [];
 
+  // Resta false finché nessun video ha davvero cominciato a scorrere. Serve a
+  // proteggere l'apertura del sito: finché è false, la prima slide non viene
+  // mai abbandonata automaticamente.
+  let qualcosaRiprodotto = false;
+
   function showSlow() { slowNotice.classList.add('visible'); }
   function hideSlow() { slowNotice.classList.remove('visible'); }
 
@@ -1208,12 +1199,11 @@ a { color: inherit; text-decoration: none; }
     const tick = () => {
       const p = bufferedPct(vid);
       if (p === null) {
+        // durata ancora ignota: la barra scorre invece di restare a zero
         bufferDots.classList.add('unknown');
-        bufferLabel.textContent = 'loading';
       } else {
         bufferDots.classList.remove('unknown');
         bufferFill.style.width = p + '%';
-        bufferLabel.textContent = 'loading ' + p + '%';
       }
     };
     tick();
@@ -1246,12 +1236,16 @@ a { color: inherit; text-decoration: none; }
     scrollPaginationToActive();
   }
 
-  // Quando l'utente sta scorrendo la striscia per cercare un numero lontano,
-  // riposizionarla sull'attivo gliela strappa di mano: si lascia stare.
-  let striscaToccata = 0;
+  // Appena l'utente tocca la striscia dei numeri, il riposizionamento
+  // automatico si spegne per sempre: era lui a riportarla indietro mentre
+  // si cercava un lavoro lontano. Un timer non bastava — se lo scorrimento
+  // durava più della finestra, la striscia veniva strappata di mano lo stesso.
+  let striscaLibera = false;
+  ['touchstart', 'touchmove', 'pointerdown'].forEach(ev =>
+    pagination.addEventListener(ev, () => { striscaLibera = true; }, { passive: true }));
 
   function scrollPaginationToActive() {
-    if (Date.now() - striscaToccata < 4000) return;
+    if (striscaLibera) return;
     const ab = pagination.querySelector('.page-btn.active');
     if (!ab) return;
     const offset = ab.offsetLeft - pagination.offsetWidth / 2 + ab.offsetWidth / 2;
@@ -1336,6 +1330,7 @@ a { color: inherit; text-decoration: none; }
     indTimer = setTimeout(() => { if (token === navToken) showBuffer(vid); }, 350);
     const inMoto = () => {
       if (token !== navToken) return;
+      qualcosaRiprodotto = true;
       clearTimeout(indTimer);
       clearTimeout(slowTimer);
       hideSlow();
@@ -1385,10 +1380,22 @@ a { color: inherit; text-decoration: none; }
       if (ab) ab.classList.add('loading');
       vid.addEventListener('canplay', tryPlay, { once: true });
 
-      // File mancante o corrotto: inutile far aspettare, si passa oltre subito.
-      vid.addEventListener('error', () => {
-        if (token === navToken) goTo(currentIdx + 1);
-      }, { once: true });
+      // All'apertura del sito non si abbandona MAI la prima slide: se il video
+      // non arriva si riprova a caricarlo, invece di scivolare sul secondo
+      // lavoro e far credere che il sito parta da lì. Solo dopo che qualcosa
+      // ha davvero suonato l'errore torna a valere come "passa oltre".
+      let tentativi = 0;
+      const suErrore = () => {
+        if (token !== navToken) return;
+        if (currentIdx === 0 && !qualcosaRiprodotto && tentativi < 4) {
+          tentativi++;
+          setTimeout(() => { if (token === navToken) vid.load(); }, 1500);
+          return;
+        }
+        goTo(currentIdx + 1);
+      };
+      vid.addEventListener('error', suErrore);
+      mediaExtra.push([vid, 'error', suErrore]);
 
       // 6s — il video sta ancora arrivando: lo si dice invece di lasciare
       // l'utente davanti a tre puntini senza spiegazione.
@@ -1396,14 +1403,19 @@ a { color: inherit; text-decoration: none; }
 
       // 15s — con la rete lenta saltare subito peggiora le cose (il video
       // successivo riparte da zero), quindi si attende molto di più di prima.
-      skipTimer = setTimeout(() => {
-        if (token !== navToken) return;
-        hideBuffer();
-        hideSlow();
-        const ab2 = pagination.querySelector('.page-btn.active');
-        if (ab2) ab2.classList.remove('loading');
-        goTo(currentIdx + 1);
-      }, 15000);
+      // Sulla prima slide dell'apertura il salto è disattivato del tutto:
+      // meglio far aspettare mostrando la barra che aprire il sito sul
+      // secondo lavoro.
+      if (currentIdx !== 0 || qualcosaRiprodotto) {
+        skipTimer = setTimeout(() => {
+          if (token !== navToken) return;
+          hideBuffer();
+          hideSlow();
+          const ab2 = pagination.querySelector('.page-btn.active');
+          if (ab2) ab2.classList.remove('loading');
+          goTo(currentIdx + 1);
+        }, 15000);
+      }
     }
   }
 
@@ -1446,7 +1458,7 @@ a { color: inherit; text-decoration: none; }
   const suStriscia = (t) => !!(t && t.closest && t.closest('#pagination, .filter-nav'));
 
   document.addEventListener('touchstart', e => {
-    if (suStriscia(e.target)) { striscaToccata = Date.now(); return; }
+    if (suStriscia(e.target)) return;
     tx = e.touches[0].clientX;
     ty = e.touches[0].clientY;
   }, { passive: true });
