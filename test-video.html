@@ -116,7 +116,10 @@ button.fatal { background: rgba(255,107,107,0.2); color: #ff6b6b; }
 (function () {
   'use strict';
 
-  var LIVELLI = [6, 12, 16, 20, 24, 37];
+  // 74 e' il numero reale che il parser crea su index.html (37 slide x 2
+  // piattaforme); init() ne rimuove meta' subito dopo, ma per un istante
+  // esistono tutti. 110 e 150 servono a trovare il tetto se 74 regge.
+  var LIVELLI = [6, 16, 24, 37, 74, 110, 150];
   var DURATA  = 9000;                 // quanto si tiene sotto sforzo prima di dichiarare "regge"
   var K_STATO = 'bjTestInCorso';      // scritto PRIMA di rischiare: se crasha resta qui
   var K_ESITI = 'bjTestEsiti';
