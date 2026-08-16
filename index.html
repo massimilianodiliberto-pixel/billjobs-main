@@ -454,18 +454,25 @@ a { color: inherit; text-decoration: none; }
    quindi pesanti. Dirlo in anticipo trasforma l'attesa in una scelta
    dichiarata invece che in un difetto. */
 .loader-note {
-  max-width: 78vw;
+  max-width: 82vw;
   font-family: var(--font-ui);
-  font-size: 8px;
+  font-size: 9px;
   font-weight: 400;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.2em;
+  /* letter-spacing aggiunge spazio anche dopo l'ultima lettera: il rientro
+     rimette il testo al centro ottico. */
+  text-indent: 0.2em;
   text-transform: uppercase;
-  line-height: 1.9;
+  line-height: 1.85;
   text-align: center;
-  color: rgba(255,255,255,0.34);
+  color: rgba(255,255,255,0.62);
   opacity: 0;
   animation: noteEntra 1.1s ease 1.15s forwards;
 }
+
+/* La riga sulla connessione è un'informazione diversa dalla dichiarazione
+   di qualità: staccarla la rende leggibile come tale. */
+.loader-note .conn { margin-top: 16px; }
 
 @keyframes loaderPulse {
   from { opacity: 0.3; }
@@ -666,7 +673,10 @@ a { color: inherit; text-decoration: none; }
 <div id="loader">
   <img src="assets/img/logo_billjobs.png" alt="BillJobs" class="loader-logo">
   <span class="loader-hint">tap to enter</span>
-  <p class="loader-note">Full-quality footage, uncompressed for you<br>A fast connection is recommended</p>
+  <div class="loader-note">
+    <p>Full-quality footage,<br>uncompressed for you</p>
+    <p class="conn">Fast connection is recommended</p>
+  </div>
 </div>
 
 <!-- Buffer dots — shown while video is loading between slides -->
