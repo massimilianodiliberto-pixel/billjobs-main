@@ -205,6 +205,11 @@ section:first-of-type { padding-top: clamp(130px, 22vh, 240px); }
 .rise[data-delay="2"] { transition-delay: 0.28s; }
 .rise[data-delay="3"] { transition-delay: 0.42s; }
 
+/* Variante senza spostamento, per i blocchi che contengono comandi: se
+   l'elemento sale mentre il cursore è già fermo lì sopra, il puntatore ne
+   esce e rientra: il loop si chiudeva e riapriva, riscaricando la clip. */
+.rise.rise-fade { transform: none; }
+
 /* Senza JavaScript il contenuto deve restare leggibile */
 .no-js .rise { opacity: 1; transform: none; }
 
@@ -259,7 +264,114 @@ section:first-of-type { padding-top: clamp(130px, 22vh, 240px); }
 }
 
 /* ─────────────────────────────────────────
-   4. RETE DI COLLABORATORI
+   4. PROVA INTERATTIVA — settori
+   Solo testo: la prova non è una miniatura da guardare, è un gesto che
+   la fa apparire. Il loop segue il cursore, non occupa la pagina.
+───────────────────────────────────────── */
+.sectors {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(14px, 2.6vw, 34px);
+  align-items: baseline;
+}
+.sector {
+  appearance: none;
+  background: none;
+  border: none;
+  padding: 10px 0 14px;
+  cursor: pointer;
+  position: relative;
+  font-family: var(--font-ui);
+  font-size: clamp(15px, 2.3vw, 26px);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.42);
+  transition: color 0.45s ease;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.sector::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: 6px;
+  height: 1px;
+  background: rgba(255,255,255,0.8);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.45s cubic-bezier(0.22,0.61,0.36,1);
+}
+.sector:hover, .sector:focus-visible, .sector.on { color: var(--white); outline: none; }
+.sector:hover::after, .sector:focus-visible::after, .sector.on::after { transform: scaleX(1); }
+
+/* Affordance touch: la pressione prolungata non è un gesto intuibile da
+   solo, quindi un puntino pulsa sotto le etichette finché non lo si usa
+   la prima volta. */
+.sector-hint {
+  display: none;
+  margin-top: 26px;
+  align-items: center;
+  gap: 10px;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+}
+.sector-hint.show { display: flex; }
+.sector-hint .dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.85);
+  animation: dotBreath 1.6s ease-in-out infinite;
+  flex-shrink: 0;
+}
+@keyframes dotBreath {
+  0%, 100% { opacity: 0.25; transform: scale(0.8); }
+  50%      { opacity: 1;    transform: scale(1); }
+}
+
+/* Finestra fluttuante del loop */
+.peek {
+  position: fixed;
+  z-index: 400;
+  width: min(38vw, 380px);
+  aspect-ratio: 16 / 9;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.96);
+  transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.22,0.61,0.36,1);
+  background: #000;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+}
+.peek.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+.peek video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.peek-cap {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  padding: 22px 12px 9px;
+  background: linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0));
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.8);
+}
+
+/* Su touch la finestra è ancorata in basso: sotto il dito sarebbe coperta */
+@media (hover: none) {
+  .peek {
+    width: min(86vw, 520px);
+    left: 50% !important;
+    top: auto !important;
+    bottom: calc(28px + env(safe-area-inset-bottom, 0px));
+    transform: translate(-50%, 14px) scale(0.98);
+  }
+  .peek.show { transform: translate(-50%, 0) scale(1); }
+}
+
+/* ─────────────────────────────────────────
+   5. RETE DI COLLABORATORI
 ───────────────────────────────────────── */
 .network {
   font-family: var(--font-ed);
@@ -269,7 +381,92 @@ section:first-of-type { padding-top: clamp(130px, 22vh, 240px); }
 }
 
 /* ─────────────────────────────────────────
-   5. DOPPIO CTA
+   6. THE STORY OF BILL JOBS
+───────────────────────────────────────── */
+.story {
+  appearance: none;
+  background: none;
+  border: none;
+  border-top: 1px solid rgba(255,255,255,0.12);
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+  width: 100%;
+  padding: clamp(26px, 4vh, 38px) 0;
+  cursor: pointer;
+  text-align: left;
+  color: inherit;
+  font-family: inherit;
+  transition: border-color 0.5s ease;
+}
+.story:hover, .story:focus-visible { border-color: rgba(255,255,255,0.4); outline: none; }
+
+.story-row { display: flex; align-items: baseline; gap: 16px; }
+.story-title {
+  font-family: var(--font-ui);
+  font-size: clamp(13px, 1.5vw, 17px);
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--white);
+}
+.story-len {
+  font-size: clamp(10px, 1vw, 12px);
+  letter-spacing: 0.16em;
+  color: rgba(255,255,255,0.4);
+  white-space: nowrap;
+}
+.story-sub {
+  margin-top: 12px;
+  font-family: var(--font-ed);
+  font-size: clamp(16px, 1.8vw, 22px);
+  font-style: italic;
+  color: rgba(255,255,255,0.6);
+}
+
+/* Overlay del video: la pagina resta sotto, non si naviga via */
+.overlay {
+  position: fixed;
+  top: 0; right: 0; bottom: 0; left: 0;
+  z-index: 900;
+  background: rgba(0,0,0,0.94);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 5vw;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+.overlay.mounted { display: flex; }
+.overlay.show { opacity: 1; }
+
+.overlay-frame {
+  width: 100%;
+  max-width: 1100px;
+  aspect-ratio: 16 / 9;
+  background: #000;
+}
+.overlay-frame iframe { width: 100%; height: 100%; border: none; display: block; }
+
+.overlay-close {
+  position: absolute;
+  top: calc(18px + env(safe-area-inset-top, 0px));
+  right: 20px;
+  appearance: none;
+  background: none;
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 50%;
+  width: 42px; height: 42px;
+  color: rgba(255,255,255,0.75);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  transition: border-color 0.3s ease, color 0.3s ease;
+}
+.overlay-close:hover, .overlay-close:focus-visible {
+  border-color: rgba(255,255,255,0.8); color: var(--white); outline: none;
+}
+
+/* ─────────────────────────────────────────
+   7. DOPPIO CTA
 ───────────────────────────────────────── */
 .cta-pair {
   display: grid;
@@ -395,7 +592,7 @@ section:first-of-type { padding-top: clamp(130px, 22vh, 240px); }
 .field input::placeholder,
 .field textarea::placeholder { color: rgba(255,255,255,0.22); }
 
-/* 7. RIGA D'APPARTENENZA — sopra il campo email.
+/* 9. RIGA D'APPARTENENZA — sopra il campo email.
    È l'unico momento in prima persona: entra più lentamente del resto,
    per marcare il cambio di tono. */
 .belonging {
@@ -454,7 +651,7 @@ section:first-of-type { padding-top: clamp(130px, 22vh, 240px); }
 .done.show { display: block; animation: panelIn 1s cubic-bezier(0.22,0.61,0.36,1); }
 
 /* ─────────────────────────────────────────
-   8. FOOTER — invariato
+   10. FOOTER — invariato
 ───────────────────────────────────────── */
 .site-footer {
   border-top: 1px solid rgba(255,255,255,0.08);
@@ -555,12 +752,35 @@ section:first-of-type { padding-top: clamp(130px, 22vh, 240px); }
     </div>
   </section>
 
-  <!-- ── 4. RETE DI COLLABORATORI ────────── -->
+  <!-- ── 4. PROVA INTERATTIVA ────────────── -->
+  <section id="settori">
+    <div class="sectors rise rise-fade" id="sectors">
+      <button class="sector" type="button" data-loop="beauty"    data-cap="Pleasure — AI Cosmetic Spot">Beauty</button>
+      <button class="sector" type="button" data-loop="biotech"   data-cap="My Organics — Oxygen Therapy">Biotech</button>
+      <button class="sector" type="button" data-loop="fashion"   data-cap="Cotril × Anteprima — Sfilata">Fashion</button>
+      <button class="sector" type="button" data-loop="corporate" data-cap="Verco — Film Aziendale">Corporate</button>
+      <button class="sector" type="button" data-loop="musica"    data-cap="Mr. Rain — Sincero">Musica</button>
+    </div>
+    <p class="sector-hint" id="sectorHint"><span class="dot"></span>Tieni premuto per vedere</p>
+  </section>
+
+  <!-- ── 5. RETE DI COLLABORATORI ────────── -->
   <section id="rete">
     <p class="network rise">Bill Jobs è una rete di collaboratori esterni — direttori della fotografia, scenografi, stylist, fonici, elettricisti, macchinisti, attori, modelli — costruita in oltre vent&rsquo;anni di set.</p>
   </section>
 
-  <!-- ── 5. DOPPIO CTA ──────────────────── -->
+  <!-- ── 6. THE STORY OF BILL JOBS ───────── -->
+  <section id="story">
+    <button class="story rise" type="button" id="storyBtn">
+      <span class="story-row">
+        <span class="story-title">The Story of Bill Jobs</span>
+        <span class="story-len">— 2:30</span>
+      </span>
+      <span class="story-sub">Da dove viene Bill Jobs, raccontato senza filtri.</span>
+    </button>
+  </section>
+
+  <!-- ── 7. DOPPIO CTA ──────────────────── -->
   <section id="contatto">
     <div class="cta-pair rise">
       <button class="cta" id="ctaDiretto" type="button" aria-expanded="false" aria-controls="panelDiretto">Contattalo</button>
@@ -579,7 +799,7 @@ section:first-of-type { padding-top: clamp(130px, 22vh, 240px); }
           <textarea id="dProgetto" name="progetto" rows="3" placeholder="Una riga su cosa hai in mente"></textarea>
         </div>
 
-        <!-- 7. Riga d'appartenenza, sopra il campo email -->
+        <!-- 9. Riga d'appartenenza, sopra il campo email -->
         <p class="belonging">La fiducia si costruisce nel tempo. Ma un inizio ci vuole sempre — e sono pronto a venirti incontro, anche sui costi, per farlo succedere.</p>
 
         <div class="field">
@@ -592,7 +812,7 @@ section:first-of-type { padding-top: clamp(130px, 22vh, 240px); }
       <div class="done" id="doneDiretto">Grazie, ti ricontatto a breve.</div>
     </div>
 
-    <!-- ── PERCORSO B — le 3 domande ─────── -->
+    <!-- ── 8. PERCORSO B — le 3 domande ──── -->
     <div class="panel" id="panelDomande">
       <form id="formDomande" novalidate>
 
@@ -640,7 +860,7 @@ section:first-of-type { padding-top: clamp(130px, 22vh, 240px); }
           <input type="text" id="qNome" name="nome" autocomplete="name" placeholder="Come ti chiami">
         </div>
 
-        <!-- 7. Riga d'appartenenza, sopra il campo email -->
+        <!-- 9. Riga d'appartenenza, sopra il campo email -->
         <p class="belonging">La fiducia si costruisce nel tempo. Ma un inizio ci vuole sempre — e sono pronto a venirti incontro, anche sui costi, per farlo succedere.</p>
 
         <div class="field">
@@ -656,7 +876,19 @@ section:first-of-type { padding-top: clamp(130px, 22vh, 240px); }
 
 </main>
 
-<!-- ── 8. FOOTER — invariato ────────────── -->
+<!-- Finestra fluttuante dei loop (blocco 4) -->
+<div class="peek" id="peek" aria-hidden="true">
+  <video id="peekVid" muted loop playsinline webkit-playsinline preload="none"></video>
+  <span class="peek-cap" id="peekCap"></span>
+</div>
+
+<!-- Overlay del video racconto (blocco 6) -->
+<div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-label="The Story of Bill Jobs">
+  <button class="overlay-close" id="overlayClose" type="button" aria-label="Chiudi">&times;</button>
+  <div class="overlay-frame" id="overlayFrame"></div>
+</div>
+
+<!-- ── 10. FOOTER — invariato ───────────── -->
 <footer class="site-footer">
   <span class="footer-label">Get in touch</span>
   <div class="footer-links">
@@ -752,6 +984,161 @@ section:first-of-type { padding-top: clamp(130px, 22vh, 240px); }
       requestAnimationFrame(passo);
     });
   }
+
+  /* ═══════════════════════════════════════════════════════
+     BLOCCO 4 — Prova interattiva
+     Desktop: il loop segue il cursore. Touch: pressione prolungata,
+     con la finestra ancorata in basso perché il dito la coprirebbe.
+  ═══════════════════════════════════════════════════════ */
+  var peek    = document.getElementById('peek');
+  var peekVid = document.getElementById('peekVid');
+  var peekCap = document.getElementById('peekCap');
+  var hint    = document.getElementById('sectorHint');
+  var touch   = window.matchMedia('(hover: none)').matches;
+  var attivo  = null;
+
+  // L'affordance serve solo dove non c'è il mouse, e solo finché non si
+  // è capito il gesto: dopo il primo uso non ha più ragione di esserci.
+  var hintVisto = false;
+  try { hintVisto = localStorage.getItem('bjSectorHint') === '1'; } catch (e) {}
+  if (touch && !hintVisto) hint.classList.add('show');
+
+  var timerPulizia = null;   // svuota la sorgente a dissolvenza finita
+  var timerChiusura = null;  // tolleranza prima di considerare chiuso il loop
+
+  function mostraLoop(btn, x, y) {
+    // Qualunque chiusura in sospeso viene annullata: se il puntatore esce e
+    // rientra sulla stessa etichetta — cosa che capita mentre la sezione sta
+    // ancora salendo con la sua animazione d'ingresso — non si deve smontare
+    // e rimontare nulla, altrimenti la clip viene scaricata due volte.
+    clearTimeout(timerChiusura);
+    clearTimeout(timerPulizia);
+    if (attivo === btn) return;
+
+    attivo = btn;
+    btn.classList.add('on');
+    peekCap.textContent = btn.getAttribute('data-cap');
+
+    // Si riassegna la sorgente solo se cambia davvero: riscrivere lo stesso
+    // indirizzo fa ripartire il download della clip.
+    var src = 'assets/video/loop/' + btn.getAttribute('data-loop') + '.mp4';
+    if (peekVid.getAttribute('src') !== src) peekVid.src = src;
+
+    var pr = peekVid.play();
+    if (pr && pr.catch) pr.catch(function () {});
+    if (!touch) posiziona(x, y);
+    peek.classList.add('show');
+
+    if (touch && !hintVisto) {
+      hintVisto = true;
+      hint.classList.remove('show');
+      try { localStorage.setItem('bjSectorHint', '1'); } catch (e) {}
+    }
+  }
+
+  function nascondiLoop() {
+    if (!attivo) return;
+    // Non si chiude subito: una breve tolleranza assorbe le uscite di un
+    // istante, dovute al movimento della pagina o al bordo dell'etichetta.
+    clearTimeout(timerChiusura);
+    timerChiusura = setTimeout(function () {
+      if (!attivo) return;
+      attivo.classList.remove('on');
+      attivo = null;
+      peek.classList.remove('show');
+      // La sorgente si stacca solo a dissolvenza finita, altrimenti il
+      // fotogramma sparisce di colpo invece di sfumare.
+      timerPulizia = setTimeout(function () {
+        if (!attivo) { peekVid.pause(); peekVid.removeAttribute('src'); peekVid.load(); }
+      }, 500);
+    }, 140);
+  }
+
+  function posiziona(x, y) {
+    var w = peek.offsetWidth || 320, h = peek.offsetHeight || 180;
+    var m = 16;
+    // Tenuta dentro allo schermo: vicino al cursore ma mai tagliata
+    var px = Math.min(Math.max(x, w / 2 + m), window.innerWidth  - w / 2 - m);
+    var py = Math.min(Math.max(y - h / 2 - 24, h / 2 + m), window.innerHeight - h / 2 - m);
+    peek.style.left = px + 'px';
+    peek.style.top  = py + 'px';
+  }
+
+  document.querySelectorAll('.sector').forEach(function (btn) {
+    if (touch) {
+      btn.addEventListener('touchstart', function (e) {
+        mostraLoop(btn, 0, 0);
+      }, { passive: true });
+      // Qualunque modo in cui il dito lascia lo schermo chiude il loop
+      ['touchend', 'touchcancel'].forEach(function (ev) {
+        btn.addEventListener(ev, function (e) { e.preventDefault(); nascondiLoop(); },
+                             { passive: false });
+      });
+    } else {
+      btn.addEventListener('mouseenter', function (e) { mostraLoop(btn, e.clientX, e.clientY); });
+      btn.addEventListener('mousemove',  function (e) { if (attivo === btn) posiziona(e.clientX, e.clientY); });
+      btn.addEventListener('mouseleave', nascondiLoop);
+      // Da tastiera il loop compare comunque, ancorato al centro dell'etichetta
+      btn.addEventListener('focus', function () {
+        var r = btn.getBoundingClientRect();
+        mostraLoop(btn, r.left + r.width / 2, r.top);
+      });
+      btn.addEventListener('blur', nascondiLoop);
+    }
+  });
+  // Niente chiusura sullo scroll: bastava un movimento minimo della pagina
+  // per far sparire il loop appena aperto. Se la pagina scorre, l'etichetta
+  // esce da sotto il cursore e ci pensa mouseleave.
+
+  /* ═══════════════════════════════════════════════════════
+     BLOCCO 6 — The Story of Bill Jobs
+     L'iframe viene creato all'apertura e distrutto alla chiusura: così il
+     video si ferma davvero, e finché non si clicca YouTube non viene
+     nemmeno contattato.
+  ═══════════════════════════════════════════════════════ */
+  var overlay      = document.getElementById('overlay');
+  var overlayFrame = document.getElementById('overlayFrame');
+  var storyBtn     = document.getElementById('storyBtn');
+  var scrollSalvato = 0;
+
+  function apriStoria() {
+    // Si annota dove si era: chiudendo si torna esattamente lì.
+    scrollSalvato = window.scrollY || window.pageYOffset;
+    var f = document.createElement('iframe');
+    f.src = 'https://www.youtube-nocookie.com/embed/TrLO4PL-8jI' +
+            '?autoplay=1&rel=0&modestbranding=1&playsinline=1&iv_load_policy=3';
+    f.title = 'The Story of Bill Jobs';
+    f.allow = 'autoplay; encrypted-media; fullscreen';
+    f.setAttribute('allowfullscreen', '');
+    overlayFrame.appendChild(f);
+
+    overlay.classList.add('mounted');
+    // Un frame di stacco perché la dissolvenza parta davvero da zero
+    requestAnimationFrame(function () { overlay.classList.add('show'); });
+    document.body.classList.add('locked');
+    document.getElementById('overlayClose').focus();
+  }
+
+  function chiudiStoria() {
+    overlay.classList.remove('show');
+    document.body.classList.remove('locked');
+    // Niente reload e niente ritorno in cima: si resta dov'eravamo
+    window.scrollTo(0, scrollSalvato);
+    setTimeout(function () {
+      overlay.classList.remove('mounted');
+      overlayFrame.innerHTML = '';
+      storyBtn.focus();
+    }, 500);
+  }
+
+  storyBtn.addEventListener('click', apriStoria);
+  document.getElementById('overlayClose').addEventListener('click', chiudiStoria);
+  overlay.addEventListener('click', function (e) {
+    if (e.target === overlay) chiudiStoria();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && overlay.classList.contains('mounted')) chiudiStoria();
+  });
 
   /* ── Apertura dei due pannelli ──────────────────────── */
   function collega(bottone, pannello, altroBottone, altroPannello) {
