@@ -1,35 +1,35 @@
 <!DOCTYPE html>
-<html lang="en" style="background:#000;color-scheme:dark">
+<html lang="it" style="background:#000;color-scheme:dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="color-scheme" content="dark">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
-<title>Who Is BillJobs? — Creative Production House</title>
-<meta name="description" content="BillJobs is a cinematic lab built on 24 years of real productions. Music videos, live shows, branded content. Any scale. Any format.">
-<meta property="og:title" content="Who Is BillJobs?">
-<meta property="og:description" content="Runner, direttore di produzione, scenografo, regista. 24 anni di produzioni cinematografiche. Io lavoro lì, dove la visione incontra la realtà.">
+<title>Chi è Bill Jobs</title>
+<meta name="description" content="Bill Jobs è una rete di collaboratori esterni costruita in oltre vent'anni di set. Dove la visione incontra la realtà.">
+<meta property="og:title" content="Chi è Bill Jobs">
+<meta property="og:description" content="Bill Jobs ha bisogno del genio che c'è in te.">
 <meta property="og:image" content="https://billjobs.it/assets/img/who_is_billjobs.jpg">
 <meta property="og:url" content="https://billjobs.it/who-is.html">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Who Is BillJobs?">
-<meta name="twitter:description" content="Runner, direttore di produzione, scenografo, regista. 24 anni di produzioni reali.">
+<meta name="twitter:title" content="Chi è Bill Jobs">
+<meta name="twitter:description" content="Bill Jobs ha bisogno del genio che c'è in te.">
 <meta name="twitter:image" content="https://billjobs.it/assets/img/who_is_billjobs.jpg">
 <link rel="apple-touch-icon" href="assets/img/logo_billjobs.png">
 <meta name="theme-color" content="#000000">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Person",
-  "name": "Bill Jobs",
-  "url": "https://billjobs.it/who-is.html",
+  "@type": "Organization",
+  "name": "BillJobs",
+  "url": "https://billjobs.it",
+  "logo": "https://billjobs.it/assets/img/logo_billjobs.png",
   "image": "https://billjobs.it/assets/img/who_is_billjobs.jpg",
-  "jobTitle": "Regista e Direttore di Produzione",
-  "description": "Runner, direttore di produzione, scenografo, regista. Ha realizzato effetti speciali per il cinema. Gestisce troupe fino a sessanta persone.",
-  "worksFor": { "@type": "Organization", "name": "BillJobs", "url": "https://billjobs.it" },
-  "knowsAbout": ["Regia", "Direzione di Produzione", "Scenografia", "Effetti Speciali", "Music Video", "Fashion Film"]
+  "description": "Bill Jobs è una rete di collaboratori esterni — direttori della fotografia, scenografi, stylist, fonici, elettricisti, macchinisti, attori, modelli — costruita in oltre vent'anni di set.",
+  "areaServed": "IT",
+  "knowsAbout": ["Music Video", "Fashion Film", "Branded Content", "Produzione Video", "Regia"]
 }
 </script>
 <link rel="canonical" href="https://billjobs.it/who-is.html">
@@ -39,6 +39,18 @@
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap"></noscript>
 
+<!-- Senza JavaScript nulla porterebbe gli elementi da opacity:0 a 1, la
+     schermata d'ingresso resterebbe sopra a tutto e i due pannelli non si
+     aprirebbero mai: la pagina apparirebbe vuota. Qui si smonta l'impianto
+     delle animazioni e si mostra tutto in chiaro. -->
+<noscript><style>
+  .enter-screen { display: none !important; }
+  body.locked { overflow: auto !important; }
+  .site-header { opacity: 1 !important; }
+  .rise, .belonging { opacity: 1 !important; transform: none !important; }
+  .panel { display: block !important; }
+</style></noscript>
+
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -46,7 +58,6 @@
   --black: #000;
   --white: #fff;
   --grey: rgba(255,255,255,0.45);
-  --grey-text: rgba(255,255,255,0.65);
   --font-ui: 'Space Grotesk', -apple-system, sans-serif;
   --font-ed: 'DM Serif Display', Georgia, serif;
 }
@@ -59,16 +70,15 @@ html {
   font-family: -apple-system, sans-serif;
   font-family: var(--font-ui);
   -webkit-font-smoothing: antialiased;
-  scroll-behavior: smooth;
 }
 
-body { overflow-x: hidden; }
+body { overflow-x: hidden; background: #000; }
 body.locked { overflow: hidden; }
 
 a { color: inherit; text-decoration: none; }
 
 /* ─────────────────────────────────────────
-   ENTER SCREEN
+   1. SCHERMATA D'INGRESSO
 ───────────────────────────────────────── */
 .enter-screen {
   position: fixed;
@@ -79,57 +89,71 @@ a { color: inherit; text-decoration: none; }
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 0 8vw;
   cursor: pointer;
-  transition: opacity 0.9s ease;
+  transition: opacity 1s ease;
   user-select: none;
   -webkit-user-select: none;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
-
-.enter-screen.out {
-  opacity: 0;
-  pointer-events: none;
-}
+.enter-screen.out { opacity: 0; pointer-events: none; }
 
 .enter-logo {
-  height: clamp(56px, 7vw, 90px);
+  height: clamp(52px, 6.5vw, 84px);
   width: auto;
   filter: brightness(0) invert(1);
   opacity: 0;
-  animation: fadeUp 1s ease 0.4s forwards;
+  animation: fadeUp 1.1s ease 0.3s forwards;
+}
+
+/* Il claim è il primo testo che chiunque vede: entra da solo, lentamente,
+   e solo dopo compare l'invito a entrare. */
+.enter-claim {
+  margin-top: clamp(38px, 6vh, 64px);
+  max-width: 18ch;
+  font-family: var(--font-ed);
+  font-size: clamp(26px, 5.4vw, 54px);
+  font-weight: 400;
+  line-height: 1.25;
+  text-align: center;
+  color: var(--white);
+  opacity: 0;
+  animation: fadeUp 2s cubic-bezier(0.22, 0.61, 0.36, 1) 1.1s forwards;
 }
 
 .enter-cta {
   position: absolute;
-  bottom: 48px;
+  bottom: calc(46px + env(safe-area-inset-bottom, 0px));
   font-family: var(--font-ui);
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 500;
   letter-spacing: 0.32em;
+  text-indent: 0.32em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.3);
+  color: rgba(255,255,255,0.75);
   opacity: 0;
-  animation: fadeUp 1s ease 1s forwards;
+  animation: fadeUp 1.2s ease 3.1s forwards;
   display: flex;
   align-items: center;
   gap: 12px;
 }
-
 .enter-cta::before,
 .enter-cta::after {
   content: '';
   display: block;
   width: 20px;
   height: 1px;
-  background: rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.3);
 }
 
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(10px); }
+  from { opacity: 0; transform: translateY(12px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
 /* ─────────────────────────────────────────
-   NAV — fixed overlay
+   HEADER
 ───────────────────────────────────────── */
 .site-header {
   position: fixed;
@@ -137,288 +161,310 @@ a { color: inherit; text-decoration: none; }
   z-index: 200;
   padding: 0 5vw;
   opacity: 0;
+  transition: opacity 0.9s ease;
 }
+.site-header.visible { opacity: 1; }
 
 .header-inner {
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  padding-top: 24px;
-  padding-bottom: 16px;
+  align-items: center;
+  padding-top: 22px;
+  padding-bottom: 14px;
 }
-
-.logo-img-link { display: inline-block; flex-shrink: 0; outline: none; -webkit-tap-highlight-color: transparent; }
+.logo-img-link { display: inline-block; -webkit-tap-highlight-color: transparent; }
 .logo-img {
-  height: clamp(44px, 5vw, 72px);
+  height: clamp(42px, 4.6vw, 66px);
   width: auto;
   display: block;
   filter: brightness(0) invert(1);
 }
 
-.main-nav {
-  display: flex;
-  align-items: baseline;
-  flex-wrap: wrap;
-  justify-content: flex-end;
+/* ─────────────────────────────────────────
+   IMPIANTO COMUNE DEI BLOCCHI
+───────────────────────────────────────── */
+main { max-width: 900px; margin: 0 auto; padding: 0 6vw; }
+
+section { padding: clamp(90px, 14vh, 160px) 0; }
+section:first-of-type { padding-top: clamp(130px, 22vh, 240px); }
+
+/* Ogni elemento animato parte spostato e trasparente; la classe .in lo
+   riporta a posto quando entra nel viewport. Nessuna libreria esterna:
+   la pagina si apre da un QR, spesso su rete mobile, e un CDN che non
+   risponde non deve poterla lasciare vuota. */
+.rise {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 1.15s cubic-bezier(0.22, 0.61, 0.36, 1),
+              transform 1.15s cubic-bezier(0.22, 0.61, 0.36, 1);
+  will-change: opacity, transform;
+}
+.rise.in { opacity: 1; transform: translateY(0); }
+
+/* Le righe di uno stesso paragrafo entrano sfalsate, come un montaggio */
+.rise[data-delay="1"] { transition-delay: 0.14s; }
+.rise[data-delay="2"] { transition-delay: 0.28s; }
+.rise[data-delay="3"] { transition-delay: 0.42s; }
+
+/* Senza JavaScript il contenuto deve restare leggibile */
+.no-js .rise { opacity: 1; transform: none; }
+
+/* ─────────────────────────────────────────
+   2. MANIFESTO
+───────────────────────────────────────── */
+.manifesto-lead {
+  font-family: var(--font-ed);
+  font-size: clamp(19px, 2.3vw, 32px);
+  line-height: 1.5;
+  color: rgba(255,255,255,0.72);
+  margin-bottom: clamp(56px, 9vh, 96px);
 }
 
-.main-nav a {
-  font-size: clamp(9px, 1vw, 11px);
+.manifesto-claim {
+  font-family: var(--font-ed);
+  font-size: clamp(32px, 5.6vw, 76px);
+  line-height: 1.12;
+  color: var(--white);
+}
+
+/* ─────────────────────────────────────────
+   3. NUMERI
+───────────────────────────────────────── */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid rgba(255,255,255,0.1);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.stat {
+  padding: clamp(30px, 4.5vh, 52px) clamp(10px, 2vw, 24px);
+  border-right: 1px solid rgba(255,255,255,0.1);
+}
+.stat:last-child { border-right: none; }
+
+.stat-num {
+  font-family: var(--font-ed);
+  font-size: clamp(34px, 5vw, 68px);
+  line-height: 1;
+  color: var(--white);
+  font-variant-numeric: tabular-nums;
+}
+.stat-label {
+  margin-top: 12px;
+  font-size: clamp(8px, 0.85vw, 10px);
   font-weight: 500;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--grey);
-  margin-left: 28px;
-  transition: color 0.2s;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.42);
 }
-
-.main-nav a:hover { color: var(--white); }
 
 /* ─────────────────────────────────────────
-   HERO — fullscreen reel
+   4. RETE DI COLLABORATORI
 ───────────────────────────────────────── */
-.hero {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  min-height: 500px;
-  overflow: hidden;
+.network {
+  font-family: var(--font-ed);
+  font-size: clamp(19px, 2.2vw, 30px);
+  line-height: 1.55;
+  color: rgba(255,255,255,0.8);
 }
 
-.hero-video {
-  position: absolute;
-  top: 0; right: 0; bottom: 0; left: 0;
-  z-index: 0;
+/* ─────────────────────────────────────────
+   5. DOPPIO CTA
+───────────────────────────────────────── */
+.cta-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
 }
-
-.hero-video iframe {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 177.78vh;
-  height: 56.25vw;
-  min-width: 100%;
-  min-height: 100%;
-  transform: translate(-50%, -50%);
-  border: none;
-}
-
-.hero-fallback {
-  position: absolute;
-  top: 0; right: 0; bottom: 0; left: 0;
-  background-image: url('assets/img/who_is_billjobs.jpg');
-  background-size: cover;
-  background-position: center;
-  z-index: 0;
-  transition: opacity 1.5s ease;
-}
-
-.hero-fallback.hidden { opacity: 0; pointer-events: none; }
-
-.hero-overlay {
-  position: absolute;
-  top: 0; right: 0; bottom: 0; left: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(0,0,0,0.5) 0%,
-    rgba(0,0,0,0.08) 45%,
-    rgba(0,0,0,0.65) 100%
-  );
-  z-index: 1;
-  pointer-events: none;
-}
-
-.hero-label {
-  position: absolute;
-  bottom: 40px;
-  left: 5vw;
-  z-index: 2;
-  font-size: clamp(9px, 1vw, 11px);
-  font-weight: 500;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--grey);
-}
-
-/* Mute toggle */
-.mute-btn {
-  position: absolute;
-  bottom: 34px;
-  right: 5vw;
-  z-index: 2;
+.cta {
+  appearance: none;
   background: none;
-  border: 1px solid rgba(255,255,255,0.22);
-  color: rgba(255,255,255,0.55);
+  border: 1px solid rgba(255,255,255,0.28);
+  color: var(--white);
+  font-family: var(--font-ui);
+  font-size: clamp(11px, 1.15vw, 13px);
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-indent: 0.16em;
+  text-transform: uppercase;
+  padding: clamp(24px, 3.4vh, 34px) 14px;
   cursor: pointer;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  transition: border-color 0.2s, color 0.2s;
-  padding: 0;
+  transition: border-color 0.45s ease, color 0.45s ease, font-weight 0.45s ease;
+  text-align: center;
 }
+.cta:hover, .cta:focus-visible {
+  border-color: rgba(255,255,255,0.85);
+  font-weight: 600;
+  outline: none;
+}
+.cta[aria-expanded="true"] { border-color: rgba(255,255,255,0.85); font-weight: 600; }
 
-.mute-btn.visible { display: flex; }
-.mute-btn:hover { border-color: rgba(255,255,255,0.55); color: var(--white); }
-.mute-btn svg { width: 14px; height: 14px; fill: currentColor; }
-.mute-btn .icon-unmute { display: none; }
-.mute-btn.muted .icon-mute { display: none; }
-.mute-btn.muted .icon-unmute { display: block; }
+.cta-note {
+  margin-top: 22px;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  text-align: center;
+  line-height: 1.9;
+}
 
 /* ─────────────────────────────────────────
-   STAT STRIP
+   PANNELLI (form diretto / 3 domande)
 ───────────────────────────────────────── */
-.stat-strip {
-  display: flex;
-  align-items: center;
-  border-top: 1px solid rgba(255,255,255,0.08);
-  border-bottom: 1px solid rgba(255,255,255,0.08);
+.panel {
+  display: none;
+  margin-top: clamp(46px, 7vh, 76px);
+}
+.panel.open { display: block; animation: panelIn 0.9s cubic-bezier(0.22,0.61,0.36,1); }
+@keyframes panelIn {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-.stat-item {
-  flex: 1;
-  padding: 48px 5vw;
-  border-right: 1px solid rgba(255,255,255,0.08);
-  opacity: 0;
-  transform: translateY(16px);
-}
-
-.stat-item:last-child { border-right: none; }
-
-.stat-number {
+.q-block { margin-bottom: clamp(38px, 5.5vh, 58px); }
+.q-title {
   font-family: var(--font-ed);
-  font-size: clamp(52px, 8vw, 100px);
+  font-size: clamp(21px, 2.5vw, 32px);
+  line-height: 1.3;
+  color: var(--white);
+  margin-bottom: 20px;
+}
+.q-num {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.32);
+  margin-bottom: 12px;
+}
+
+.opts { display: flex; flex-wrap: wrap; gap: 10px; }
+.opt {
+  appearance: none;
+  background: none;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 2px;
+  color: rgba(255,255,255,0.75);
+  font-family: var(--font-ui);
+  font-size: clamp(12px, 1.2vw, 14px);
   font-weight: 400;
-  line-height: 1;
-  color: var(--white);
-  display: flex;
-  align-items: flex-start;
+  padding: 13px 18px;
+  cursor: pointer;
+  transition: border-color 0.35s ease, color 0.35s ease, background 0.35s ease;
+  text-align: left;
+}
+.opt:hover, .opt:focus-visible { border-color: rgba(255,255,255,0.5); color: var(--white); outline: none; }
+.opt.sel {
+  border-color: rgba(255,255,255,0.9);
+  color: #000;
+  background: rgba(255,255,255,0.92);
 }
 
-.stat-plus {
-  font-family: var(--font-ed);
-  font-size: clamp(40px, 6vw, 80px);
-  color: var(--white);
-  line-height: 1;
-}
-
-.stat-label {
+/* ─────────────────────────────────────────
+   CAMPI
+───────────────────────────────────────── */
+.field { margin-bottom: 22px; }
+.field label {
+  display: block;
   font-size: 10px;
   font-weight: 500;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.4);
-  margin-top: 10px;
+  color: rgba(255,255,255,0.42);
+  margin-bottom: 9px;
 }
-
-/* ─────────────────────────────────────────
-   MANIFESTO — single column
-───────────────────────────────────────── */
-.manifesto {
-  padding: 100px 5vw 80px;
-  max-width: 860px;
-}
-
-.manifesto-lead-text {
-  font-family: var(--font-ed);
-  font-size: clamp(20px, 2.4vw, 36px);
-  font-weight: 400;
-  line-height: 1.4;
-  color: rgba(255,255,255,0.7);
-  margin-bottom: 48px;
-  opacity: 0;
-  transform: translateY(20px);
-}
-
-.manifesto-io-lavoro {
-  font-family: var(--font-ed);
-  font-size: clamp(36px, 6vw, 92px);
-  font-weight: 400;
-  line-height: 1.05;
+.field input,
+.field textarea {
+  width: 100%;
+  background: none;
+  border: none;
+  border-bottom: 1px solid rgba(255,255,255,0.22);
   color: var(--white);
-  margin-bottom: 80px;
-  padding-bottom: 80px;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
-  opacity: 0;
-  transform: translateY(24px);
+  font-family: var(--font-ui);
+  font-size: clamp(15px, 1.5vw, 17px);
+  padding: 10px 0;
+  transition: border-color 0.35s ease;
+  border-radius: 0;
 }
+.field textarea { resize: vertical; min-height: 76px; line-height: 1.6; }
+.field input:focus,
+.field textarea:focus { outline: none; border-bottom-color: rgba(255,255,255,0.85); }
+.field input::placeholder,
+.field textarea::placeholder { color: rgba(255,255,255,0.22); }
 
-.manifesto-bio {
+/* 7. RIGA D'APPARTENENZA — sopra il campo email.
+   È l'unico momento in prima persona: entra più lentamente del resto,
+   per marcare il cambio di tono. */
+.belonging {
+  margin: clamp(40px, 6vh, 64px) 0 clamp(30px, 4.5vh, 46px);
+  padding-left: 20px;
+  border-left: 1px solid rgba(255,255,255,0.25);
   font-family: var(--font-ed);
-  font-size: clamp(17px, 1.8vw, 26px);
-  font-weight: 400;
+  font-size: clamp(17px, 1.9vw, 24px);
   line-height: 1.6;
-  color: rgba(255,255,255,0.75);
-  margin-bottom: 40px;
+  color: rgba(255,255,255,0.86);
   opacity: 0;
   transform: translateY(20px);
+  transition: opacity 2.1s cubic-bezier(0.22,0.61,0.36,1),
+              transform 2.1s cubic-bezier(0.22,0.61,0.36,1);
 }
+.belonging.in { opacity: 1; transform: translateY(0); }
+.no-js .belonging { opacity: 1; transform: none; }
 
-.manifesto-crew {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px 0;
-  margin-bottom: 56px;
-  opacity: 0;
-  transform: translateY(16px);
-}
-
-.manifesto-crew span {
-  font-size: clamp(9px, 0.85vw, 11px);
-  font-weight: 500;
-  letter-spacing: 0.2em;
+.send {
+  appearance: none;
+  margin-top: 12px;
+  background: rgba(255,255,255,0.93);
+  border: 1px solid rgba(255,255,255,0.93);
+  color: #000;
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-indent: 0.18em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.3);
+  padding: 17px 40px;
+  cursor: pointer;
+  transition: opacity 0.35s ease;
 }
+.send:hover, .send:focus-visible { opacity: 0.82; outline: none; }
+.send[disabled] { opacity: 0.45; cursor: default; }
 
-.manifesto-crew span::after {
-  content: '·';
-  margin: 0 10px;
-  color: rgba(255,255,255,0.15);
+.form-msg {
+  margin-top: 20px;
+  font-size: clamp(12px, 1.2vw, 14px);
+  line-height: 1.7;
+  color: rgba(255,255,255,0.72);
+  min-height: 1.2em;
 }
+.form-msg.err { color: #ff8a8a; }
 
-.manifesto-crew span:last-child::after { content: ''; margin: 0; }
+/* Conferma: sostituisce il form, senza cambiare pagina */
+.done {
+  display: none;
+  font-family: var(--font-ed);
+  font-size: clamp(21px, 2.6vw, 32px);
+  line-height: 1.4;
+  color: var(--white);
+  padding: clamp(30px, 5vh, 50px) 0;
+}
+.done.show { display: block; animation: panelIn 1s cubic-bezier(0.22,0.61,0.36,1); }
 
 /* ─────────────────────────────────────────
-   FINAL STATEMENT
-───────────────────────────────────────── */
-.final-statement {
-  padding: 80px 5vw 120px;
-  border-top: 1px solid rgba(255,255,255,0.08);
-}
-
-.final-statement p {
-  font-family: var(--font-ed);
-  font-size: clamp(28px, 4.5vw, 72px);
-  font-weight: 400;
-  line-height: 1.15;
-  color: var(--white);
-  opacity: 0;
-  transform: translateY(24px);
-  max-width: 860px;
-}
-
-.final-statement p.glowing {
-  animation: textGlow 4s ease-in-out infinite;
-}
-
-@keyframes textGlow {
-  0%, 100% { text-shadow: none; }
-  50% { text-shadow: 0 0 40px rgba(255,255,255,0.10), 0 0 80px rgba(255,255,255,0.05); }
-}/* ─────────────────────────────────────────
-   FOOTER STRIP
+   8. FOOTER — invariato
 ───────────────────────────────────────── */
 .site-footer {
   border-top: 1px solid rgba(255,255,255,0.08);
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 28px 5vw 32px;
+  padding: 28px 5vw calc(32px + env(safe-area-inset-bottom, 0px));
   gap: 16px;
+  margin-top: clamp(60px, 10vh, 120px);
 }
-
 .footer-label {
   font-size: 9px;
   font-weight: 500;
@@ -426,7 +472,6 @@ a { color: inherit; text-decoration: none; }
   text-transform: uppercase;
   color: rgba(255,255,255,0.3);
 }
-
 .footer-links {
   display: flex;
   width: 100%;
@@ -434,7 +479,6 @@ a { color: inherit; text-decoration: none; }
   justify-content: space-between;
   align-items: center;
 }
-
 .footer-link {
   font-size: 9px;
   font-weight: 500;
@@ -443,61 +487,36 @@ a { color: inherit; text-decoration: none; }
   color: var(--grey);
   transition: color 0.2s;
 }
-
 .footer-link:hover { color: var(--white); }
 
 /* ─────────────────────────────────────────
-   GSAP FALLBACK — se il CDN non carica, il
-   contenuto rimane visibile (non opacity:0)
-───────────────────────────────────────── */
-body.no-gsap .site-header,
-body.no-gsap .stat-item,
-body.no-gsap .manifesto-lead-text,
-body.no-gsap .manifesto-io-lavoro,
-body.no-gsap .manifesto-bio,
-body.no-gsap .manifesto-crew,
-body.no-gsap .final-statement p {
-  opacity: 1 !important;
-  transform: none !important;
-}
-
-/* ─────────────────────────────────────────
-   MOBILE
+   MOBILE — stessa struttura, una colonna
 ───────────────────────────────────────── */
 @media (max-width: 767px) {
-  .stat-strip { flex-direction: column; }
-  .stat-item {
-    border-right: none;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-    padding: 36px 20px;
-    width: 100%;
-  }
-  .stat-item:last-child { border-bottom: none; }
+  .stats { grid-template-columns: 1fr 1fr; }
+  .stat { border-bottom: 1px solid rgba(255,255,255,0.1); }
+  .stat:nth-child(2n) { border-right: none; }
+  .stat:nth-child(n+3) { border-bottom: none; }
 
-  .header-inner { padding-top: 20px; }
+  .cta-pair { grid-template-columns: 1fr; }
+  .opts { flex-direction: column; }
+  .opt { width: 100%; }
 
-  .manifesto { padding: 80px 5vw 60px; }
-
-  .final-statement { padding: 60px 5vw 80px; }
-
-  .hero-label { bottom: 28px; }
-  .mute-btn { bottom: 28px; }
-
-  .site-footer { padding: 20px 20px 24px; gap: 12px; }
   .footer-links { max-width: 100%; }
   .footer-link { font-size: 11px; }
 }
 </style>
 </head>
-<body class="locked" style="background:#000">
+<body class="locked">
 
-<!-- ── ENTER SCREEN ──────────────────── -->
+<!-- ── 1. SCHERMATA D'INGRESSO ──────────── -->
 <div class="enter-screen" id="enterScreen">
   <img src="assets/img/logo_header.png" alt="BillJobs" class="enter-logo">
-  <span class="enter-cta">Enter</span>
+  <p class="enter-claim">Bill Jobs ha bisogno del genio che c'è in te.</p>
+  <span class="enter-cta">Entra</span>
 </div>
 
-<!-- ── HEADER ───────────────────────── -->
+<!-- ── HEADER ───────────────────────────── -->
 <header class="site-header" id="siteHeader">
   <div class="header-inner">
     <a href="index.html" class="logo-img-link">
@@ -506,74 +525,138 @@ body.no-gsap .final-statement p {
   </div>
 </header>
 
-<!-- ── HERO ─────────────────────────── -->
-<section class="hero" id="hero">
-  <div class="hero-fallback" id="heroFallback"></div>
-  <div class="hero-video" id="heroVideo"></div>
-  <div class="hero-overlay"></div>
-  <span class="hero-label">BillJobs — Showreel</span>
+<main>
 
-  <button class="mute-btn" id="muteBtn" aria-label="Mute video">
-    <svg class="icon-mute" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
-    </svg>
-    <svg class="icon-unmute" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
-    </svg>
-  </button>
-</section>
+  <!-- ── 2. MANIFESTO ───────────────────── -->
+  <section id="manifesto">
+    <p class="manifesto-lead rise">Ci sono idee bellissime che non verranno mai realizzate. E poi ci sono idee possibili, quelle che trovano la strada per diventare reali. Perché tra immaginare qualcosa e farla esistere davvero c&rsquo;è un territorio che pochi conoscono.</p>
+    <p class="manifesto-claim rise" data-delay="1">Bill Jobs lavora lì,<br>dove la visione<br>incontra la realtà.</p>
+  </section>
 
-<!-- ── STAT STRIP ─────────────────────── -->
-<div class="stat-strip" id="statStrip">
-  <div class="stat-item" id="statItem1">
-    <div class="stat-number">
-      <span id="counter1">0</span><span class="stat-plus">+</span>
+  <!-- ── 3. NUMERI ──────────────────────── -->
+  <section id="numeri">
+    <div class="stats rise" id="stats">
+      <div class="stat">
+        <div class="stat-num"><span data-to="150">150</span><span>+</span></div>
+        <p class="stat-label">Progetti completati</p>
+      </div>
+      <div class="stat">
+        <div class="stat-num"><span data-to="24">24</span></div>
+        <p class="stat-label">Anni di set</p>
+      </div>
+      <div class="stat">
+        <div class="stat-num"><span data-to="30">30</span><span>+</span></div>
+        <p class="stat-label">Collaboratori esterni</p>
+      </div>
+      <div class="stat">
+        <div class="stat-num"><span data-to="100">100</span><span>%</span></div>
+        <p class="stat-label">Clienti soddisfatti</p>
+      </div>
     </div>
-    <p class="stat-label">Progetti completati</p>
-  </div>
-  <div class="stat-item" id="statItem2">
-    <div class="stat-number">
-      <span id="counter2">0</span>
-    </div>
-    <p class="stat-label">Anni di esperienza</p>
-  </div>
-  <div class="stat-item" id="statItem3">
-    <div class="stat-number">
-      <span id="counter3">0</span><span class="stat-plus">+</span>
-    </div>
-    <p class="stat-label">Collaboratori</p>
-  </div>
-  <div class="stat-item" id="statItem4">
-    <div class="stat-number">
-      <span id="counter4">0</span>
-    </div>
-    <p class="stat-label">Clienti insoddisfatti</p>
-  </div>
-</div>
+  </section>
 
-<!-- ── MANIFESTO ────────────────────── -->
-<section class="manifesto" id="manifesto">
-  <p class="manifesto-lead-text">Ci sono idee bellissime che non verranno mai realizzate. E poi ci sono idee possibili, quelle che trovano la strada per diventare reali. Perché tra immaginare qualcosa e farla esistere davvero c&rsquo;è un territorio che pochi conoscono.</p>
-  <p class="manifesto-io-lavoro">Io lavoro lì,<br>dove la visione<br>incontra la realtà.</p>
-  <p class="manifesto-bio">Sono stato runner, direttore di produzione, scenografo, regista. Ho realizzato effetti speciali per il cinema. In questo percorso ho costruito una rete di collaboratori tecnici fino a gestire troupe di sessanta persone.</p>
-  <div class="manifesto-crew">
-    <span>Direttori della fotografia</span>
-    <span>Scenografi</span>
-    <span>Stylist</span>
-    <span>Fonici</span>
-    <span>Elettricisti</span>
-    <span>Macchinisti</span>
-    <span>Attori</span>
-    <span>Modelli</span>
-  </div>
-</section>
+  <!-- ── 4. RETE DI COLLABORATORI ────────── -->
+  <section id="rete">
+    <p class="network rise">Bill Jobs è una rete di collaboratori esterni — direttori della fotografia, scenografi, stylist, fonici, elettricisti, macchinisti, attori, modelli — costruita in oltre vent&rsquo;anni di set.</p>
+  </section>
 
-<!-- ── FINAL STATEMENT ───────────────── -->
-<section class="final-statement" id="finalStatement">
-  <p id="finalText">Bill Jobs non è un nome,<br>è un metodo con cui le idee<br>diventano cose vere.</p>
-</section>
+  <!-- ── 5. DOPPIO CTA ──────────────────── -->
+  <section id="contatto">
+    <div class="cta-pair rise">
+      <button class="cta" id="ctaDiretto" type="button" aria-expanded="false" aria-controls="panelDiretto">Contattalo</button>
+      <button class="cta" id="ctaDomande" type="button" aria-expanded="false" aria-controls="panelDomande">Scopri se fa per te</button>
+    </div>
 
-<!-- ── FOOTER ───────────────────────── -->
+    <!-- ── PERCORSO A — form diretto ─────── -->
+    <div class="panel" id="panelDiretto">
+      <form id="formDiretto" novalidate>
+        <div class="field">
+          <label for="dNome">Nome</label>
+          <input type="text" id="dNome" name="nome" autocomplete="name" placeholder="Come ti chiami">
+        </div>
+        <div class="field">
+          <label for="dProgetto">Il progetto</label>
+          <textarea id="dProgetto" name="progetto" rows="3" placeholder="Una riga su cosa hai in mente"></textarea>
+        </div>
+
+        <!-- 7. Riga d'appartenenza, sopra il campo email -->
+        <p class="belonging">La fiducia si costruisce nel tempo. Ma un inizio ci vuole sempre — e sono pronto a venirti incontro, anche sui costi, per farlo succedere.</p>
+
+        <div class="field">
+          <label for="dEmail">Email</label>
+          <input type="email" id="dEmail" name="email" autocomplete="email" placeholder="Dove ti ricontatto" required>
+        </div>
+        <button class="send" type="submit">Invia</button>
+        <p class="form-msg" id="msgDiretto" role="status" aria-live="polite"></p>
+      </form>
+      <div class="done" id="doneDiretto">Grazie, ti ricontatto a breve.</div>
+    </div>
+
+    <!-- ── PERCORSO B — le 3 domande ─────── -->
+    <div class="panel" id="panelDomande">
+      <form id="formDomande" novalidate>
+
+        <div class="q-block" data-q="1">
+          <p class="q-title"><span class="q-num">01</span>Cosa hai in mente?</p>
+          <div class="opts">
+            <button class="opt" type="button">Un video per l&rsquo;azienda</button>
+            <button class="opt" type="button">Un progetto musicale</button>
+            <button class="opt" type="button">Uno spot o un brand content</button>
+            <button class="opt" type="button">Contenuti social</button>
+            <button class="opt" type="button">Non è ancora chiaro, ne parliamo</button>
+          </div>
+        </div>
+
+        <div class="q-block" data-q="2">
+          <p class="q-title"><span class="q-num">02</span>Di cosa hai bisogno?</p>
+          <div class="opts">
+            <button class="opt" type="button">Un&rsquo;idea da sviluppare</button>
+            <button class="opt" type="button">Qualcuno che diriga il set</button>
+            <button class="opt" type="button">Pre-produzione e organizzazione</button>
+            <button class="opt" type="button">Post-produzione, montaggio, color</button>
+            <button class="opt" type="button">Una squadra che lo faccia succedere</button>
+          </div>
+        </div>
+
+        <div class="q-block" data-q="3">
+          <p class="q-title"><span class="q-num">03</span>A che punto siete?</p>
+          <div class="opts">
+            <button class="opt" type="button">Solo un&rsquo;idea, per ora</button>
+            <button class="opt" type="button">Abbiamo già un concept</button>
+            <button class="opt" type="button">La stiamo sviluppando</button>
+            <button class="opt" type="button">Pronti a produrre</button>
+            <button class="opt" type="button">Non è ancora chiaro</button>
+          </div>
+        </div>
+
+        <!-- Campo libero per chi non si riconosce nelle opzioni -->
+        <div class="field">
+          <label for="qAltro">Vuoi aggiungere qualcosa?</label>
+          <textarea id="qAltro" name="altro" rows="2" placeholder="Facoltativo"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="qNome">Nome</label>
+          <input type="text" id="qNome" name="nome" autocomplete="name" placeholder="Come ti chiami">
+        </div>
+
+        <!-- 7. Riga d'appartenenza, sopra il campo email -->
+        <p class="belonging">La fiducia si costruisce nel tempo. Ma un inizio ci vuole sempre — e sono pronto a venirti incontro, anche sui costi, per farlo succedere.</p>
+
+        <div class="field">
+          <label for="qEmail">Email</label>
+          <input type="email" id="qEmail" name="email" autocomplete="email" placeholder="Dove ti ricontatto" required>
+        </div>
+        <button class="send" type="submit">Invia</button>
+        <p class="form-msg" id="msgDomande" role="status" aria-live="polite"></p>
+      </form>
+      <div class="done" id="doneDomande">Grazie, ti ricontatto a breve.</div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ── 8. FOOTER — invariato ────────────── -->
 <footer class="site-footer">
   <span class="footer-label">Get in touch</span>
   <div class="footer-links">
@@ -583,183 +666,226 @@ body.no-gsap .final-statement p {
   </div>
 </footer>
 
-<!-- ── GSAP ─────────────────────────── -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" onerror="document.body.classList.add('no-gsap')"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" onerror="document.body.classList.add('no-gsap')"></script>
-
 <script>
 (function () {
   'use strict';
 
-  // Se il CDN di GSAP non risponde (rete lenta o bloccata) tutti gli elementi
-  // resterebbero a opacity:0 e la pagina apparirebbe vuota. La classe no-gsap
-  // li rende visibili subito: si perdono le animazioni, non il contenuto.
-  const hasGsap = typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined';
-  if (!hasGsap) document.body.classList.add('no-gsap');
-  else gsap.registerPlugin(ScrollTrigger);
+  /* ═══════════════════════════════════════════════════════════════
+     INVIO DEI FORM
 
-  const enterScreen  = document.getElementById('enterScreen');
-  const heroVideo    = document.getElementById('heroVideo');
-  const heroFallback = document.getElementById('heroFallback');
-  const muteBtn      = document.getElementById('muteBtn');
-  let   iframeEl     = null;
-  let   isMuted      = false;
+     Il sito è su GitHub Pages: file statici, nessun backend proprio.
+     I dati vengono quindi inoltrati a Web3Forms, che li gira per email.
 
-  /* ── Enter screen click ─── */
-  enterScreen.addEventListener('click', function () {
+     >>> PER ATTIVARE L'INVIO: incollare qui sotto la chiave ottenuta su
+     >>> web3forms.com inserendo contact@billjobs.it (arriva per email,
+     >>> è gratuita e non richiede account).
+
+     Finché la chiave resta vuota il pulsante NON finge di funzionare:
+     apre il programma di posta con tutti i campi già compilati, così
+     il messaggio arriva comunque.
+  ═══════════════════════════════════════════════════════════════ */
+  var CHIAVE_WEB3FORMS = '';
+  var EMAIL_DESTINATARIO = 'contact@billjobs.it';
+
+  var enterScreen = document.getElementById('enterScreen');
+  var header      = document.getElementById('siteHeader');
+
+  /* ── Ingresso ───────────────────────────────────────── */
+  function entra() {
     document.body.classList.remove('locked');
     enterScreen.classList.add('out');
+    header.classList.add('visible');
+    setTimeout(function () {
+      if (enterScreen.parentNode) enterScreen.remove();
+    }, 1100);
+  }
+  enterScreen.addEventListener('click', entra, { once: true });
+  enterScreen.addEventListener('touchend', function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    entra();
+  }, { once: true, passive: false });
 
-    // Inject YouTube iframe WITH audio — browser allows it after the user gesture above
-    iframeEl = document.createElement('iframe');
-    iframeEl.src = [
-      'https://www.youtube.com/embed/TrLO4PL-8jI',
-      '?autoplay=1&loop=1&playlist=TrLO4PL-8jI',
-      '&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&enablejsapi=1'
-    ].join('');
-    iframeEl.title = 'BillJobs Showreel';
-    iframeEl.allow = 'autoplay; encrypted-media';
-    heroVideo.appendChild(iframeEl);
+  /* ── Entrate in scena allo scroll ───────────────────────
+     IntersectionObserver invece di una libreria: nessun CDN da cui
+     dipendere, e se qualcosa va storto il contenuto resta comunque
+     visibile grazie a .no-js. */
+  var osservatore = null;
+  if ('IntersectionObserver' in window) {
+    osservatore = new IntersectionObserver(function (voci) {
+      voci.forEach(function (v) {
+        if (!v.isIntersecting) return;
+        v.target.classList.add('in');
+        osservatore.unobserve(v.target);
+        if (v.target.id === 'stats') contaNumeri();
+      });
+    }, { threshold: 0.2, rootMargin: '0px 0px -8% 0px' });
 
-    // Show mute button
-    muteBtn.classList.add('visible');
-
-    // Fade in header
-    if (hasGsap) {
-      gsap.to('#siteHeader', { opacity: 1, y: 0, duration: 0.9, ease: 'power2.out', delay: 0.5 });
-    }
-
-    // La fallback sparisce quando il player sta davvero riproducendo, non dopo
-    // un timeout fisso: su rete lenta 2.5s non bastavano e restava nero.
-    let fallbackHidden = false;
-    const hideFallback = () => {
-      if (fallbackHidden) return;
-      fallbackHidden = true;
-      heroFallback.classList.add('hidden');
-    };
-
-    window.addEventListener('message', (ev) => {
-      if (ev.origin !== 'https://www.youtube.com') return;
-      let data;
-      try { data = JSON.parse(ev.data); } catch (err) { return; }
-      // playerState 1 = playing
-      if (data && data.event === 'infoDelivery' && data.info && data.info.playerState === 1) {
-        hideFallback();
-      }
+    document.querySelectorAll('.rise, .belonging').forEach(function (el) {
+      osservatore.observe(el);
     });
-
-    // Handshake necessario perché l'iframe inizi a inviare gli eventi di stato
-    iframeEl.addEventListener('load', () => {
-      try {
-        iframeEl.contentWindow.postMessage(
-          JSON.stringify({ event: 'listening', id: 'bjHero' }),
-          'https://www.youtube.com'
-        );
-      } catch (err) {}
-    });
-
-    // Failsafe: se l'API non risponde, non lasciare la fallback per sempre
-    setTimeout(hideFallback, 8000);
-
-    // Remove enter screen node after fade completes
-    setTimeout(() => { if (enterScreen.parentNode) enterScreen.remove(); }, 1000);
-  }, { once: true });
-
-  /* ── Mute / unmute via postMessage ─── */
-  muteBtn.addEventListener('click', function () {
-    if (!iframeEl) return;
-    isMuted = !isMuted;
-    muteBtn.classList.toggle('muted', isMuted);
-    iframeEl.contentWindow.postMessage(
-      JSON.stringify({ event: 'command', func: isMuted ? 'mute' : 'unMute', args: [] }),
-      'https://www.youtube.com'
-    );
-  });
-
-  /* ── GSAP scroll animations ─── */
-
-  // Senza GSAP le animazioni si saltano, ma i contatori vanno riempiti a mano:
-  // partono da 0 nell'HTML ed è l'animazione a portarli al valore finale.
-  if (!hasGsap) {
-    document.getElementById('counter1').textContent = '150';
-    document.getElementById('counter2').textContent = '24';
-    document.getElementById('counter3').textContent = '30';
-    return;
+    // I numeri sono scritti nell'HTML col valore finale, così restano
+    // leggibili anche senza JavaScript. Qui si azzerano per poterli contare.
+    document.querySelectorAll('[data-to]').forEach(function (el) { el.textContent = '0'; });
+  } else {
+    document.documentElement.classList.add('no-js');
+    contaNumeri();
   }
 
-  // Stats — staggered entrance + sequential counters
-  ScrollTrigger.create({
-    trigger: '#statStrip', start: 'top 82%', once: true,
-    onEnter: () => {
-      // Fade in each stat item with stagger
-      gsap.to(['#statItem1','#statItem2','#statItem3','#statItem4'], {
-        opacity: 1, y: 0, duration: 0.7, ease: 'power2.out', stagger: 0.18
-      });
-      // Counter 1: 0 → 150+
-      gsap.to({ val: 0 }, {
-        val: 150, duration: 2.2, ease: 'power2.out',
-        onUpdate: function () {
-          document.getElementById('counter1').textContent = Math.round(this.targets()[0].val);
-        }
-      });
-      // Counter 2: 0 → 24 (delayed)
-      gsap.to({ val: 0 }, {
-        val: 24, duration: 1.4, ease: 'power2.out', delay: 0.5,
-        onUpdate: function () {
-          document.getElementById('counter2').textContent = Math.round(this.targets()[0].val);
-        }
-      });
-      // Counter 3: 0 → 30+ (collaboratori)
-      gsap.to({ val: 0 }, {
-        val: 30, duration: 1.2, ease: 'power2.out', delay: 0.9,
-        onUpdate: function () {
-          document.getElementById('counter3').textContent = Math.round(this.targets()[0].val);
-        }
-      });
-      // Stat 4: 0 stays 0, reveals with a confident scale
-      gsap.from('#counter4', {
-        scale: 0.6, opacity: 0, duration: 0.6, ease: 'back.out(2)', delay: 1.3
-      });
-    }
-  });
+  /* ── Numeri che contano da zero ─────────────────────── */
+  var contati = false;
+  function contaNumeri() {
+    if (contati) return;
+    contati = true;
+    document.querySelectorAll('[data-to]').forEach(function (el, i) {
+      var meta = parseInt(el.getAttribute('data-to'), 10);
+      var durata = 1500 + i * 260;
+      var avvio = null;
+      function passo(t) {
+        if (avvio === null) avvio = t;
+        var p = Math.min(1, (t - avvio) / durata);
+        // decelerazione: parte deciso e si posa, non si ferma di colpo
+        var e = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.round(meta * e);
+        if (p < 1) requestAnimationFrame(passo);
+      }
+      requestAnimationFrame(passo);
+    });
+  }
 
-  // Manifesto paragraphs — each fades in on scroll
-  const manifestoEls = [
-    '.manifesto-lead-text',
-    '.manifesto-io-lavoro',
-    '.manifesto-bio'
-  ];
+  /* ── Apertura dei due pannelli ──────────────────────── */
+  function collega(bottone, pannello, altroBottone, altroPannello) {
+    bottone.addEventListener('click', function () {
+      var aperto = pannello.classList.contains('open');
+      altroPannello.classList.remove('open');
+      altroBottone.setAttribute('aria-expanded', 'false');
+      pannello.classList.toggle('open', !aperto);
+      bottone.setAttribute('aria-expanded', String(!aperto));
+      if (!aperto) {
+        // La riga d'appartenenza è dentro al pannello: finché era nascosto
+        // l'osservatore non poteva vederla.
+        pannello.querySelectorAll('.belonging').forEach(function (el) {
+          if (osservatore) osservatore.observe(el); else el.classList.add('in');
+        });
+        setTimeout(function () {
+          pannello.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 60);
+      }
+    });
+  }
+  var btnD = document.getElementById('ctaDiretto');
+  var btnQ = document.getElementById('ctaDomande');
+  var panD = document.getElementById('panelDiretto');
+  var panQ = document.getElementById('panelDomande');
+  collega(btnD, panD, btnQ, panQ);
+  collega(btnQ, panQ, btnD, panD);
 
-  manifestoEls.forEach((sel) => {
-    gsap.to(sel, {
-      opacity: 1, y: 0, duration: 0.85, ease: 'power2.out',
-      scrollTrigger: { trigger: sel, start: 'top 84%', once: true }
+  /* ── Scelta rapida nelle 3 domande ──────────────────── */
+  document.querySelectorAll('.q-block').forEach(function (blocco) {
+    blocco.querySelectorAll('.opt').forEach(function (opt) {
+      opt.addEventListener('click', function () {
+        var giaScelto = opt.classList.contains('sel');
+        blocco.querySelectorAll('.opt').forEach(function (o) { o.classList.remove('sel'); });
+        // Ricliccando la stessa opzione la si deseleziona
+        if (!giaScelto) opt.classList.add('sel');
+      });
     });
   });
 
-  // Crew list — each tag staggers in after bio
-  gsap.to('.manifesto-crew', {
-    opacity: 1, y: 0, duration: 0.7, ease: 'power2.out',
-    scrollTrigger: { trigger: '.manifesto-crew', start: 'top 86%', once: true }
-  });
-  gsap.from('.manifesto-crew span', {
-    opacity: 0, y: 8, duration: 0.4, stagger: 0.06, ease: 'power2.out',
-    scrollTrigger: { trigger: '.manifesto-crew', start: 'top 86%', once: true }
-  });
+  function rispostaDi(n) {
+    var sel = document.querySelector('.q-block[data-q="' + n + '"] .opt.sel');
+    return sel ? sel.textContent.trim() : '(nessuna risposta)';
+  }
 
-  // Final statement — reveal + glow
-  ScrollTrigger.create({
-    trigger: '#finalStatement', start: 'top 85%', once: true,
-    onEnter: () => {
-      const el = document.getElementById('finalText');
-      gsap.to(el, {
-        opacity: 1, y: 0, duration: 1.1, ease: 'power2.out',
-        onComplete: () => el.classList.add('glowing')
-      });
+  /* ── Invio ──────────────────────────────────────────── */
+  function valida(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(email).trim());
+  }
+
+  function componiMailto(oggetto, campi) {
+    var corpo = Object.keys(campi).map(function (k) {
+      return k + ': ' + campi[k];
+    }).join('\n\n');
+    return 'mailto:' + EMAIL_DESTINATARIO +
+      '?subject=' + encodeURIComponent(oggetto) +
+      '&body=' + encodeURIComponent(corpo);
+  }
+
+  function invia(form, campi, oggetto, msgEl, doneEl) {
+    var bottone = form.querySelector('.send');
+    msgEl.classList.remove('err');
+
+    if (!valida(campi['Email'])) {
+      msgEl.classList.add('err');
+      msgEl.textContent = 'Serve un indirizzo email valido per poterti rispondere.';
+      return;
     }
+
+    // Senza chiave configurata non si finge un invio: si apre la posta
+    // con tutto già scritto, e lo si dice.
+    if (!CHIAVE_WEB3FORMS) {
+      window.location.href = componiMailto(oggetto, campi);
+      msgEl.textContent = 'Si apre il tuo programma di posta con il messaggio già pronto: basta premere invia.';
+      return;
+    }
+
+    bottone.disabled = true;
+    msgEl.textContent = 'Invio in corso…';
+
+    var dati = { access_key: CHIAVE_WEB3FORMS, subject: oggetto, from_name: 'billjobs.it' };
+    Object.keys(campi).forEach(function (k) { dati[k] = campi[k]; });
+
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(dati)
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (esito) {
+        if (esito && esito.success) {
+          form.style.display = 'none';
+          doneEl.classList.add('show');
+        } else {
+          throw new Error((esito && esito.message) || 'invio rifiutato');
+        }
+      })
+      .catch(function () {
+        // Nessun vicolo cieco: se la rete o il servizio falliscono, il
+        // messaggio può comunque partire dalla posta dell'utente.
+        bottone.disabled = false;
+        msgEl.classList.add('err');
+        msgEl.innerHTML = 'Invio non riuscito. ' +
+          '<a href="' + componiMailto(oggetto, campi) + '" style="text-decoration:underline">' +
+          'Scrivimi via email</a>, il messaggio è già pronto.';
+      });
+  }
+
+  document.getElementById('formDiretto').addEventListener('submit', function (e) {
+    e.preventDefault();
+    invia(this, {
+      'Nome': document.getElementById('dNome').value.trim() || '(non indicato)',
+      'Email': document.getElementById('dEmail').value.trim(),
+      'Progetto': document.getElementById('dProgetto').value.trim() || '(non indicato)',
+      'Percorso': 'Contattalo — form diretto'
+    }, 'billjobs.it — Contatto diretto',
+       document.getElementById('msgDiretto'),
+       document.getElementById('doneDiretto'));
   });
 
-
+  document.getElementById('formDomande').addEventListener('submit', function (e) {
+    e.preventDefault();
+    invia(this, {
+      'Nome': document.getElementById('qNome').value.trim() || '(non indicato)',
+      'Email': document.getElementById('qEmail').value.trim(),
+      '01 Cosa hai in mente': rispostaDi(1),
+      '02 Di cosa hai bisogno': rispostaDi(2),
+      '03 A che punto siete': rispostaDi(3),
+      'Note libere': document.getElementById('qAltro').value.trim() || '(nessuna)',
+      'Percorso': 'Scopri se fa per te — 3 domande'
+    }, 'billjobs.it — Le 3 domande',
+       document.getElementById('msgDomande'),
+       document.getElementById('doneDomande'));
+  });
 })();
 </script>
 </body>
