@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="it" style="background:#000;color-scheme:dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<title>The Story — Bill Jobs</title>
+<meta name="description" content="Una mente di produzione, costruita tra regia, sistema e istinto visivo.">
+<meta property="og:title" content="The Story — Bill Jobs">
+<meta property="og:description" content="Una mente di produzione, costruita tra regia, sistema e istinto visivo.">
+<meta property="og:image" content="https://billjobs.it/assets/img/who_is_billjobs.jpg">
+<meta property="og:url" content="https://billjobs.it/story.html">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Story — Bill Jobs">
+<meta name="twitter:description" content="Una mente di produzione, costruita tra regia, sistema e istinto visivo.">
+<meta name="twitter:image" content="https://billjobs.it/assets/img/who_is_billjobs.jpg">
+<link rel="apple-touch-icon" href="assets/img/logo_billjobs.png">
+<meta name="theme-color" content="#000000">
+<link rel="canonical" href="https://billjobs.it/story.html">
+<link rel="icon" type="image/png" href="assets/img/favicon_black.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap"></noscript>
+
+<noscript><style>
+  .rise { opacity: 1 !important; transform: none !important; }
+</style></noscript>
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black: #000;
+  --white: #fff;
+  --grey: rgba(255,255,255,0.45);
+  --font-ui: 'Space Grotesk', -apple-system, sans-serif;
+  --font-ed: 'DM Serif Display', Georgia, serif;
+}
+
+html {
+  background: #000; background: var(--black);
+  color: #fff; color: var(--white);
+  font-family: -apple-system, sans-serif;
+  font-family: var(--font-ui);
+  -webkit-font-smoothing: antialiased;
+}
+body { overflow-x: hidden; background: #000; }
+body.locked { overflow: hidden; }
+a { color: inherit; text-decoration: none; }
+
+/* ─────────────────────────────────────────
+   3.1 HEADER
+───────────────────────────────────────── */
+.site-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  padding: 0 5vw;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.9), rgba(0,0,0,0));
+}
+.header-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-top: 22px; padding-bottom: 22px;
+}
+.logo-img-link { display: inline-block; -webkit-tap-highlight-color: transparent; }
+.logo-img {
+  height: clamp(42px, 4.6vw, 66px);
+  width: auto; display: block;
+  filter: brightness(0) invert(1);
+}
+.nav-link {
+  font-size: clamp(10px, 1vw, 12px);
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-indent: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+  transition: color 0.35s ease;
+  padding: 10px 0;
+}
+.nav-link:hover, .nav-link:focus-visible { color: var(--white); outline: none; }
+
+/* ─────────────────────────────────────────
+   IMPIANTO EDITORIALE
+───────────────────────────────────────── */
+main { max-width: 900px; margin: 0 auto; padding: 0 6vw; }
+section { padding: clamp(80px, 13vh, 150px) 0; }
+section:first-of-type { padding-top: clamp(150px, 26vh, 280px); }
+
+.rise {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 1.15s cubic-bezier(0.22,0.61,0.36,1),
+              transform 1.15s cubic-bezier(0.22,0.61,0.36,1);
+  will-change: opacity, transform;
+}
+.rise.in { opacity: 1; transform: translateY(0); }
+.rise[data-delay="1"] { transition-delay: 0.16s; }
+.rise[data-delay="2"] { transition-delay: 0.32s; }
+.rise[data-delay="3"] { transition-delay: 0.48s; }
+
+/* Variante senza spostamento, per i blocchi che contengono comandi: se
+   l'elemento sale mentre il cursore e' gia' fermo li' sopra, il puntatore
+   ne esce e rientra, e il loop si chiuderebbe e riaprirebbe. */
+.rise.rise-fade { transform: none; }
+
+/* Occhiello di sezione */
+.eyebrow {
+  font-size: clamp(9px, 0.95vw, 11px);
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-indent: 0.28em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+  margin-bottom: 22px;
+}
+
+/* Titolo grande editoriale */
+.h-big {
+  font-family: var(--font-ed);
+  font-size: clamp(32px, 5.6vw, 76px);
+  line-height: 1.12;
+  color: var(--white);
+}
+.h-mid {
+  font-family: var(--font-ed);
+  font-size: clamp(26px, 4vw, 52px);
+  line-height: 1.2;
+  color: var(--white);
+}
+
+/* Paragrafo editoriale */
+.p-ed {
+  font-family: var(--font-ed);
+  font-size: clamp(19px, 2.2vw, 30px);
+  line-height: 1.55;
+  color: rgba(255,255,255,0.78);
+}
+.p-ed + .p-ed { margin-top: clamp(26px, 4vh, 42px); }
+
+/* Sottotitolo secco sotto un titolo */
+.sub {
+  margin-top: 20px;
+  font-family: var(--font-ui);
+  font-size: clamp(13px, 1.4vw, 17px);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.55);
+}
+
+/* 3.3 Origini — righe che entrano sfalsate, come un montaggio */
+.lines p {
+  font-family: var(--font-ed);
+  font-size: clamp(20px, 2.5vw, 34px);
+  line-height: 1.45;
+  color: rgba(255,255,255,0.82);
+}
+.lines p + p { margin-top: clamp(14px, 2vh, 22px); }
+
+/* 3.5 Film. Digitale. AI. */
+.tools {
+  font-family: var(--font-ui);
+  font-size: clamp(18px, 3vw, 40px);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--white);
+  line-height: 1.3;
+}
+
+/* ─────────────────────────────────────────
+   3.9 FRAGMENTS — prova interattiva
+───────────────────────────────────────── */
+.sectors {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(14px, 2.6vw, 34px);
+  align-items: baseline;
+  margin-top: clamp(40px, 6vh, 64px);
+}
+.sector {
+  appearance: none; background: none; border: none;
+  padding: 10px 0 14px;
+  cursor: pointer;
+  position: relative;
+  font-family: var(--font-ui);
+  font-size: clamp(15px, 2.3vw, 26px);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.42);
+  transition: color 0.45s ease;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.sector::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: 6px;
+  height: 1px;
+  background: rgba(255,255,255,0.8);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.45s cubic-bezier(0.22,0.61,0.36,1);
+}
+.sector:hover, .sector:focus-visible, .sector.on { color: var(--white); outline: none; }
+.sector:hover::after, .sector:focus-visible::after, .sector.on::after { transform: scaleX(1); }
+
+/* Affordance touch: la pressione prolungata non e' un gesto intuibile da
+   solo, quindi un puntino pulsa finche' non lo si usa la prima volta. */
+.sector-hint {
+  display: none;
+  margin-top: 26px;
+  align-items: center;
+  gap: 10px;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+}
+.sector-hint.show { display: flex; }
+.sector-hint .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: rgba(255,255,255,0.85);
+  animation: dotBreath 1.6s ease-in-out infinite;
+  flex-shrink: 0;
+}
+@keyframes dotBreath {
+  0%, 100% { opacity: 0.25; transform: scale(0.8); }
+  50%      { opacity: 1;    transform: scale(1); }
+}
+
+.peek {
+  position: fixed;
+  z-index: 400;
+  width: min(38vw, 380px);
+  aspect-ratio: 16 / 9;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.96);
+  transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.22,0.61,0.36,1);
+  background: #000;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+}
+.peek.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+.peek video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.peek-cap {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  padding: 22px 12px 9px;
+  background: linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0));
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.8);
+}
+
+/* Su touch la finestra e' ancorata in basso: sotto il dito sarebbe coperta */
+@media (hover: none) {
+  .peek {
+    width: min(86vw, 520px);
+    left: 50% !important;
+    top: auto !important;
+    bottom: calc(28px + env(safe-area-inset-bottom, 0px));
+    transform: translate(-50%, 14px) scale(0.98);
+  }
+  .peek.show { transform: translate(-50%, 0) scale(1); }
+}
+
+/* ─────────────────────────────────────────
+   3.10 THE STORY OF BILL JOBS
+───────────────────────────────────────── */
+.story-intro {
+  font-family: var(--font-ed);
+  font-size: clamp(20px, 2.6vw, 34px);
+  line-height: 1.5;
+  color: rgba(255,255,255,0.82);
+  margin-bottom: clamp(34px, 5vh, 54px);
+}
+.story-frame {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #0a0a0a;
+  border: 1px solid rgba(255,255,255,0.1);
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+}
+.story-frame iframe { width: 100%; height: 100%; border: none; display: block; }
+.story-play {
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  background: #060606;
+  transition: background 0.4s ease;
+}
+.story-frame:hover .story-play { background: #0d0d0d; }
+.story-play .disc {
+  width: 62px; height: 62px;
+  border: 1px solid rgba(255,255,255,0.5);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  transition: border-color 0.4s ease;
+}
+.story-frame:hover .disc { border-color: rgba(255,255,255,0.9); }
+.story-play .disc::after {
+  content: '';
+  width: 0; height: 0;
+  margin-left: 4px;
+  border-left: 15px solid rgba(255,255,255,0.85);
+  border-top: 9px solid transparent;
+  border-bottom: 9px solid transparent;
+}
+.story-play span {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.26em;
+  text-indent: 0.26em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+}
+
+/* ─────────────────────────────────────────
+   3.11 CHIUSURA
+───────────────────────────────────────── */
+.tail {
+  padding: clamp(50px, 8vh, 90px) 0 calc(clamp(50px, 8vh, 90px) + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+.tail a {
+  font-size: clamp(12px, 1.3vw, 15px);
+  letter-spacing: 0.14em;
+  color: rgba(255,255,255,0.5);
+  transition: color 0.35s ease;
+}
+.tail a:hover, .tail a:focus-visible { color: var(--white); outline: none; }
+
+@media (max-width: 767px) {
+  .sectors { gap: 16px 22px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── 3.1 HEADER ───────────────────────── -->
+<header class="site-header">
+  <div class="header-inner">
+    <a href="who-is.html" class="logo-img-link" aria-label="Bill Jobs">
+      <img src="assets/img/logo_header.png" alt="BillJobs" class="logo-img">
+    </a>
+    <a href="index.html" class="nav-link">Lavori</a>
+  </div>
+</header>
+
+<main>
+
+  <!-- ── 3.2 APERTURA ───────────────────── -->
+  <section id="apertura">
+    <p class="eyebrow rise">Who is Bill Jobs</p>
+    <h1 class="h-big rise" data-delay="1">Una mente di produzione,<br>costruita tra regia, sistema<br>e istinto visivo.</h1>
+  </section>
+
+  <!-- ── 3.3 ORIGINI ────────────────────── -->
+  <section id="origini">
+    <div class="lines">
+      <p class="rise">Ho iniziato quando si girava in pellicola.</p>
+      <p class="rise" data-delay="1">Quando in frigo, insieme al latte, c&rsquo;erano le bobine.</p>
+      <p class="rise" data-delay="2">Quando sul set, ogni secondo contava davvero.</p>
+      <p class="rise" data-delay="3">Quel metodo è quello che ancora oggi permette alle idee di diventare concrete.</p>
+    </div>
+  </section>
+
+  <!-- ── 3.4 EVERYTHING BEHIND THE FRAME ── -->
+  <section id="frame">
+    <h2 class="h-big rise">Everything<br>behind the frame.</h2>
+    <p class="sub rise" data-delay="1">Visione. Sistema. Metodo.</p>
+    <p class="p-ed rise" data-delay="2" style="margin-top:clamp(40px,6vh,68px)">Le soluzioni creative migliori nascono da chi conosce ogni fase del processo.</p>
+  </section>
+
+  <!-- ── 3.5 FILM. DIGITALE. AI. ────────── -->
+  <section id="strumenti">
+    <p class="tools rise">Film. Digitale. AI.</p>
+    <p class="p-ed rise" data-delay="1" style="margin-top:clamp(28px,4vh,44px)">Gli strumenti cambiano. Il metodo resta.</p>
+  </section>
+
+  <!-- ── 3.6 RITMO DI PRODUZIONE ────────── -->
+  <section id="ritmo">
+    <p class="p-ed rise">Consegne notturne. Dirette gestite sotto pressione. Montaggi finiti prima dell&rsquo;alba e consegne immediate.</p>
+    <p class="p-ed rise" data-delay="1">Il ritmo lo insegna la produzione.</p>
+  </section>
+
+  <!-- ── 3.8 RETE DI COLLABORATORI ──────── -->
+  <section id="rete">
+    <p class="h-mid rise">Per fare accadere un&rsquo;idea,<br>servono le persone giuste.</p>
+    <p class="p-ed rise" data-delay="1" style="margin-top:clamp(34px,5vh,56px)">Bill Jobs ha una rete di collaboratori esterni costruita in oltre vent&rsquo;anni di set — 30+ professionisti: direttori della fotografia, scenografi, stylist, fonici, elettricisti, macchinisti, attori, modelli.</p>
+  </section>
+
+  <!-- ── 3.9 FRAGMENTS ──────────────────── -->
+  <section id="fragments">
+    <h2 class="h-big rise">Fragments</h2>
+    <p class="sub rise" data-delay="1">Non tutto quello che è successo. Solo i pezzi che contano.</p>
+
+    <div class="sectors rise rise-fade" data-delay="2" id="sectors">
+      <button class="sector" type="button" data-loop="beauty"    data-cap="Pleasure — AI Cosmetic Spot">Beauty</button>
+      <button class="sector" type="button" data-loop="biotech"   data-cap="My Organics — Oxygen Therapy">Biotech</button>
+      <button class="sector" type="button" data-loop="fashion"   data-cap="Cotril × Anteprima — Sfilata">Fashion</button>
+      <button class="sector" type="button" data-loop="corporate" data-cap="Verco — Film Aziendale">Corporate</button>
+      <button class="sector" type="button" data-loop="musica"    data-cap="Mr. Rain — Sincero">Musica</button>
+    </div>
+    <p class="sector-hint" id="sectorHint"><span class="dot"></span>Tieni premuto per vedere</p>
+  </section>
+
+  <!-- ── 3.10 THE STORY OF BILL JOBS ────── -->
+  <section id="story">
+    <p class="story-intro rise">Se vuoi sapere chi veramente è Bill Jobs, alza il volume.<br>Buona visione.</p>
+    <div class="story-frame rise" data-delay="1" id="storyFrame" role="button" tabindex="0"
+         aria-label="Riproduci The Story of Bill Jobs">
+      <div class="story-play" id="storyPlay">
+        <span class="disc"></span>
+        <span>The Story of Bill Jobs</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 3.11 CHIUSURA ──────────────────── -->
+  <nav class="tail">
+    <a href="genio.html">Il genio che c&rsquo;è in te →</a>
+  </nav>
+
+</main>
+
+<!-- Finestra fluttuante dei loop (3.9) -->
+<div class="peek" id="peek" aria-hidden="true">
+  <video id="peekVid" muted loop playsinline webkit-playsinline preload="none"></video>
+  <span class="peek-cap" id="peekCap"></span>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ── Entrate in scena, senza dipendenze esterne ─────── */
+  if ('IntersectionObserver' in window) {
+    var oss = new IntersectionObserver(function (voci) {
+      voci.forEach(function (v) {
+        if (!v.isIntersecting) return;
+        v.target.classList.add('in');
+        oss.unobserve(v.target);
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+    document.querySelectorAll('.rise').forEach(function (el) { oss.observe(el); });
+  } else {
+    document.querySelectorAll('.rise').forEach(function (el) { el.classList.add('in'); });
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     3.9 — Prova interattiva
+     Desktop: il loop segue il cursore. Touch: pressione prolungata,
+     con la finestra ancorata in basso perche' il dito la coprirebbe.
+  ═══════════════════════════════════════════════════════ */
+  var peek    = document.getElementById('peek');
+  var peekVid = document.getElementById('peekVid');
+  var peekCap = document.getElementById('peekCap');
+  var hint    = document.getElementById('sectorHint');
+  var touch   = window.matchMedia('(hover: none)').matches;
+  var attivo  = null;
+  var timerPulizia = null;   // svuota la sorgente a dissolvenza finita
+  var timerChiusura = null;  // tolleranza prima di considerare chiuso il loop
+
+  var hintVisto = false;
+  try { hintVisto = localStorage.getItem('bjSectorHint') === '1'; } catch (e) {}
+  if (touch && !hintVisto) hint.classList.add('show');
+
+  function mostraLoop(btn, x, y) {
+    // Qualunque chiusura in sospeso viene annullata: se il puntatore esce e
+    // rientra sulla stessa etichetta non si deve smontare e rimontare nulla,
+    // altrimenti la clip viene scaricata due volte.
+    clearTimeout(timerChiusura);
+    clearTimeout(timerPulizia);
+    if (attivo === btn) return;
+
+    attivo = btn;
+    btn.classList.add('on');
+    peekCap.textContent = btn.getAttribute('data-cap');
+
+    // Si riassegna la sorgente solo se cambia davvero: riscrivere lo stesso
+    // indirizzo fa ripartire il download della clip.
+    var src = 'assets/video/loop/' + btn.getAttribute('data-loop') + '.mp4';
+    if (peekVid.getAttribute('src') !== src) peekVid.src = src;
+
+    var pr = peekVid.play();
+    if (pr && pr.catch) pr.catch(function () {});
+    if (!touch) posiziona(x, y);
+    peek.classList.add('show');
+
+    if (touch && !hintVisto) {
+      hintVisto = true;
+      hint.classList.remove('show');
+      try { localStorage.setItem('bjSectorHint', '1'); } catch (e) {}
+    }
+  }
+
+  function nascondiLoop() {
+    if (!attivo) return;
+    clearTimeout(timerChiusura);
+    timerChiusura = setTimeout(function () {
+      if (!attivo) return;
+      attivo.classList.remove('on');
+      attivo = null;
+      peek.classList.remove('show');
+      // La sorgente si stacca solo a dissolvenza finita, altrimenti il
+      // fotogramma sparisce di colpo invece di sfumare.
+      timerPulizia = setTimeout(function () {
+        if (!attivo) { peekVid.pause(); peekVid.removeAttribute('src'); peekVid.load(); }
+      }, 500);
+    }, 140);
+  }
+
+  function posiziona(x, y) {
+    var w = peek.offsetWidth || 320, h = peek.offsetHeight || 180, m = 16;
+    // Vicino al cursore ma mai tagliata dal bordo dello schermo
+    var px = Math.min(Math.max(x, w / 2 + m), window.innerWidth  - w / 2 - m);
+    var py = Math.min(Math.max(y - h / 2 - 24, h / 2 + m), window.innerHeight - h / 2 - m);
+    peek.style.left = px + 'px';
+    peek.style.top  = py + 'px';
+  }
+
+  document.querySelectorAll('.sector').forEach(function (btn) {
+    if (touch) {
+      btn.addEventListener('touchstart', function () { mostraLoop(btn, 0, 0); }, { passive: true });
+      ['touchend', 'touchcancel'].forEach(function (ev) {
+        btn.addEventListener(ev, function (e) { e.preventDefault(); nascondiLoop(); },
+                             { passive: false });
+      });
+    } else {
+      btn.addEventListener('mouseenter', function (e) { mostraLoop(btn, e.clientX, e.clientY); });
+      btn.addEventListener('mousemove',  function (e) { if (attivo === btn) posiziona(e.clientX, e.clientY); });
+      btn.addEventListener('mouseleave', nascondiLoop);
+      // Da tastiera il loop compare comunque, ancorato all'etichetta
+      btn.addEventListener('focus', function () {
+        var r = btn.getBoundingClientRect();
+        mostraLoop(btn, r.left + r.width / 2, r.top);
+      });
+      btn.addEventListener('blur', nascondiLoop);
+    }
+  });
+
+  /* ═══════════════════════════════════════════════════════
+     3.10 — The Story of Bill Jobs
+     L'iframe nasce al click: prima di allora YouTube non viene contattato.
+  ═══════════════════════════════════════════════════════ */
+  var storyFrame = document.getElementById('storyFrame');
+  var storyPlay  = document.getElementById('storyPlay');
+
+  function apriStoria() {
+    if (storyFrame.querySelector('iframe')) return;
+    var f = document.createElement('iframe');
+    f.src = 'https://www.youtube-nocookie.com/embed/TrLO4PL-8jI' +
+            '?autoplay=1&rel=0&modestbranding=1&playsinline=1&iv_load_policy=3';
+    f.title = 'The Story of Bill Jobs';
+    f.allow = 'autoplay; encrypted-media; fullscreen';
+    f.setAttribute('allowfullscreen', '');
+    storyFrame.appendChild(f);
+    storyPlay.remove();
+    storyFrame.removeAttribute('role');
+    storyFrame.removeAttribute('tabindex');
+    storyFrame.style.cursor = 'default';
+  }
+
+  storyFrame.addEventListener('click', apriStoria);
+  storyFrame.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); apriStoria(); }
+  });
+})();
+</script>
+</body>
+</html>
