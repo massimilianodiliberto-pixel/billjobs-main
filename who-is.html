@@ -83,7 +83,7 @@ a { color: inherit; text-decoration: none; }
 .enter-screen.out { opacity: 0; pointer-events: none; }
 
 .enter-logo {
-  height: clamp(52px, 6.5vw, 84px);
+  height: clamp(44px, 5vw, 64px);
   width: auto;
   filter: brightness(0) invert(1);
   opacity: 0;
@@ -95,7 +95,7 @@ a { color: inherit; text-decoration: none; }
   margin-top: clamp(38px, 6vh, 64px);
   max-width: 18ch;
   font-family: var(--font-ed);
-  font-size: clamp(26px, 5.4vw, 54px);
+  font-size: clamp(19px, 3.4vw, 34px);
   line-height: 1.25;
   text-align: center;
   color: var(--white);
@@ -150,7 +150,7 @@ a { color: inherit; text-decoration: none; }
 }
 .logo-img-link { display: inline-block; -webkit-tap-highlight-color: transparent; }
 .logo-img {
-  height: clamp(42px, 4.6vw, 66px);
+  height: clamp(36px, 3.6vw, 50px);
   width: auto; display: block;
   filter: brightness(0) invert(1);
 }
@@ -180,14 +180,14 @@ section:first-of-type { padding-top: clamp(140px, 24vh, 260px); }
 ───────────────────────────────────────── */
 .manifesto-lead {
   font-family: var(--font-ed);
-  font-size: clamp(19px, 2.3vw, 32px);
+  font-size: clamp(14px, 1.4vw, 18px);
   line-height: 1.5;
   color: rgba(255,255,255,0.72);
   margin-bottom: clamp(56px, 9vh, 96px);
 }
 .manifesto-claim {
   font-family: var(--font-ed);
-  font-size: clamp(32px, 5.6vw, 76px);
+  font-size: clamp(22px, 3.4vw, 42px);
   line-height: 1.12;
   color: var(--white);
 }
@@ -202,29 +202,74 @@ section:first-of-type { padding-top: clamp(140px, 24vh, 260px); }
 }
 .door {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 11px;
   text-align: center;
-  border: 1px solid rgba(255,255,255,0.28);
-  padding: clamp(30px, 5vh, 46px) 18px;
-  font-family: var(--font-ui);
-  font-size: clamp(11px, 1.2vw, 14px);
-  font-weight: 500;
-  letter-spacing: 0.18em;
-  text-indent: 0.18em;
-  text-transform: uppercase;
-  color: var(--white);
-  transition: border-color 0.5s ease, font-weight 0.5s ease;
+  border: 1px solid rgba(255,255,255,0.2);
+  padding: clamp(26px, 4.2vh, 42px) 18px;
+  transition: border-color 0.5s ease;
   -webkit-tap-highlight-color: transparent;
 }
-.door:hover, .door:focus-visible {
-  border-color: rgba(255,255,255,0.85);
-  font-weight: 600;
-  outline: none;
+.door:hover, .door:focus-visible { border-color: rgba(255,255,255,0.7); outline: none; }
+
+/* La riga secca in alto e' il nome della porta; sotto, in corsivo, la
+   promessa di cosa si trova dall'altra parte. */
+.door-main {
+  font-family: var(--font-ui);
+  font-size: clamp(9px, 0.95vw, 11px);
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-indent: 0.22em;
+  text-transform: uppercase;
+  color: var(--white);
+  line-height: 1.6;
 }
+.door-sub {
+  font-family: var(--font-ed);
+  font-size: clamp(13px, 1.35vw, 17px);
+  font-style: italic;
+  color: rgba(255,255,255,0.45);
+  transition: color 0.5s ease;
+}
+.door:hover .door-sub, .door:focus-visible .door-sub { color: rgba(255,255,255,0.85); }
 
 @media (max-width: 767px) {
   .doors { grid-template-columns: 1fr; }
+}
+
+/* ─────────────────────────────────────────
+   FOOTER CONTATTI
+───────────────────────────────────────── */
+.site-footer {
+  border-top: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 28px 5vw calc(32px + env(safe-area-inset-bottom, 0px));
+  gap: 16px;
+  margin-top: clamp(60px, 10vh, 120px);
+}
+.footer-label {
+  font-size: 9px; font-weight: 500;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+}
+.footer-links {
+  display: flex; width: 100%; max-width: 360px;
+  justify-content: space-between; align-items: center;
+}
+.footer-link {
+  font-size: 9px; font-weight: 500;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--grey);
+  transition: color 0.2s;
+}
+.footer-link:hover, .footer-link:focus-visible { color: var(--white); outline: none; }
+@media (max-width: 767px) {
+  .footer-links { max-width: 100%; }
+  .footer-link { font-size: 11px; }
 }
 </style>
 </head>
@@ -240,7 +285,7 @@ section:first-of-type { padding-top: clamp(140px, 24vh, 260px); }
 <!-- ── 1.3 HEADER — solo logo ───────────── -->
 <header class="site-header" id="siteHeader">
   <div class="header-inner">
-    <a href="who-is.html" class="logo-img-link" aria-label="Bill Jobs">
+    <a href="index.html" class="logo-img-link" aria-label="Bill Jobs">
       <img src="assets/img/logo_header.png" alt="BillJobs" class="logo-img">
     </a>
   </div>
@@ -257,12 +302,27 @@ section:first-of-type { padding-top: clamp(140px, 24vh, 260px); }
   <!-- ── 1.4 DUE PORTE ──────────────────── -->
   <section id="porte">
     <div class="doors rise">
-      <a class="door" href="genio.html">Il genio che c&rsquo;è in te</a>
-      <a class="door" href="story.html">Scoprilo.</a>
+      <a class="door" href="genio.html">
+        <span class="door-main">Il genio che c&rsquo;è in te</span>
+        <span class="door-sub">Send a Signal</span>
+      </a>
+      <a class="door" href="story.html">
+        <span class="door-main">Everything behind the frame</span>
+        <span class="door-sub">Chi è B. J. ?</span>
+      </a>
     </div>
   </section>
 
 </main>
+
+<footer class="site-footer">
+  <span class="footer-label">Get in touch</span>
+  <div class="footer-links">
+    <a href="https://wa.me/393334639596" target="_blank" rel="noopener" class="footer-link">WhatsApp</a>
+    <a href="mailto:contact@billjobs.it" class="footer-link">Email</a>
+    <a href="https://www.instagram.com/billjobs_production" target="_blank" rel="noopener" class="footer-link">Instagram</a>
+  </div>
+</footer>
 
 <script>
 (function () {

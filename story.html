@@ -68,7 +68,7 @@ a { color: inherit; text-decoration: none; }
 }
 .logo-img-link { display: inline-block; -webkit-tap-highlight-color: transparent; }
 .logo-img {
-  height: clamp(42px, 4.6vw, 66px);
+  height: clamp(36px, 3.6vw, 50px);
   width: auto; display: block;
   filter: brightness(0) invert(1);
 }
@@ -122,13 +122,13 @@ section:first-of-type { padding-top: clamp(150px, 26vh, 280px); }
 /* Titolo grande editoriale */
 .h-big {
   font-family: var(--font-ed);
-  font-size: clamp(32px, 5.6vw, 76px);
+  font-size: clamp(22px, 3.4vw, 42px);
   line-height: 1.12;
   color: var(--white);
 }
 .h-mid {
   font-family: var(--font-ed);
-  font-size: clamp(26px, 4vw, 52px);
+  font-size: clamp(19px, 2.4vw, 30px);
   line-height: 1.2;
   color: var(--white);
 }
@@ -136,7 +136,7 @@ section:first-of-type { padding-top: clamp(150px, 26vh, 280px); }
 /* Paragrafo editoriale */
 .p-ed {
   font-family: var(--font-ed);
-  font-size: clamp(19px, 2.2vw, 30px);
+  font-size: clamp(14px, 1.4vw, 18px);
   line-height: 1.55;
   color: rgba(255,255,255,0.78);
 }
@@ -146,7 +146,7 @@ section:first-of-type { padding-top: clamp(150px, 26vh, 280px); }
 .sub {
   margin-top: 20px;
   font-family: var(--font-ui);
-  font-size: clamp(13px, 1.4vw, 17px);
+  font-size: clamp(12px, 1.2vw, 14px);
   font-weight: 400;
   letter-spacing: 0.04em;
   line-height: 1.7;
@@ -156,7 +156,7 @@ section:first-of-type { padding-top: clamp(150px, 26vh, 280px); }
 /* 3.3 Origini — righe che entrano sfalsate, come un montaggio */
 .lines p {
   font-family: var(--font-ed);
-  font-size: clamp(20px, 2.5vw, 34px);
+  font-size: clamp(15px, 1.6vw, 20px);
   line-height: 1.45;
   color: rgba(255,255,255,0.82);
 }
@@ -165,7 +165,7 @@ section:first-of-type { padding-top: clamp(150px, 26vh, 280px); }
 /* 3.5 Film. Digitale. AI. */
 .tools {
   font-family: var(--font-ui);
-  font-size: clamp(18px, 3vw, 40px);
+  font-size: clamp(14px, 1.8vw, 22px);
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -189,7 +189,7 @@ section:first-of-type { padding-top: clamp(150px, 26vh, 280px); }
   cursor: pointer;
   position: relative;
   font-family: var(--font-ui);
-  font-size: clamp(15px, 2.3vw, 26px);
+  font-size: clamp(12px, 1.4vw, 16px);
   font-weight: 500;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -279,7 +279,7 @@ section:first-of-type { padding-top: clamp(150px, 26vh, 280px); }
 ───────────────────────────────────────── */
 .story-intro {
   font-family: var(--font-ed);
-  font-size: clamp(20px, 2.6vw, 34px);
+  font-size: clamp(15px, 1.6vw, 20px);
   line-height: 1.5;
   color: rgba(255,255,255,0.82);
   margin-bottom: clamp(34px, 5vh, 54px);
@@ -349,6 +349,39 @@ section:first-of-type { padding-top: clamp(150px, 26vh, 280px); }
 @media (max-width: 767px) {
   .sectors { gap: 16px 22px; }
 }
+
+/* ─────────────────────────────────────────
+   FOOTER CONTATTI
+───────────────────────────────────────── */
+.site-footer {
+  border-top: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 28px 5vw calc(32px + env(safe-area-inset-bottom, 0px));
+  gap: 16px;
+  margin-top: clamp(60px, 10vh, 120px);
+}
+.footer-label {
+  font-size: 9px; font-weight: 500;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+}
+.footer-links {
+  display: flex; width: 100%; max-width: 360px;
+  justify-content: space-between; align-items: center;
+}
+.footer-link {
+  font-size: 9px; font-weight: 500;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--grey);
+  transition: color 0.2s;
+}
+.footer-link:hover, .footer-link:focus-visible { color: var(--white); outline: none; }
+@media (max-width: 767px) {
+  .footer-links { max-width: 100%; }
+  .footer-link { font-size: 11px; }
+}
 </style>
 </head>
 <body>
@@ -356,7 +389,7 @@ section:first-of-type { padding-top: clamp(150px, 26vh, 280px); }
 <!-- ── 3.1 HEADER ───────────────────────── -->
 <header class="site-header">
   <div class="header-inner">
-    <a href="who-is.html" class="logo-img-link" aria-label="Bill Jobs">
+    <a href="index.html" class="logo-img-link" aria-label="Bill Jobs">
       <img src="assets/img/logo_header.png" alt="BillJobs" class="logo-img">
     </a>
     <a href="index.html" class="nav-link">Lavori</a>
@@ -383,9 +416,8 @@ section:first-of-type { padding-top: clamp(150px, 26vh, 280px); }
 
   <!-- ── 3.4 EVERYTHING BEHIND THE FRAME ── -->
   <section id="frame">
-    <h2 class="h-big rise">Everything<br>behind the frame.</h2>
-    <p class="sub rise" data-delay="1">Visione. Sistema. Metodo.</p>
-    <p class="p-ed rise" data-delay="2" style="margin-top:clamp(40px,6vh,68px)">Le soluzioni creative migliori nascono da chi conosce ogni fase del processo.</p>
+    <p class="h-mid rise">Visione. Sistema. Metodo.</p>
+    <p class="p-ed rise" data-delay="1" style="margin-top:clamp(28px,4vh,44px)">Le soluzioni creative migliori nascono da chi conosce ogni fase del processo.</p>
   </section>
 
   <!-- ── 3.5 FILM. DIGITALE. AI. ────────── -->
@@ -412,11 +444,11 @@ section:first-of-type { padding-top: clamp(150px, 26vh, 280px); }
     <p class="sub rise" data-delay="1">Non tutto quello che è successo. Solo i pezzi che contano.</p>
 
     <div class="sectors rise rise-fade" data-delay="2" id="sectors">
-      <button class="sector" type="button" data-loop="beauty"    data-cap="Pleasure — AI Cosmetic Spot">Beauty</button>
-      <button class="sector" type="button" data-loop="biotech"   data-cap="My Organics — Oxygen Therapy">Biotech</button>
-      <button class="sector" type="button" data-loop="fashion"   data-cap="Cotril × Anteprima — Sfilata">Fashion</button>
-      <button class="sector" type="button" data-loop="corporate" data-cap="Verco — Film Aziendale">Corporate</button>
-      <button class="sector" type="button" data-loop="musica"    data-cap="Mr. Rain — Sincero">Musica</button>
+      <button class="sector" type="button" data-loop="music"   data-cap="Mr. Rain — Sincero">Music</button>
+      <button class="sector" type="button" data-loop="fashion" data-cap="Cotril × Anteprima — Sfilata">Fashion</button>
+      <button class="sector" type="button" data-loop="talent"  data-cap="Giulia Petronio — Fashion Film">Talent</button>
+      <button class="sector" type="button" data-loop="film"    data-cap="Film Teaser Berlinale — Up All Night">Film</button>
+      <button class="sector" type="button" data-loop="brand"   data-cap="Verco — Film Aziendale">Brand</button>
     </div>
     <p class="sector-hint" id="sectorHint"><span class="dot"></span>Tieni premuto per vedere</p>
   </section>
@@ -439,6 +471,15 @@ section:first-of-type { padding-top: clamp(150px, 26vh, 280px); }
   </nav>
 
 </main>
+
+<footer class="site-footer">
+  <span class="footer-label">Get in touch</span>
+  <div class="footer-links">
+    <a href="https://wa.me/393334639596" target="_blank" rel="noopener" class="footer-link">WhatsApp</a>
+    <a href="mailto:contact@billjobs.it" class="footer-link">Email</a>
+    <a href="https://www.instagram.com/billjobs_production" target="_blank" rel="noopener" class="footer-link">Instagram</a>
+  </div>
+</footer>
 
 <!-- Finestra fluttuante dei loop (3.9) -->
 <div class="peek" id="peek" aria-hidden="true">
