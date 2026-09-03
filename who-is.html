@@ -90,19 +90,8 @@ a { color: inherit; text-decoration: none; }
   animation: fadeUp 1.1s ease 0.3s forwards;
 }
 
-/* Il claim entra da solo, lentamente; l'invito a entrare arriva dopo. */
-.enter-claim {
-  margin-top: clamp(38px, 6vh, 64px);
-  max-width: 18ch;
-  font-family: var(--font-ed);
-  font-size: clamp(19px, 3.4vw, 34px);
-  line-height: 1.25;
-  text-align: center;
-  color: var(--white);
-  opacity: 0;
-  animation: fadeUp 2s cubic-bezier(0.22,0.61,0.36,1) 1.1s forwards;
-}
-
+/* Il logo entra da solo; l'invito a entrare arriva dopo. Le frasi non
+   stanno piu' qui: vivono tutte nel corpo della pagina. */
 .enter-cta {
   position: absolute;
   bottom: calc(46px + env(safe-area-inset-bottom, 0px));
@@ -114,7 +103,7 @@ a { color: inherit; text-decoration: none; }
   text-transform: uppercase;
   color: rgba(255,255,255,0.75);
   opacity: 0;
-  animation: fadeUp 1.2s ease 3.1s forwards;
+  animation: fadeUp 1.2s ease 1.9s forwards;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -193,50 +182,43 @@ section:first-of-type { padding-top: clamp(140px, 24vh, 260px); }
 }
 
 /* ─────────────────────────────────────────
-   1.4 DUE PORTE — stesso peso visivo
+   1.4 I DUE PASSAGGI
+   Nessun riquadro: la frase resta una frase, e sotto di essa sta la
+   scritta cliccabile che porta all'altra pagina.
 ───────────────────────────────────────── */
-.doors {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-}
-.door {
+.passages {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 11px;
-  text-align: center;
-  border: 1px solid rgba(255,255,255,0.2);
-  padding: clamp(26px, 4.2vh, 42px) 18px;
-  transition: border-color 0.5s ease;
+  gap: clamp(52px, 8vh, 88px);
+}
+.passage-line {
+  font-family: var(--font-ed);
+  font-size: clamp(17px, 2vw, 25px);
+  line-height: 1.3;
+  color: var(--white);
+  margin-bottom: clamp(14px, 2vh, 20px);
+}
+.passage-link {
+  display: inline-block;
+  font-family: var(--font-ui);
+  font-size: clamp(9px, 0.9vw, 10px);
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-indent: 0.24em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(255,255,255,0.22);
+  transition: color 0.45s ease, border-color 0.45s ease;
   -webkit-tap-highlight-color: transparent;
 }
-.door:hover, .door:focus-visible { border-color: rgba(255,255,255,0.7); outline: none; }
-
-/* La riga secca in alto e' il nome della porta; sotto, in corsivo, la
-   promessa di cosa si trova dall'altra parte. */
-.door-main {
-  font-family: var(--font-ui);
-  font-size: clamp(9px, 0.95vw, 11px);
-  font-weight: 500;
-  letter-spacing: 0.22em;
-  text-indent: 0.22em;
-  text-transform: uppercase;
+.passage-link:hover, .passage-link:focus-visible {
   color: var(--white);
-  line-height: 1.6;
+  border-color: rgba(255,255,255,0.8);
+  outline: none;
 }
-.door-sub {
-  font-family: var(--font-ed);
-  font-size: clamp(13px, 1.35vw, 17px);
-  font-style: italic;
-  color: rgba(255,255,255,0.45);
-  transition: color 0.5s ease;
-}
-.door:hover .door-sub, .door:focus-visible .door-sub { color: rgba(255,255,255,0.85); }
-
 @media (max-width: 767px) {
-  .doors { grid-template-columns: 1fr; }
+  .passage-link { font-size: 10px; padding-bottom: 8px; }
 }
 
 /* ─────────────────────────────────────────
@@ -278,7 +260,6 @@ section:first-of-type { padding-top: clamp(140px, 24vh, 260px); }
 <!-- ── 1.1 SCHERMATA D'INGRESSO ─────────── -->
 <div class="enter-screen" id="enterScreen">
   <img src="assets/img/logo_header.png" alt="BillJobs" class="enter-logo">
-  <p class="enter-claim">Bill Jobs ha bisogno del genio che c'è in te.</p>
   <span class="enter-cta">Entra</span>
 </div>
 
@@ -299,17 +280,17 @@ section:first-of-type { padding-top: clamp(140px, 24vh, 260px); }
     <p class="manifesto-claim rise" data-delay="1">Bill Jobs lavora lì,<br>dove la visione<br>incontra la realtà.</p>
   </section>
 
-  <!-- ── 1.4 DUE PORTE ──────────────────── -->
+  <!-- ── 1.4 I DUE PASSAGGI ─────────────── -->
   <section id="porte">
-    <div class="doors rise">
-      <a class="door" href="genio.html">
-        <span class="door-main">Il genio che c&rsquo;è in te</span>
-        <span class="door-sub">Send a Signal</span>
-      </a>
-      <a class="door" href="story.html">
-        <span class="door-main">Everything behind the frame</span>
-        <span class="door-sub">Chi è B. J. ?</span>
-      </a>
+    <div class="passages">
+      <div class="passage rise">
+        <p class="passage-line">Bill Jobs ha bisogno del genio che c&rsquo;è in te.</p>
+        <a class="passage-link" href="genio.html">Send a Signal</a>
+      </div>
+      <div class="passage rise" data-delay="1">
+        <p class="passage-line">Everything behind the frame</p>
+        <a class="passage-link" href="story.html">Chi è B. J. ?</a>
+      </div>
     </div>
   </section>
 
