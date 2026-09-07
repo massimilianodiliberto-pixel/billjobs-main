@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <title>Il genio che c'è in te — Bill Jobs</title>
-<meta name="description" content="150+ progetti completati, 24 anni di set, 30+ collaboratori esterni. Scrivi a Bill Jobs.">
+<meta name="description" content="Bill Jobs ha bisogno del genio che c'è in te. Raccontami il progetto che hai in mente.">
 <meta property="og:title" content="Il genio che c'è in te — Bill Jobs">
 <meta property="og:description" content="Bill Jobs ha bisogno del genio che c'è in te.">
 <meta property="og:image" content="https://billjobs.it/assets/img/who_is_billjobs.jpg">
@@ -52,7 +52,7 @@ body { overflow-x: hidden; background: #000; }
 a { color: inherit; text-decoration: none; }
 
 /* ─────────────────────────────────────────
-   2.1 HEADER — logo + link ai lavori
+   2.1 HEADER — solo logo
 ───────────────────────────────────────── */
 .site-header {
   position: fixed;
@@ -74,17 +74,6 @@ a { color: inherit; text-decoration: none; }
   width: auto; display: block;
   filter: brightness(0) invert(1);
 }
-.nav-link {
-  font-size: clamp(10px, 1vw, 12px);
-  font-weight: 500;
-  letter-spacing: 0.22em;
-  text-indent: 0.22em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.55);
-  transition: color 0.35s ease;
-  padding: 10px 0;
-}
-.nav-link:hover, .nav-link:focus-visible { color: var(--white); outline: none; }
 
 /* ─────────────────────────────────────────
    IMPIANTO DEI BLOCCHI
@@ -105,42 +94,26 @@ section:first-of-type { padding-top: clamp(150px, 26vh, 280px); }
 .rise[data-delay="2"] { transition-delay: 0.32s; }
 
 /* ─────────────────────────────────────────
-   2.2 TITOLO E NUMERI
+   2.2 TITOLO
+   Stessa voce dei titoli delle altre pagine: secca, maiuscola,
+   spaziata. Sotto, il sottotitolo nel corsivo del serif.
 ───────────────────────────────────────── */
 .page-claim {
-  font-family: var(--font-ed);
-  font-size: clamp(22px, 3.4vw, 42px);
-  line-height: 1.14;
-  color: var(--white);
-  margin-bottom: clamp(56px, 9vh, 100px);
-}
-
-.stats {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  border-top: 1px solid rgba(255,255,255,0.1);
-  border-bottom: 1px solid rgba(255,255,255,0.1);
-}
-.stat {
-  padding: clamp(30px, 4.5vh, 52px) clamp(10px, 2vw, 24px);
-  border-right: 1px solid rgba(255,255,255,0.1);
-}
-.stat:last-child { border-right: none; }
-.stat-num {
-  font-family: var(--font-ed);
-  font-size: clamp(26px, 3.4vw, 44px);
-  line-height: 1;
-  color: var(--white);
-  font-variant-numeric: tabular-nums;
-}
-.stat-label {
-  margin-top: 12px;
-  font-size: clamp(8px, 0.85vw, 10px);
-  font-weight: 500;
-  letter-spacing: 0.2em;
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: clamp(16px, 2.4vw, 28px);
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  line-height: 1.6;
-  color: rgba(255,255,255,0.42);
+  line-height: 1.32;
+  color: var(--white);
+}
+.page-sub {
+  margin-top: 22px;
+  font-family: var(--font-ed);
+  font-style: italic;
+  font-size: clamp(14px, 1.4vw, 18px);
+  line-height: 1.55;
+  color: rgba(255,255,255,0.55);
 }
 
 /* ─────────────────────────────────────────
@@ -243,20 +216,16 @@ section:first-of-type { padding-top: clamp(150px, 26vh, 280px); }
   margin-top: clamp(50px, 8vh, 90px);
 }
 .tail a {
-  font-size: clamp(11px, 1.1vw, 13px);
+  display: inline-block;
+  font-size: clamp(14px, 1.5vw, 18px);
+  font-weight: 500;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.4);
+  color: rgba(255,255,255,0.55);
+  padding: 6px 0;
   transition: color 0.35s ease;
 }
 .tail a:hover, .tail a:focus-visible { color: var(--white); outline: none; }
-
-@media (max-width: 767px) {
-  .stats { grid-template-columns: 1fr 1fr; }
-  .stat { border-bottom: 1px solid rgba(255,255,255,0.1); }
-  .stat:nth-child(2n) { border-right: none; }
-  .stat:nth-child(n+3) { border-bottom: none; }
-}
 
 /* ─────────────────────────────────────────
    FOOTER CONTATTI
@@ -300,32 +269,15 @@ section:first-of-type { padding-top: clamp(150px, 26vh, 280px); }
     <a href="index.html" class="logo-img-link" aria-label="Bill Jobs">
       <img src="assets/img/logo_header.png" alt="BillJobs" class="logo-img">
     </a>
-    <a href="index.html" class="nav-link">Lavori</a>
   </div>
 </header>
 
 <main>
 
-  <!-- ── 2.2 TITOLO E NUMERI ────────────── -->
+  <!-- ── 2.2 TITOLO ─────────────────────── -->
   <section id="apertura">
-    <div class="stats rise" id="stats">
-      <div class="stat">
-        <div class="stat-num"><span data-to="150">150</span><span>+</span></div>
-        <p class="stat-label">Progetti completati</p>
-      </div>
-      <div class="stat">
-        <div class="stat-num"><span data-to="24">24</span></div>
-        <p class="stat-label">Anni di set</p>
-      </div>
-      <div class="stat">
-        <div class="stat-num"><span data-to="30">30</span><span>+</span></div>
-        <p class="stat-label">Collaboratori esterni</p>
-      </div>
-      <div class="stat">
-        <div class="stat-num"><span data-to="100">100</span><span>%</span></div>
-        <p class="stat-label">Clienti soddisfatti</p>
-      </div>
-    </div>
+    <h1 class="page-claim rise">Bill Jobs ha bisogno del genio che c&rsquo;è in te.</h1>
+    <p class="page-sub rise" data-delay="1">Send a Signal</p>
   </section>
 
   <!-- ── 2.3 FORM ───────────────────────── -->
@@ -395,34 +347,11 @@ section:first-of-type { padding-top: clamp(150px, 26vh, 280px); }
         if (!v.isIntersecting) return;
         v.target.classList.add('in');
         oss.unobserve(v.target);
-        if (v.target.id === 'stats') contaNumeri();
       });
     }, { threshold: 0.2, rootMargin: '0px 0px -8% 0px' });
     document.querySelectorAll('.rise, .belonging').forEach(function (el) { oss.observe(el); });
-    // I numeri sono nell'HTML col valore finale, cosi' restano leggibili
-    // anche senza JavaScript: qui si azzerano per poterli contare.
-    document.querySelectorAll('[data-to]').forEach(function (el) { el.textContent = '0'; });
   } else {
     document.querySelectorAll('.rise, .belonging').forEach(function (el) { el.classList.add('in'); });
-  }
-
-  var contati = false;
-  function contaNumeri() {
-    if (contati) return;
-    contati = true;
-    document.querySelectorAll('[data-to]').forEach(function (el, i) {
-      var meta = parseInt(el.getAttribute('data-to'), 10);
-      var durata = 1500 + i * 260;
-      var avvio = null;
-      function passo(t) {
-        if (avvio === null) avvio = t;
-        var p = Math.min(1, (t - avvio) / durata);
-        // decelerazione: parte deciso e si posa, non si ferma di colpo
-        el.textContent = Math.round(meta * (1 - Math.pow(1 - p, 3)));
-        if (p < 1) requestAnimationFrame(passo);
-      }
-      requestAnimationFrame(passo);
-    });
   }
 
   /* ── Invio ──────────────────────────────────────────── */

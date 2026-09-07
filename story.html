@@ -53,7 +53,7 @@ body.locked { overflow: hidden; }
 a { color: inherit; text-decoration: none; }
 
 /* ─────────────────────────────────────────
-   3.1 HEADER
+   3.1 HEADER — solo logo
 ───────────────────────────────────────── */
 .site-header {
   position: fixed;
@@ -72,17 +72,6 @@ a { color: inherit; text-decoration: none; }
   width: auto; display: block;
   filter: brightness(0) invert(1);
 }
-.nav-link {
-  font-size: clamp(10px, 1vw, 12px);
-  font-weight: 500;
-  letter-spacing: 0.22em;
-  text-indent: 0.22em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.55);
-  transition: color 0.35s ease;
-  padding: 10px 0;
-}
-.nav-link:hover, .nav-link:focus-visible { color: var(--white); outline: none; }
 
 /* ─────────────────────────────────────────
    IMPIANTO EDITORIALE
@@ -119,18 +108,23 @@ section:first-of-type { padding-top: clamp(150px, 26vh, 280px); }
   margin-bottom: 22px;
 }
 
-/* Titolo grande editoriale */
-.h-big {
-  font-family: var(--font-ed);
-  font-size: clamp(22px, 3.4vw, 42px);
-  line-height: 1.12;
+/* I titoli parlano tutti con la voce di "Film. Digitale. AI.":
+   secca, maiuscola, spaziata. I sottotitoli restano nel serif. */
+.h-big, .h-mid {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  text-transform: uppercase;
   color: var(--white);
 }
+.h-big {
+  font-size: clamp(16px, 2.4vw, 28px);
+  letter-spacing: 0.14em;
+  line-height: 1.32;
+}
 .h-mid {
-  font-family: var(--font-ed);
-  font-size: clamp(19px, 2.4vw, 30px);
-  line-height: 1.2;
-  color: var(--white);
+  font-size: clamp(14px, 1.9vw, 21px);
+  letter-spacing: 0.15em;
+  line-height: 1.42;
 }
 
 /* Paragrafo editoriale */
@@ -142,14 +136,14 @@ section:first-of-type { padding-top: clamp(150px, 26vh, 280px); }
 }
 .p-ed + .p-ed { margin-top: clamp(26px, 4vh, 42px); }
 
-/* Sottotitolo secco sotto un titolo */
+/* Sottotitolo sotto un titolo: il corsivo del serif */
 .sub {
-  margin-top: 20px;
-  font-family: var(--font-ui);
-  font-size: clamp(12px, 1.2vw, 14px);
-  font-weight: 400;
-  letter-spacing: 0.04em;
-  line-height: 1.7;
+  margin-top: 22px;
+  font-family: var(--font-ed);
+  font-style: italic;
+  font-size: clamp(14px, 1.4vw, 18px);
+  letter-spacing: 0;
+  line-height: 1.55;
   color: rgba(255,255,255,0.55);
 }
 
@@ -274,6 +268,42 @@ section:first-of-type { padding-top: clamp(150px, 26vh, 280px); }
   .peek.show { transform: translate(-50%, 0) scale(1); }
 }
 
+/* I numeri chiudono Fragments: i pezzi che contano, e quanti sono. */
+.stats {
+  margin-top: clamp(54px, 8vh, 88px);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid rgba(255,255,255,0.1);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.stat {
+  padding: clamp(30px, 4.5vh, 52px) clamp(10px, 2vw, 24px);
+  border-right: 1px solid rgba(255,255,255,0.1);
+}
+.stat:last-child { border-right: none; }
+.stat-num {
+  font-family: var(--font-ed);
+  font-size: clamp(26px, 3.4vw, 44px);
+  line-height: 1;
+  color: var(--white);
+  font-variant-numeric: tabular-nums;
+}
+.stat-label {
+  margin-top: 12px;
+  font-size: clamp(8px, 0.85vw, 10px);
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.42);
+}
+@media (max-width: 767px) {
+  .stats { grid-template-columns: 1fr 1fr; }
+  .stat { border-bottom: 1px solid rgba(255,255,255,0.1); }
+  .stat:nth-child(2n) { border-right: none; }
+  .stat:nth-child(n+3) { border-bottom: none; }
+}
+
 /* ─────────────────────────────────────────
    3.10 THE STORY OF BILL JOBS
 ───────────────────────────────────────── */
@@ -294,6 +324,26 @@ section:first-of-type { padding-top: clamp(150px, 26vh, 280px); }
   overflow: hidden;
 }
 .story-frame iframe { width: 100%; height: 100%; border: none; display: block; }
+
+/* Copertina: il primo fotogramma del video. Se non arriva — rete lenta,
+   host irraggiungibile — sotto resta il logo, mai un rettangolo vuoto. */
+.story-frame {
+  background-image: url('assets/img/logo_header.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: clamp(90px, 16%, 150px) auto;
+}
+.story-cover {
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: brightness(0.42) saturate(0.85);
+  transition: filter 0.5s ease, transform 0.9s cubic-bezier(0.22,0.61,0.36,1);
+}
+.story-frame:hover .story-cover { filter: brightness(0.55) saturate(1); transform: scale(1.02); }
+
 .story-play {
   position: absolute;
   top: 0; right: 0; bottom: 0; left: 0;
@@ -302,10 +352,12 @@ section:first-of-type { padding-top: clamp(150px, 26vh, 280px); }
   align-items: center;
   justify-content: center;
   gap: 18px;
-  background: #060606;
+  /* Velo scuro sopra il fotogramma: il play e la scritta restano leggibili
+     qualunque cosa ci sia sotto. */
+  background: linear-gradient(rgba(0,0,0,0.32), rgba(0,0,0,0.52));
   transition: background 0.4s ease;
 }
-.story-frame:hover .story-play { background: #0d0d0d; }
+.story-frame:hover .story-play { background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.4)); }
 .story-play .disc {
   width: 62px; height: 62px;
   border: 1px solid rgba(255,255,255,0.5);
@@ -328,8 +380,10 @@ section:first-of-type { padding-top: clamp(150px, 26vh, 280px); }
   letter-spacing: 0.26em;
   text-indent: 0.26em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.6);
+  color: rgba(255,255,255,0.88);
+  text-shadow: 0 1px 12px rgba(0,0,0,0.6);
 }
+.story-play .disc { box-shadow: 0 2px 18px rgba(0,0,0,0.45); }
 
 /* ─────────────────────────────────────────
    3.11 CHIUSURA
@@ -339,9 +393,13 @@ section:first-of-type { padding-top: clamp(150px, 26vh, 280px); }
   border-top: 1px solid rgba(255,255,255,0.08);
 }
 .tail a {
-  font-size: clamp(12px, 1.3vw, 15px);
-  letter-spacing: 0.14em;
-  color: rgba(255,255,255,0.5);
+  display: inline-block;
+  font-size: clamp(14px, 1.5vw, 18px);
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+  padding: 6px 0;
   transition: color 0.35s ease;
 }
 .tail a:hover, .tail a:focus-visible { color: var(--white); outline: none; }
@@ -392,7 +450,6 @@ section:first-of-type { padding-top: clamp(150px, 26vh, 280px); }
     <a href="index.html" class="logo-img-link" aria-label="Bill Jobs">
       <img src="assets/img/logo_header.png" alt="BillJobs" class="logo-img">
     </a>
-    <a href="index.html" class="nav-link">Lavori</a>
   </div>
 </header>
 
@@ -451,6 +508,25 @@ section:first-of-type { padding-top: clamp(150px, 26vh, 280px); }
       <button class="sector" type="button" data-loop="brand"   data-cap="Verco — Film Aziendale">Brand</button>
     </div>
     <p class="sector-hint" id="sectorHint"><span class="dot"></span>Tieni premuto per vedere</p>
+
+    <div class="stats rise" id="stats">
+      <div class="stat">
+        <div class="stat-num"><span data-to="150">150</span><span>+</span></div>
+        <p class="stat-label">Progetti completati</p>
+      </div>
+      <div class="stat">
+        <div class="stat-num"><span data-to="24">24</span></div>
+        <p class="stat-label">Anni di set</p>
+      </div>
+      <div class="stat">
+        <div class="stat-num"><span data-to="30">30</span><span>+</span></div>
+        <p class="stat-label">Collaboratori esterni</p>
+      </div>
+      <div class="stat">
+        <div class="stat-num"><span data-to="100">100</span><span>%</span></div>
+        <p class="stat-label">Clienti soddisfatti</p>
+      </div>
+    </div>
   </section>
 
   <!-- ── 3.10 THE STORY OF BILL JOBS ────── -->
@@ -458,6 +534,9 @@ section:first-of-type { padding-top: clamp(150px, 26vh, 280px); }
     <p class="story-intro rise">Se vuoi sapere chi veramente è Bill Jobs, alza il volume.<br>Buona visione.</p>
     <div class="story-frame rise" data-delay="1" id="storyFrame" role="button" tabindex="0"
          aria-label="Riproduci The Story of Bill Jobs">
+      <img class="story-cover" id="storyCover" alt=""
+           src="https://i.ytimg.com/vi/TrLO4PL-8jI/maxresdefault.jpg"
+           loading="lazy" decoding="async">
       <div class="story-play" id="storyPlay">
         <span class="disc"></span>
         <span>The Story of Bill Jobs</span>
@@ -467,7 +546,7 @@ section:first-of-type { padding-top: clamp(150px, 26vh, 280px); }
 
   <!-- ── 3.11 CHIUSURA ──────────────────── -->
   <nav class="tail">
-    <a href="genio.html">Il genio che c&rsquo;è in te →</a>
+    <a href="genio.html">Send a Signal →</a>
   </nav>
 
 </main>
@@ -498,11 +577,34 @@ section:first-of-type { padding-top: clamp(150px, 26vh, 280px); }
         if (!v.isIntersecting) return;
         v.target.classList.add('in');
         oss.unobserve(v.target);
+        if (v.target.id === 'stats') contaNumeri();
       });
     }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
     document.querySelectorAll('.rise').forEach(function (el) { oss.observe(el); });
+    // I numeri sono nell'HTML col valore finale, cosi' restano leggibili
+    // anche senza JavaScript: qui si azzerano per poterli contare.
+    document.querySelectorAll('[data-to]').forEach(function (el) { el.textContent = '0'; });
   } else {
     document.querySelectorAll('.rise').forEach(function (el) { el.classList.add('in'); });
+  }
+
+  var contati = false;
+  function contaNumeri() {
+    if (contati) return;
+    contati = true;
+    document.querySelectorAll('[data-to]').forEach(function (el, i) {
+      var meta = parseInt(el.getAttribute('data-to'), 10);
+      var durata = 1500 + i * 260;
+      var avvio = null;
+      function passo(t) {
+        if (avvio === null) avvio = t;
+        var p = Math.min(1, (t - avvio) / durata);
+        // decelerazione: parte deciso e si posa, non si ferma di colpo
+        el.textContent = Math.round(meta * (1 - Math.pow(1 - p, 3)));
+        if (p < 1) requestAnimationFrame(passo);
+      }
+      requestAnimationFrame(passo);
+    });
   }
 
   /* ═══════════════════════════════════════════════════════
@@ -603,6 +705,30 @@ section:first-of-type { padding-top: clamp(150px, 26vh, 280px); }
   ═══════════════════════════════════════════════════════ */
   var storyFrame = document.getElementById('storyFrame');
   var storyPlay  = document.getElementById('storyPlay');
+  var storyCover = document.getElementById('storyCover');
+
+  /* La copertina in alta risoluzione non esiste per tutti i video: se manca
+     si ripiega su quella piccola, e se manca anche quella si toglie di mezzo
+     lasciando il logo. Il "ripiegato" evita di rimbalzare all'infinito. */
+  if (storyCover) {
+    var ripiegato = false;
+    storyCover.addEventListener('error', function () {
+      if (!ripiegato) {
+        ripiegato = true;
+        storyCover.src = 'https://i.ytimg.com/vi/TrLO4PL-8jI/mqdefault.jpg';
+      } else {
+        storyCover.remove();
+      }
+    });
+    // YouTube serve un segnaposto 120x90 quando maxres non c'e': stessa resa
+    // di un errore, quindi va trattato allo stesso modo.
+    storyCover.addEventListener('load', function () {
+      if (!ripiegato && storyCover.naturalWidth > 0 && storyCover.naturalWidth < 200) {
+        ripiegato = true;
+        storyCover.src = 'https://i.ytimg.com/vi/TrLO4PL-8jI/mqdefault.jpg';
+      }
+    });
+  }
 
   function apriStoria() {
     if (storyFrame.querySelector('iframe')) return;
@@ -614,6 +740,7 @@ section:first-of-type { padding-top: clamp(150px, 26vh, 280px); }
     f.setAttribute('allowfullscreen', '');
     storyFrame.appendChild(f);
     storyPlay.remove();
+    if (storyCover) storyCover.remove();
     storyFrame.removeAttribute('role');
     storyFrame.removeAttribute('tabindex');
     storyFrame.style.cursor = 'default';
