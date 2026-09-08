@@ -23,8 +23,8 @@
 <link rel="icon" type="image/png" href="assets/img/favicon_black.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap"></noscript>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap"></noscript>
 
 <!-- Senza JavaScript nulla porterebbe gli elementi da opacity:0 a 1:
      la pagina apparirebbe vuota. Qui si smonta l'impianto. -->
@@ -71,13 +71,13 @@ a { color: inherit; text-decoration: none; }
 .manifesto-lead span + span { margin-top: 6px; }
 
 .manifesto-claim {
-  margin-top: clamp(34px, 5.5vh, 56px);
+  margin-top: clamp(20px, 4vh, 48px);
   font-family: var(--font-ui);
-  font-weight: 600;
+  font-weight: 700;
   font-size: clamp(16px, 2.4vw, 28px);
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  line-height: 1.32;
+  line-height: 1.3;
   color: var(--white);
 }
 
@@ -115,9 +115,26 @@ a { color: inherit; text-decoration: none; }
 /* ─────────────────────────────────────────
    IMPIANTO DEI BLOCCHI
 ───────────────────────────────────────── */
-main { max-width: 900px; margin: 0 auto; padding: 0 6vw; }
-section { padding: clamp(58px, 9vh, 104px) 0; }
-section:first-of-type { padding-top: clamp(140px, 24vh, 260px); }
+body {
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
+main {
+  flex: 1 0 auto;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(22px, 5.5vh, 70px);
+  /* sopra: lo spazio dell'header fisso, senza aria in piu' */
+  padding: calc(clamp(76px, 12vh, 116px) + env(safe-area-inset-top, 0px))
+           6vw clamp(14px, 3vh, 30px);
+}
+section { padding: 0; }
 
 /* Nessuna libreria esterna: la pagina si apre da un QR, spesso su rete
    mobile, e un CDN che non risponde non deve poterla lasciare vuota. */
@@ -140,7 +157,7 @@ section:first-of-type { padding-top: clamp(140px, 24vh, 260px); }
 .passages {
   display: flex;
   flex-direction: column;
-  gap: clamp(52px, 8vh, 88px);
+  gap: clamp(26px, 6vh, 72px);
 }
 .passage-line {
   font-family: var(--font-ui);
@@ -150,7 +167,7 @@ section:first-of-type { padding-top: clamp(140px, 24vh, 260px); }
   text-transform: uppercase;
   line-height: 1.42;
   color: var(--white);
-  margin-bottom: clamp(16px, 2.4vh, 24px);
+  margin-bottom: clamp(13px, 1.9vh, 20px);
 }
 .passage-link {
   display: inline-block;
@@ -175,6 +192,16 @@ section:first-of-type { padding-top: clamp(140px, 24vh, 260px); }
   .passage-link { font-size: 10px; padding-bottom: 8px; }
 }
 
+/* Sui telefoni piu' bassi (iPhone SE con le barre di Safari) i minimi
+   dei clamp non bastano piu' e la pagina scorrerebbe di una decina di
+   pixel: qui si stringe l'ultimo respiro rimasto. */
+@media (max-height: 600px) {
+  .header-inner { padding-top: 14px; padding-bottom: 10px; }
+  main { padding-top: calc(60px + env(safe-area-inset-top, 0px)); }
+  .manifesto-lead span + span { margin-top: 4px; }
+  .site-footer { gap: 8px; }
+}
+
 /* ─────────────────────────────────────────
    FOOTER CONTATTI
 ───────────────────────────────────────── */
@@ -183,9 +210,10 @@ section:first-of-type { padding-top: clamp(140px, 24vh, 260px); }
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 28px 5vw calc(32px + env(safe-area-inset-bottom, 0px));
-  gap: 16px;
-  margin-top: clamp(60px, 10vh, 120px);
+  padding: clamp(18px, 2.6vh, 28px) 5vw
+           calc(clamp(20px, 3vh, 32px) + env(safe-area-inset-bottom, 0px));
+  gap: clamp(10px, 1.6vh, 16px);
+  flex: 0 0 auto;
 }
 .footer-label {
   font-size: 9px; font-weight: 500;
@@ -230,7 +258,7 @@ section:first-of-type { padding-top: clamp(140px, 24vh, 260px); }
       <span>Perché tra immaginare qualcosa e farla esistere davvero,</span>
       <span>c&rsquo;è un territorio che pochi conoscono.</span>
     </p>
-    <p class="manifesto-claim rise" data-delay="1">Bill Jobs lavora lì, dove la visione incontra la realtà.</p>
+    <p class="manifesto-claim rise" data-delay="1">Bill Jobs lavora lì,<br>dove la visione<br>incontra la realtà.</p>
   </section>
 
   <!-- ── 1.3 I DUE PASSAGGI ─────────────── -->
