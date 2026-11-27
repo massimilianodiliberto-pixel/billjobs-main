@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="it" style="background:#000;color-scheme:dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<title>Il genio che c'è in te — Bill Jobs</title>
+<meta name="description" content="Bill Jobs ha bisogno del genio che c'è in te. Raccontami il progetto che hai in mente.">
+<meta property="og:title" content="Il genio che c'è in te — Bill Jobs">
+<meta property="og:description" content="Bill Jobs ha bisogno del genio che c'è in te.">
+<meta property="og:image" content="https://billjobs.it/assets/img/who_is_billjobs.jpg">
+<meta property="og:url" content="https://billjobs.it/genio.html">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Il genio che c'è in te — Bill Jobs">
+<meta name="twitter:description" content="Bill Jobs ha bisogno del genio che c'è in te.">
+<meta name="twitter:image" content="https://billjobs.it/assets/img/who_is_billjobs.jpg">
+<link rel="apple-touch-icon" href="assets/img/logo_billjobs.png">
+<meta name="theme-color" content="#000000">
+<link rel="canonical" href="https://billjobs.it/genio.html">
+<link rel="icon" type="image/png" href="assets/img/favicon_black.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&display=swap"></noscript>
+
+<noscript><style>
+  .rise, .belonging { opacity: 1 !important; transform: none !important; }
+</style></noscript>
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black: #000;
+  --white: #fff;
+  --grey: rgba(255,255,255,0.45);
+  --font-ui: 'Space Grotesk', -apple-system, sans-serif;
+}
+
+html {
+  background: #000; background: var(--black);
+  color: #fff; color: var(--white);
+  font-family: -apple-system, sans-serif;
+  font-family: var(--font-ui);
+  -webkit-font-smoothing: antialiased;
+}
+body { overflow-x: hidden; background: #000; }
+a { color: inherit; text-decoration: none; }
+
+/* ─────────────────────────────────────────
+   2.1 HEADER — solo logo
+───────────────────────────────────────── */
+.site-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  padding: 0 5vw;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.9), rgba(0,0,0,0));
+}
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 22px;
+  padding-bottom: 22px;
+}
+.logo-img-link { display: inline-block; -webkit-tap-highlight-color: transparent; }
+.logo-img {
+  height: clamp(36px, 3.6vw, 50px);
+  width: auto; display: block;
+  filter: brightness(0) invert(1);
+}
+
+/* ─────────────────────────────────────────
+   IMPIANTO DEI BLOCCHI
+───────────────────────────────────────── */
+main { max-width: 900px; margin: 0 auto; padding: 0 6vw; }
+section { padding: clamp(70px, 10vh, 110px) 0; }
+section:first-of-type { padding-top: clamp(150px, 26vh, 280px); }
+
+.rise {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 1.15s cubic-bezier(0.22,0.61,0.36,1),
+              transform 1.15s cubic-bezier(0.22,0.61,0.36,1);
+  will-change: opacity, transform;
+}
+.rise.in { opacity: 1; transform: translateY(0); }
+.rise[data-delay="1"] { transition-delay: 0.16s; }
+.rise[data-delay="2"] { transition-delay: 0.32s; }
+
+/* ─────────────────────────────────────────
+   2.2 TITOLO
+   Stessa voce dei titoli delle altre pagine: secca, maiuscola,
+   spaziata. Sotto, il sottotitolo piu' piccolo e in secondo piano.
+───────────────────────────────────────── */
+.page-claim {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: clamp(16px, 2.4vw, 28px);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1.32;
+  color: var(--white);
+}
+.page-sub {
+  margin-top: clamp(18px, 2.6vh, 26px);
+  font-family: var(--font-ui);
+  font-weight: 400;
+  font-size: clamp(10px, 1vw, 12px);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  line-height: 2;
+  color: rgba(255,255,255,0.42);
+}
+
+/* ─────────────────────────────────────────
+   2.3 FORM
+───────────────────────────────────────── */
+.field { margin-bottom: 24px; }
+.field label {
+  display: block;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.42);
+  margin-bottom: 9px;
+}
+.field input, .field textarea {
+  width: 100%;
+  background: none;
+  border: none;
+  border-bottom: 1px solid rgba(255,255,255,0.22);
+  color: var(--white);
+  font-family: var(--font-ui);
+  font-size: clamp(14px, 1.3vw, 16px);
+  padding: 10px 0;
+  transition: border-color 0.35s ease;
+  border-radius: 0;
+}
+.field textarea { resize: vertical; min-height: 76px; line-height: 1.6; }
+.field input:focus, .field textarea:focus {
+  outline: none; border-bottom-color: rgba(255,255,255,0.85);
+}
+.field input::placeholder, .field textarea::placeholder { color: rgba(255,255,255,0.22); }
+
+/* 2.4 RIGA D'APPARTENENZA — sopra il campo email.
+   Unico momento in prima persona: entra piu' lentamente del resto, per
+   far sentire il cambio di tono anche nel movimento. */
+.belonging {
+  margin: clamp(44px, 6.5vh, 70px) 0 clamp(32px, 4.5vh, 48px);
+  padding-left: 20px;
+  border-left: 1px solid rgba(255,255,255,0.25);
+  font-family: var(--font-ui);
+  font-size: clamp(13px, 1.3vw, 17px);
+  line-height: 1.6;
+  color: rgba(255,255,255,0.86);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 2.1s cubic-bezier(0.22,0.61,0.36,1),
+              transform 2.1s cubic-bezier(0.22,0.61,0.36,1);
+}
+.belonging.in { opacity: 1; transform: translateY(0); }
+
+.send {
+  appearance: none;
+  margin-top: 12px;
+  background: rgba(255,255,255,0.93);
+  border: 1px solid rgba(255,255,255,0.93);
+  color: #000;
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-indent: 0.18em;
+  text-transform: uppercase;
+  padding: 17px 40px;
+  cursor: pointer;
+  transition: opacity 0.35s ease;
+}
+.send:hover, .send:focus-visible { opacity: 0.82; outline: none; }
+.send[disabled] { opacity: 0.45; cursor: default; }
+
+.form-msg {
+  margin-top: 20px;
+  font-size: clamp(12px, 1.2vw, 14px);
+  line-height: 1.7;
+  color: rgba(255,255,255,0.72);
+  min-height: 1.2em;
+}
+.form-msg.err { color: #ff8a8a; }
+
+.done {
+  display: none;
+  font-family: var(--font-ui);
+  font-size: clamp(16px, 1.8vw, 22px);
+  line-height: 1.4;
+  color: var(--white);
+  padding: clamp(30px, 5vh, 50px) 0;
+}
+.done.show { display: block; animation: appare 1s cubic-bezier(0.22,0.61,0.36,1); }
+@keyframes appare {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─────────────────────────────────────────
+   CHIUSURA
+───────────────────────────────────────── */
+.tail {
+  padding: clamp(50px, 8vh, 90px) 0 calc(clamp(50px, 8vh, 90px) + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid rgba(255,255,255,0.08);
+  margin-top: clamp(50px, 8vh, 90px);
+}
+.tail a {
+  display: inline-block;
+  font-size: clamp(14px, 1.5vw, 18px);
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+  padding: 6px 0;
+  transition: color 0.35s ease;
+}
+.tail a:hover, .tail a:focus-visible { color: var(--white); outline: none; }
+
+/* ─────────────────────────────────────────
+   FOOTER CONTATTI
+───────────────────────────────────────── */
+.site-footer {
+  border-top: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 28px 5vw calc(32px + env(safe-area-inset-bottom, 0px));
+  gap: 16px;
+  margin-top: clamp(60px, 10vh, 120px);
+}
+.footer-label {
+  font-size: 9px; font-weight: 500;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+}
+.footer-links {
+  display: flex; width: 100%; max-width: 360px;
+  justify-content: space-between; align-items: center;
+}
+.footer-link {
+  font-size: 9px; font-weight: 500;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--grey);
+  transition: color 0.2s;
+}
+.footer-link:hover, .footer-link:focus-visible { color: var(--white); outline: none; }
+@media (max-width: 767px) {
+  .footer-links { max-width: 100%; }
+  .footer-link { font-size: 11px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── 2.1 HEADER ───────────────────────── -->
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="logo-img-link" aria-label="Bill Jobs">
+      <img src="assets/img/logo_header.png" alt="BillJobs" class="logo-img">
+    </a>
+  </div>
+</header>
+
+<main>
+
+  <!-- ── 2.2 TITOLO ─────────────────────── -->
+  <section id="apertura">
+    <h1 class="page-claim rise">Bill Jobs ha bisogno del genio che c&rsquo;è in te.</h1>
+    <p class="page-sub rise" data-delay="1">Send a Signal</p>
+  </section>
+
+  <!-- ── 2.3 FORM ───────────────────────── -->
+  <section id="contatto">
+    <form id="form" novalidate>
+      <div class="field rise">
+        <label for="fNome">Nome</label>
+        <input type="text" id="fNome" name="nome" autocomplete="name" placeholder="Come ti chiami">
+      </div>
+      <div class="field rise">
+        <label for="fProgetto">Il progetto</label>
+        <textarea id="fProgetto" name="progetto" rows="3" placeholder="Una riga su cosa hai in mente"></textarea>
+      </div>
+
+      <!-- 2.4 Riga d'appartenenza, sopra il campo email -->
+      <p class="belonging">La fiducia si costruisce nel tempo. Ma un inizio ci vuole sempre — e sono pronto a venirti incontro, anche sui costi, per farlo succedere.</p>
+
+      <div class="field rise">
+        <label for="fEmail">Email</label>
+        <input type="email" id="fEmail" name="email" autocomplete="email" placeholder="Dove ti ricontatto" required>
+      </div>
+      <button class="send" type="submit">Invia</button>
+      <p class="form-msg" id="msg" role="status" aria-live="polite"></p>
+    </form>
+    <div class="done" id="done">Grazie, ti ricontatto a breve.</div>
+  </section>
+
+  <nav class="tail">
+    <a href="story.html">← The Story of Bill Jobs</a>
+  </nav>
+
+</main>
+
+<footer class="site-footer">
+  <span class="footer-label">Get in touch</span>
+  <div class="footer-links">
+    <a href="https://wa.me/393334639596" target="_blank" rel="noopener" class="footer-link">WhatsApp</a>
+    <a href="mailto:contact@billjobs.it" class="footer-link">Email</a>
+    <a href="https://www.instagram.com/billjobs_production" target="_blank" rel="noopener" class="footer-link">Instagram</a>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ═══════════════════════════════════════════════════════════════
+     INVIO DEL FORM
+
+     Il sito e' su GitHub Pages: file statici, nessun backend proprio.
+     I dati vengono quindi inoltrati a Web3Forms, che li gira per email.
+
+     >>> PER ATTIVARE L'INVIO: incollare qui sotto la chiave ottenuta su
+     >>> web3forms.com inserendo l'indirizzo dove ricevere i messaggi.
+
+     Finche' la chiave resta vuota il pulsante NON finge di funzionare:
+     apre il programma di posta con tutti i campi gia' compilati.
+  ═══════════════════════════════════════════════════════════════ */
+  var CHIAVE_WEB3FORMS = '';
+  var EMAIL_DESTINATARIO = 'contact@billjobs.it';
+
+  /* ── Entrate in scena ───────────────────────────────── */
+  var oss = null;
+  if ('IntersectionObserver' in window) {
+    oss = new IntersectionObserver(function (voci) {
+      voci.forEach(function (v) {
+        if (!v.isIntersecting) return;
+        v.target.classList.add('in');
+        oss.unobserve(v.target);
+      });
+    }, { threshold: 0.2, rootMargin: '0px 0px -8% 0px' });
+    document.querySelectorAll('.rise, .belonging').forEach(function (el) { oss.observe(el); });
+  } else {
+    document.querySelectorAll('.rise, .belonging').forEach(function (el) { el.classList.add('in'); });
+  }
+
+  /* ── Invio ──────────────────────────────────────────── */
+  var form = document.getElementById('form');
+  var msg  = document.getElementById('msg');
+  var done = document.getElementById('done');
+
+  function valida(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(email).trim());
+  }
+
+  function componiMailto(oggetto, campi) {
+    var corpo = Object.keys(campi).map(function (k) {
+      return k + ': ' + campi[k];
+    }).join('\n\n');
+    return 'mailto:' + EMAIL_DESTINATARIO +
+      '?subject=' + encodeURIComponent(oggetto) +
+      '&body=' + encodeURIComponent(corpo);
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    var campi = {
+      'Nome': document.getElementById('fNome').value.trim() || '(non indicato)',
+      'Email': document.getElementById('fEmail').value.trim(),
+      'Progetto': document.getElementById('fProgetto').value.trim() || '(non indicato)'
+    };
+    var oggetto = 'billjobs.it — Il genio che c’è in te';
+    var bottone = form.querySelector('.send');
+    msg.classList.remove('err');
+
+    if (!valida(campi['Email'])) {
+      msg.classList.add('err');
+      msg.textContent = 'Serve un indirizzo email valido per poterti rispondere.';
+      return;
+    }
+
+    // Senza chiave configurata non si finge un invio: si apre la posta
+    // con tutto gia' scritto, e lo si dice.
+    if (!CHIAVE_WEB3FORMS) {
+      window.location.href = componiMailto(oggetto, campi);
+      msg.textContent = 'Si apre il tuo programma di posta con il messaggio già pronto: basta premere invia.';
+      return;
+    }
+
+    bottone.disabled = true;
+    msg.textContent = 'Invio in corso…';
+
+    var dati = { access_key: CHIAVE_WEB3FORMS, subject: oggetto, from_name: 'billjobs.it' };
+    Object.keys(campi).forEach(function (k) { dati[k] = campi[k]; });
+
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(dati)
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (esito) {
+        if (esito && esito.success) {
+          form.style.display = 'none';
+          done.classList.add('show');
+        } else {
+          throw new Error('invio rifiutato');
+        }
+      })
+      .catch(function () {
+        // Nessun vicolo cieco: se la rete o il servizio falliscono, il
+        // messaggio puo' comunque partire dalla posta dell'utente.
+        bottone.disabled = false;
+        msg.classList.add('err');
+        msg.innerHTML = 'Invio non riuscito. ' +
+          '<a href="' + componiMailto(oggetto, campi) + '" style="text-decoration:underline">' +
+          'Scrivimi via email</a>, il messaggio è già pronto.';
+      });
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1561 @@
+<!DOCTYPE html>
+<!-- Il bianco iniziale è voluto: Safari dipinge comunque bianco fra una
+     navigazione e l'altra e non lo si può impedire. Invece di subirlo, la
+     pagina parte dallo stesso bianco e vira al nero come un flash di
+     pellicola, così il difetto diventa l'apertura. Per lo stesso motivo
+     non c'è color-scheme:dark, che farebbe dipingere nero prima del CSS
+     e produrrebbe un fastidioso nero-bianco-nero. -->
+<html lang="en" style="background:#fff">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<!-- niente color-scheme: la pagina deve dipingere bianco al primo frame -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<title>BillJobs — Creative Production House</title>
+<meta name="description" content="BillJobs is a creative production house for music, fashion and talent.">
+<meta property="og:title" content="BillJobs — Creative Production House">
+<meta property="og:description" content="BillJobs è un laboratorio cinematografico indipendente. Music video, fashion film, branded content, talent reel. 24 anni di produzioni reali.">
+<meta property="og:image" content="https://billjobs.it/assets/img/who_is_billjobs.jpg">
+<meta property="og:url" content="https://billjobs.it">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="BillJobs — Creative Production House">
+<meta name="twitter:description" content="Music video, fashion film, branded content. 24 anni di produzioni reali.">
+<meta name="twitter:image" content="https://billjobs.it/assets/img/who_is_billjobs.jpg">
+<link rel="apple-touch-icon" href="assets/img/logo_billjobs.png">
+<meta name="theme-color" content="#000000">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "BillJobs",
+  "url": "https://billjobs.it",
+  "logo": "https://billjobs.it/assets/img/logo_billjobs.png",
+  "image": "https://billjobs.it/assets/img/who_is_billjobs.jpg",
+  "description": "BillJobs è un laboratorio cinematografico indipendente specializzato in music video, fashion film, branded content e talent reel. 24 anni di produzioni reali.",
+  "founder": { "@type": "Person", "name": "Bill Jobs" },
+  "areaServed": "IT",
+  "knowsAbout": ["Music Video", "Fashion Film", "Branded Content", "Creative Production", "Regia"]
+}
+</script>
+<link rel="canonical" href="https://billjobs.it">
+<link rel="icon" type="image/png" href="assets/img/favicon_black.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&display=swap"></noscript>
+<link rel="preload" as="image" href="assets/img/poster_00_desktop.jpg" media="(min-width: 768px)" fetchpriority="high">
+<link rel="preload" as="image" href="assets/img/poster_00_mobile.jpg" media="(max-width: 767px)" fetchpriority="high">
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black: #000;
+  --white: #fff;
+  --grey: rgba(255,255,255,0.45);
+  --font-ui: 'Space Grotesk', -apple-system, sans-serif;
+}
+
+html, body {
+  width: 100%; height: 100%;
+  background: #000;
+  background: var(--black);
+  color: #fff;
+  color: var(--white);
+  font-family: -apple-system, sans-serif;
+  font-family: var(--font-ui);
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* ─────────────────────────────────────────
+   SLIDESHOW
+───────────────────────────────────────── */
+.slideshow {
+  position: fixed;
+  top: 0; right: 0; bottom: 0; left: 0;
+  z-index: 0;
+  background: #000;
+}
+
+.slide {
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+  pointer-events: none;
+  background: #000;
+}
+
+.slide.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Gradient overlay — darker at top for logo legibility */
+.slide::after {
+  content: '';
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  background:
+    linear-gradient(to bottom,
+      rgba(0,0,0,0.55) 0%,
+      rgba(0,0,0,0.05) 35%,
+      rgba(0,0,0,0.05) 60%,
+      rgba(0,0,0,0.65) 100%);
+  z-index: 1;
+}
+
+/* Video fills the slide */
+.slide video {
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  background: #000;
+}
+
+/* On mobile show portrait video, hide landscape */
+.slide video.desktop { display: block; }
+.slide video.mobile  { display: none; }
+
+/* Placeholder background when no video yet */
+.slide-bg {
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  background: #0a0a0a;
+}
+
+/* ─────────────────────────────────────────
+   HEADER — fixed overlay
+───────────────────────────────────────── */
+.site-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 0 5vw;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s ease;
+}
+
+.site-header.visible {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Logo row */
+.logo-row {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding-top: 20px;
+}
+
+.logo-img-link {
+  display: inline-block;
+  cursor: pointer;
+}
+
+.logo-img {
+  height: clamp(60px, 8vw, 100px);
+  width: auto;
+  display: block;
+  filter: brightness(0) invert(1);
+}
+
+.voice-btn {
+  font-family: var(--font-ui);
+  font-size: clamp(12px, 1.3vw, 16px);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--white);
+  text-decoration: none;
+  cursor: pointer;
+  animation: voiceGlow 2.5s ease-in-out infinite;
+  white-space: nowrap;
+}
+
+@keyframes voiceGlow {
+  0%, 100% { text-shadow: 0 0 6px rgba(255,255,255,0.4); opacity: 0.8; transform: scale(1); }
+  50%       { text-shadow: 0 0 22px rgba(255,255,255,1), 0 0 44px rgba(255,255,255,0.35); opacity: 1; transform: scale(1.06); }
+}
+
+/* Nav row */
+.main-nav {
+  display: flex;
+  gap: 0;
+  padding-top: 6px;
+  padding-bottom: 0;
+}
+
+.main-nav a {
+  font-size: clamp(9px, 1vw, 11px);
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--grey);
+  margin-right: 28px;
+  transition: color 0.2s;
+}
+
+.main-nav a:hover { color: var(--white); }
+
+/* Filter row — categories */
+.filter-nav {
+  display: flex;
+  gap: 0;
+  padding-top: 10px;
+}
+
+.filter-btn {
+  background: none;
+  border: none;
+  padding: 8px 2px;
+  cursor: pointer;
+  font-family: var(--font-ui);
+  font-size: clamp(11px, 1.2vw, 14px);
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--grey);
+  margin-right: 28px;
+  transition: color 0.2s;
+  position: relative;
+}
+
+.filter-btn::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 0; right: 0;
+  height: 1px;
+  background: var(--white);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+
+.filter-btn.active { color: var(--white); }
+.filter-btn.active::after { transform: scaleX(1); }
+.filter-btn:hover { color: rgba(255,255,255,0.7); }
+
+/* ─────────────────────────────────────────
+   PROJECT INFO — bottom left
+───────────────────────────────────────── */
+.slide-info {
+  position: fixed;
+  bottom: calc(100px + env(safe-area-inset-bottom, 0px));
+  left: 5vw;
+  z-index: 100;
+  opacity: 0;
+  transition: opacity 0.55s ease, transform 0.55s ease;
+  transform: translateY(14px);
+}
+
+.slide-info.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.info-client {
+  display: block;
+  font-size: clamp(16px, 2vw, 26px);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--white);
+  line-height: 1.15;
+  margin-bottom: 4px;
+}
+
+.info-title {
+  display: block;
+  font-size: clamp(13px, 1.5vw, 20px);
+  font-weight: 300;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--grey);
+  line-height: 1.15;
+}
+
+/* ─────────────────────────────────────────
+   PAGINATION — scrollable strip
+───────────────────────────────────────── */
+.pagination {
+  position: fixed;
+  bottom: calc(48px + env(safe-area-inset-bottom, 0px));
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 6px 5vw;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.pagination::-webkit-scrollbar { display: none; }
+.pagination.visible { opacity: 1; }
+
+.page-btn {
+  background: none;
+  border: none;
+  padding: 12px 4px;
+  cursor: pointer;
+  font-family: var(--font-ui);
+  font-size: clamp(10px, 1vw, 12px);
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  color: var(--grey);
+  transition: color 0.25s;
+  line-height: 1;
+}
+
+.page-btn.active  { color: var(--white); font-weight: 600; }
+.page-btn:hover   { color: rgba(255,255,255,0.7); }
+.page-btn.loading { color: var(--white); animation: btnPulse 0.7s ease-in-out infinite alternate; }
+@keyframes btnPulse { from { opacity: 0.25; } to { opacity: 1; } }
+
+/* Progress bar below active number */
+.page-btn::after {
+  content: '';
+  display: block;
+  height: 1px;
+  background: var(--white);
+  margin-top: 4px;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.page-btn.active::after { transform: scaleX(1); }
+
+/* ─────────────────────────────────────────
+   AUTO-PROGRESS BAR
+───────────────────────────────────────── */
+.progress-bar {
+  position: fixed;
+  bottom: 0; left: 0;
+  height: 2px;
+  width: 0%;
+  background: rgba(255,255,255,0.6);
+  z-index: 100;
+  transition: none;
+}
+
+/* ─────────────────────────────────────────
+   FOOTER STRIP — very bottom
+───────────────────────────────────────── */
+.site-footer {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 5vw;
+  height: 40px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.site-footer.visible { opacity: 1; }
+
+.footer-link {
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--grey);
+  transition: color 0.2s;
+}
+.footer-link:hover { color: var(--white); }
+
+/* ─────────────────────────────────────────
+   FOCUS VISIBLE — navigazione da tastiera
+───────────────────────────────────────── */
+.filter-btn:focus-visible,
+.page-btn:focus-visible,
+.footer-link:focus-visible,
+.main-nav a:focus-visible,
+.voice-btn:focus-visible,
+.logo-img-link:focus-visible {
+  outline: 1px solid rgba(255,255,255,0.75);
+  outline-offset: 3px;
+  border-radius: 2px;
+  color: var(--white);
+}
+
+/* ─────────────────────────────────────────
+   LOADER
+───────────────────────────────────────── */
+#loader {
+  position: fixed;
+  top: 0; right: 0; bottom: 0; left: 0;
+  z-index: 500;
+  /* Parte dal bianco che il browser dipinge comunque e vira al nero:
+     il flash che non si può togliere diventa l'apertura del sito. */
+  background: #fff;
+  animation: aperturaFlash 0.8s ease-out forwards;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 26px;
+  transition: opacity 0.9s ease;
+  cursor: pointer;
+  touch-action: manipulation; /* elimina il delay 300ms su iOS */
+  -webkit-tap-highlight-color: transparent;
+}
+
+@keyframes aperturaFlash {
+  0%   { background: #fff; }
+  20%  { background: #fff; }
+  100% { background: #000; }
+}
+
+#loader.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Logo e testi entrano a nero già fatto, non sopra il bianco */
+.loader-logo {
+  width: 72px;
+  height: auto;
+  opacity: 0;
+  animation: loaderPulse 1.2s ease-in-out 0.7s infinite alternate;
+}
+
+.loader-hint {
+  display: none; /* shown via JS only on iOS — Android/desktop auto-start */
+  font-family: var(--font-ui);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #fff;
+  opacity: 0;
+  animation: hintPulse 1.6s ease-in-out 0.9s infinite alternate;
+}
+
+/* Avvertenza sulla connessione: i video sono a piena qualità di ripresa,
+   quindi pesanti. Dirlo in anticipo trasforma l'attesa in una scelta
+   dichiarata invece che in un difetto. */
+.loader-note {
+  max-width: 82vw;
+  font-family: var(--font-ui);
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  /* letter-spacing aggiunge spazio anche dopo l'ultima lettera: il rientro
+     rimette il testo al centro ottico. */
+  text-indent: 0.2em;
+  text-transform: uppercase;
+  line-height: 1.85;
+  text-align: center;
+  color: rgba(255,255,255,0.62);
+  opacity: 0;
+  animation: noteEntra 1.1s ease 1.15s forwards;
+}
+
+/* La riga sulla connessione è un'informazione diversa dalla dichiarazione
+   di qualità: staccarla la rende leggibile come tale. */
+.loader-note .conn { margin-top: 16px; }
+
+@keyframes loaderPulse {
+  from { opacity: 0.3; }
+  to   { opacity: 0.8; }
+}
+
+@keyframes hintPulse {
+  from { opacity: 0.65; }
+  to   { opacity: 1; }
+}
+
+@keyframes noteEntra {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.loader-dots {
+  display: flex;
+  gap: 7px;
+}
+.loader-dots span {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.4);
+  animation: dotPulse 1.3s ease-in-out infinite;
+}
+.loader-dots span:nth-child(2) { animation-delay: 0.22s; }
+.loader-dots span:nth-child(3) { animation-delay: 0.44s; }
+@keyframes dotPulse {
+  0%, 80%, 100% { opacity: 0.2; transform: scale(0.7); }
+  40%           { opacity: 1;   transform: scale(1);   }
+}
+
+/* ─────────────────────────────────────────
+   RISCONTRO AL TOCCO
+   Metà sinistra dello schermo = indietro, metà destra = avanti.
+   Un cerchio nasce sotto il dito nell'istante in cui si appoggia, e al
+   rilascio compare la freccia del verso: il comando si vede prima ancora
+   che la slide cambi.
+───────────────────────────────────────── */
+.tap-fx {
+  position: fixed;
+  z-index: 97;
+  pointer-events: none;
+  width: 96px; height: 96px;
+  margin: -48px 0 0 -48px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.5);
+  background: radial-gradient(circle, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0) 68%);
+  animation: tapFx 0.55s ease-out forwards;
+}
+@keyframes tapFx {
+  0%   { transform: scale(0.35); opacity: 0.95; }
+  100% { transform: scale(1.55); opacity: 0; }
+}
+
+.tap-dir {
+  position: fixed;
+  top: 50%;
+  z-index: 97;
+  pointer-events: none;
+  color: rgba(255,255,255,0.9);
+  filter: drop-shadow(0 0 10px rgba(0,0,0,0.95));
+  animation: tapDir 0.6s ease-out forwards;
+}
+.tap-dir.left  { left: 16px; }
+.tap-dir.right { right: 16px; }
+.tap-dir svg { width: 28px; height: 28px; display: block; }
+@keyframes tapDir {
+  0%   { opacity: 0; transform: translateY(-50%) scale(0.65); }
+  28%  { opacity: 1; transform: translateY(-50%) scale(1); }
+  100% { opacity: 0; transform: translateY(-50%) scale(1); }
+}
+
+/* Buffer dots — centered overlay during video loading */
+.buffer-dots {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 99;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+.buffer-dots.visible { opacity: 1; }
+
+.buffer-row { display: flex; gap: 9px; }
+
+/* Barra con l'avanzamento reale del download, sotto i pallini */
+.buffer-track {
+  width: 110px;
+  height: 2px;
+  background: rgba(255,255,255,0.22);
+  box-shadow: 0 0 8px rgba(0,0,0,0.9);
+  overflow: hidden;
+}
+
+.buffer-fill {
+  height: 100%;
+  width: 0%;
+  background: rgba(255,255,255,0.95);
+  transition: width 0.3s ease;
+}
+
+/* Finche' la durata del video e' ignota non c'e' una percentuale da
+   mostrare: la barra scorre invece di restare ferma a zero. */
+.buffer-dots.unknown .buffer-fill {
+  width: 35%;
+  animation: bufferSlide 1.4s ease-in-out infinite;
+}
+@keyframes bufferSlide {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(315%); }
+}
+
+/* Nessuna scritta accanto alla barra: l'avanzamento si legge dalla barra
+   stessa, e una parola in piu' sopra il video appesantiva l'immagine. */
+.buffer-dots span {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.85);
+  /* leggibili anche sopra un frame chiaro e affollato */
+  box-shadow: 0 0 6px rgba(0,0,0,0.9);
+  animation: dotPulse 1.3s ease-in-out infinite;
+}
+.buffer-dots span:nth-child(2) { animation-delay: 0.22s; }
+.buffer-dots span:nth-child(3) { animation-delay: 0.44s; }
+
+/* Avviso connessione lenta — sotto i buffer dots */
+.slow-notice {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 26px);
+  z-index: 99;
+  font-family: var(--font-ui);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.75);
+  /* leggibile anche sopra un frame chiaro e affollato */
+  text-shadow: 0 0 8px rgba(0,0,0,0.95), 0 1px 3px rgba(0,0,0,0.9);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+.slow-notice.visible { opacity: 1; }
+
+/* ─────────────────────────────────────────
+   MOBILE
+───────────────────────────────────────── */
+
+@media (max-width: 767px) {
+  .slide video.desktop { display: none; }
+  .slide video.mobile  { display: block; }
+
+  .logo-img { height: clamp(48px, 12vw, 72px); }
+
+  .logo-row { padding-top: 20px; }
+
+  .main-nav a { margin-right: 18px; font-size: 9px; letter-spacing: 0.14em; }
+
+  /* Filter bar scrollable on mobile */
+  .filter-nav {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+  }
+  .filter-nav::-webkit-scrollbar { display: none; }
+  .filter-btn { font-size: 10px; letter-spacing: 0.1em; margin-right: 18px; white-space: nowrap; }
+
+  /* Slide info — higher so it doesn't overlap pagination */
+  .slide-info { bottom: calc(100px + env(safe-area-inset-bottom, 0px)); left: 20px; }
+  .info-client { font-size: clamp(20px, 5.5vw, 28px); }
+  .info-title  { font-size: clamp(14px, 3.8vw, 20px); }
+
+  /* Pagination just above footer */
+  .pagination  { bottom: calc(48px + env(safe-area-inset-bottom, 0px)); gap: 16px; padding: 6px 20px; }
+
+  .site-footer { padding: 0 20px; }
+  .footer-link { font-size: 11px; }
+}
+</style>
+</head>
+<body style="background:#000">
+
+<!-- ── LOADER ────────────────────────── -->
+<div id="loader">
+  <img src="assets/img/logo_billjobs.png" alt="BillJobs" class="loader-logo">
+  <span class="loader-hint">tap to enter</span>
+  <div class="loader-note">
+    <p>Full-quality footage,<br>uncompressed for you</p>
+    <p class="conn">Fast connection is recommended</p>
+  </div>
+</div>
+
+<!-- Buffer dots — shown while video is loading between slides -->
+<div class="buffer-dots" id="bufferDots">
+  <div class="buffer-row"><span></span><span></span><span></span></div>
+  <div class="buffer-track"><div class="buffer-fill" id="bufferFill"></div></div>
+</div>
+<div class="slow-notice" id="slowNotice">slow connection</div>
+
+<!-- ── SLIDESHOW ─────────────────────── -->
+<div class="slideshow" id="slideshow">
+
+  <!-- 01 — Gamma+ · On Hair Show 30 Min. · Fashion -->
+  <div class="slide active" data-client="Gamma+" data-title="On Hair Show 30 Min." data-category="fashion">
+    <div class="slide-bg"></div>
+    <!-- Entrambi preload="none": durante il parsing il browser non sa ancora
+         quale piattaforma serve, e con "auto" un telefono scaricherebbe anche
+         il file desktop da 17 MB per poi buttarlo. Il preload lo accende
+         init(), sul video giusto, dopo aver rimosso l'altro. -->
+    <video class="desktop" muted playsinline preload="none" poster="assets/img/poster_00_desktop.jpg">
+      <source src="assets/video/00_desktop.mp4" type="video/mp4">
+    </video>
+    <video class="mobile" muted playsinline preload="none" poster="assets/img/poster_00_mobile.jpg">
+      <source src="assets/video/00_mobile.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- 02 — Pleasure · AI Cosmetic Spot · Brand -->
+  <div class="slide" data-client="Pleasure" data-title="AI Cosmetic Spot" data-category="brand">
+    <div class="slide-bg"></div>
+    <video class="desktop" muted playsinline preload="none" poster="assets/img/poster_01_desktop.jpg">
+      <source src="assets/video/01_desktop.mp4" type="video/mp4">
+    </video>
+    <video class="mobile" muted playsinline preload="none" poster="assets/img/poster_01_mobile.jpg">
+      <source src="assets/video/01_mobile.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- 02b — Trovastack · AI Digital Services Spot · Brand -->
+  <div class="slide" data-client="Trovastack" data-title="AI Digital Services Spot" data-category="brand">
+    <div class="slide-bg"></div>
+    <video class="desktop" muted playsinline preload="none" poster="assets/img/poster_37_desktop.jpg">
+      <source src="assets/video/37_desktop.mp4" type="video/mp4">
+    </video>
+    <video class="mobile" muted playsinline preload="none" poster="assets/img/poster_37_mobile.jpg">
+      <source src="assets/video/37_mobile.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- 03 — Mr. Rain · Sincero · Music -->
+  <div class="slide" data-client="Mr. Rain" data-title="Sincero" data-category="music">
+    <div class="slide-bg"></div>
+    <video class="desktop" muted playsinline preload="none" poster="assets/img/poster_26_desktop.jpg">
+      <source src="assets/video/26_desktop.mp4" type="video/mp4">
+    </video>
+    <video class="mobile" muted playsinline preload="none" poster="assets/img/poster_26_mobile.jpg">
+      <source src="assets/video/26_mobile.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- 04 — Film Teaser Berlinale · Up All Night · Film -->
+  <div class="slide" data-client="Film Teaser Berlinale" data-title="Up All Night" data-category="film">
+    <div class="slide-bg"></div>
+    <video class="desktop" muted playsinline preload="none" poster="assets/img/poster_33_desktop.jpg">
+      <source src="assets/video/33_desktop.mp4" type="video/mp4">
+    </video>
+    <video class="mobile" muted playsinline preload="none" poster="assets/img/poster_33_mobile.jpg">
+      <source src="assets/video/33_mobile.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- 05 — Joan Thiele · Mellow Yellow · Music -->
+  <div class="slide" data-client="Joan Thiele" data-title="Mellow Yellow" data-category="music">
+    <div class="slide-bg"></div>
+    <video class="desktop" muted playsinline preload="none" poster="assets/img/poster_30_desktop.jpg">
+      <source src="assets/video/30_desktop.mp4" type="video/mp4">
+    </video>
+    <video class="mobile" muted playsinline preload="none" poster="assets/img/poster_30_mobile.jpg">
+      <source src="assets/video/30_mobile.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- 06 — Mr. Rain · Fragile Visual Album · Music -->
+  <div class="slide" data-client="Mr. Rain" data-title="Fragile Visual Album" data-category="music">
+    <div class="slide-bg"></div>
+    <video class="desktop" muted playsinline preload="none" poster="assets/img/poster_27_desktop.jpg">
+      <source src="assets/video/27_desktop.mp4" type="video/mp4">
+    </video>
+    <video class="mobile" muted playsinline preload="none" poster="assets/img/poster_27_mobile.jpg">
+      <source src="assets/video/27_mobile.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- 07 — Speedliner · Assente · Music -->
+  <div class="slide" data-client="Speedliner" data-title="Assente" data-category="music">
+    <div class="slide-bg"></div>
+    <video class="desktop" muted playsinline preload="none" poster="assets/img/poster_31_desktop.jpg">
+      <source src="assets/video/31_desktop.mp4" type="video/mp4">
+    </video>
+    <video class="mobile" muted playsinline preload="none" poster="assets/img/poster_31_mobile.jpg">
+      <source src="assets/video/31_mobile.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- 08 — SYVER · Falene · Music -->
+  <div class="slide" data-client="SYVER" data-title="Falene" data-category="music">
+    <div class="slide-bg"></div>
+    <video class="desktop" muted playsinline preload="none" poster="assets/img/poster_02_desktop.jpg">
+      <source src="assets/video/02_desktop.mp4" type="video/mp4">
+    </video>
+    <video class="mobile" muted playsinline preload="none" poster="assets/img/poster_02_mobile.jpg">
+      <source src="assets/video/02_mobile.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- 09 — Tibe · Ballo di Occhi · Music -->
+  <div class="slide" data-client="Tibe" data-title="Ballo di Occhi" data-category="music">
+    <div class="slide-bg"></div>
+    <video class="desktop" muted playsinline preload="none" poster="assets/img/poster_03_desktop.jpg">
+      <source src="assets/video/03_desktop.mp4" type="video/mp4">
+    </video>
+    <video class="mobile" muted playsinline preload="none" poster="assets/img/poster_03_mobile.jpg">
+      <source src="assets/video/03_mobile.mp4" type="video/mp4">
+    </video>
+  </div>
+
+
+  <!-- 11 — Tibe · Eccesso · Music -->
+  <div class="slide" data-client="Tibe" data-title="Eccesso" data-category="music">
+    <div class="slide-bg"></div>
+    <video class="desktop" muted playsinline preload="none" poster="assets/img/poster_04_desktop.jpg">
+      <source src="assets/video/04_desktop.mp4" type="video/mp4">
+    </video>
+    <video class="mobile" muted playsinline preload="none" poster="assets/img/poster_04_mobile.jpg">
+      <source src="assets/video/04_mobile.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- 12 — Maida Madò · Madò · Music -->
+  <div class="slide" data-client="Maida Madò" data-title="Madò" data-category="music">
+    <div class="slide-bg"></div>
+    <video class="desktop" muted playsinline preload="none" poster="assets/img/poster_05_desktop.jpg">
+      <source src="assets/video/05_desktop.mp4" type="video/mp4">
+    </video>
+    <video class="mobile" muted playsinline preload="none" poster="assets/img/poster_05_mobile.jpg">
+      <source src="assets/video/05_mobile.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- 13 — Goa Goa · F/W 2024 · Fashion -->
+  <div class="slide" data-client="Goa Goa" data-title="F/W 2024" data-category="fashion">
+    <div class="slide-bg"></div>
+    <video class="desktop" muted playsinline preload="none" poster="assets/img/poster_06_desktop.jpg">
+      <source src="assets/video/06_desktop.mp4" type="video/mp4">
+    </video>
+    <video class="mobile" muted playsinline preload="none" poster="assets/img/poster_06_mobile.jpg">
+      <source src="assets/video/06_mobile.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- 14 — Post Scriptum · S/S 2024 · Fashion -->
+  <div class="slide" data-client="Post Scriptum" data-title="S/S 2024" data-category="fashion">
+    <div class="slide-bg"></div>
+    <video class="desktop" muted playsinline preload="none" poster="assets/img/poster_07_desktop.jpg">
+      <source src="assets/video/07_desktop.mp4" type="video/mp4">
+    </video>
+    <video class="mobile" muted playsinline preload="none" poster="assets/img/poster_07_mobile.jpg">
+      <source src="assets/video/07_mobile.mp4" type="video/mp4">
+    </video>
+  </div>
+
+
+  <!-- 16 — Tassoni · Better Drink · Brand -->
+  <div class="slide" data-client="Tassoni" data-title="Better Drink" data-category="brand">
+    <div class="slide-bg"></div>
+    <video class="desktop" muted playsinline preload="none" poster="assets/img/poster_09_desktop.jpg">
+      <source src="assets/video/09_desktop.mp4" type="video/mp4">
+    </video>
+    <video class="mobile" muted playsinline preload="none" poster="assets/img/poster_09_mobile.jpg">
+      <source src="assets/video/09_mobile.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- 17 — Banca Consulia · Evento Istituzionale · Brand -->
+  <div class="slide" data-client="Banca Consulia" data-title="Evento Istituzionale" data-category="brand">
+    <div class="slide-bg"></div>
+    <video class="desktop" muted playsinline preload="none" poster="assets/img/poster_10_desktop.jpg">
+      <source src="assets/video/10_desktop.mp4" type="video/mp4">
+    </video>
+    <video class="mobile" muted playsinline preload="none" poster="assets/img/poster_10_mobile.jpg">
+      <source src="assets/video/10_mobile.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- 18 — Linea Cinque · F/W 23/24 · Fashion -->
+  <div class="slide" data-client="Linea Cinque" data-title="F/W 23/24" data-category="fashion">
+    <div class="slide-bg"></div>
+    <video class="desktop" muted playsinline preload="none" poster="assets/img/poster_11_desktop.jpg">
+      <source src="assets/video/11_desktop.mp4" type="video/mp4">
+    </video>
+    <video class="mobile" muted playsinline preload="none" poster="assets/img/poster_11_mobile.jpg">
+      <source src="assets/video/11_mobile.mp4" type="video/mp4">
+    </video>
+  </div>
+
+
+  <!-- 20 — Giulia Petronio · Fashion Film · Talent -->
+  <div class="slide" data-client="Giulia Petronio" data-title="Fashion Film" data-category="talent">
+    <div class="slide-bg"></div>
+    <video class="desktop" muted playsinline preload="none" poster="assets/img/poster_13_desktop.jpg">
+      <source src="assets/video/13_desktop.mp4" type="video/mp4">
+    </video>
+    <video class="mobile" muted playsinline preload="none" poster="assets/img/poster_13_mobile.jpg">
+      <source src="assets/video/13_mobile.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- 21 — Margherita Buoncristiani · Fashion Film · Talent -->
+  <div class="slide" data-client="Margherita Buoncristiani" data-title="Fashion Film" data-category="talent">
+    <div class="slide-bg"></div>
+    <video class="desktop" muted playsinline preload="none" poster="assets/img/poster_14_desktop.jpg">
+      <source src="assets/video/14_desktop.mp4" type="video/mp4">
+    </video>
+    <video class="mobile" muted playsinline preload="none" poster="assets/img/poster_14_mobile.jpg">
+      <source src="assets/video/14_mobile.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- 22 — Andrea Perreca Vol.1 · Fashion Film · Talent -->
+  <div class="slide" data-client="Andrea Perreca Vol.1" data-title="Fashion Film" data-category="talent">
+    <div class="slide-bg"></div>
+    <video class="desktop" muted playsinline preload="none" poster="assets/img/poster_15_desktop.jpg">
+      <source src="assets/video/15_desktop.mp4" type="video/mp4">
+    </video>
+    <video class="mobile" muted playsinline preload="none" poster="assets/img/poster_15_mobile.jpg">
+      <source src="assets/video/15_mobile.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- 23 — Andrea Perreca Vol.2 · Fashion Film · Talent -->
+  <div class="slide" data-client="Andrea Perreca Vol.2" data-title="Fashion Film" data-category="talent">
+    <div class="slide-bg"></div>
+    <video class="desktop" muted playsinline preload="none" poster="assets/img/poster_16_desktop.jpg">
+      <source src="assets/video/16_desktop.mp4" type="video/mp4">
+    </video>
+    <video class="mobile" muted playsinline preload="none" poster="assets/img/poster_16_mobile.jpg">
+      <source src="assets/video/16_mobile.mp4" type="video/mp4">
+    </video>
+  </div>
+
+
+
+
+  <!-- 27 — Roberta Sardella · Fashion Film · Talent -->
+  <div class="slide" data-client="Roberta Sardella" data-title="Fashion Film" data-category="talent">
+    <div class="slide-bg"></div>
+    <video class="desktop" muted playsinline preload="none" poster="assets/img/poster_20_desktop.jpg">
+      <source src="assets/video/20_desktop.mp4" type="video/mp4">
+    </video>
+    <video class="mobile" muted playsinline preload="none" poster="assets/img/poster_20_mobile.jpg">
+      <source src="assets/video/20_mobile.mp4" type="video/mp4">
+    </video>
+  </div>
+
+
+  <!-- 29 — Cotril × Anteprima · Sfilata · Fashion -->
+  <div class="slide" data-client="Cotril × Anteprima" data-title="Sfilata" data-category="fashion">
+    <div class="slide-bg"></div>
+    <video class="desktop" muted playsinline preload="none" poster="assets/img/poster_22_desktop.jpg">
+      <source src="assets/video/22_desktop.mp4" type="video/mp4">
+    </video>
+    <video class="mobile" muted playsinline preload="none" poster="assets/img/poster_22_mobile.jpg">
+      <source src="assets/video/22_mobile.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- 30 — Post Scriptum · F/W 23/24 · Fashion -->
+  <div class="slide" data-client="Post Scriptum" data-title="F/W 23/24" data-category="fashion">
+    <div class="slide-bg"></div>
+    <video class="desktop" muted playsinline preload="none" poster="assets/img/poster_23_desktop.jpg">
+      <source src="assets/video/23_desktop.mp4" type="video/mp4">
+    </video>
+    <video class="mobile" muted playsinline preload="none" poster="assets/img/poster_23_mobile.jpg">
+      <source src="assets/video/23_mobile.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- 31 — Gamma+ · Aria · Brand -->
+  <div class="slide" data-client="Gamma+" data-title="Aria" data-category="brand">
+    <div class="slide-bg"></div>
+    <video class="desktop" muted playsinline preload="none" poster="assets/img/poster_24_desktop.jpg">
+      <source src="assets/video/24_desktop.mp4" type="video/mp4">
+    </video>
+    <video class="mobile" muted playsinline preload="none" poster="assets/img/poster_24_mobile.jpg">
+      <source src="assets/video/24_mobile.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- 32 — Linea Cinque · S/S 2022 · Fashion -->
+  <div class="slide" data-client="Linea Cinque" data-title="S/S 2022" data-category="fashion">
+    <div class="slide-bg"></div>
+    <video class="desktop" muted playsinline preload="none" poster="assets/img/poster_25_desktop.jpg">
+      <source src="assets/video/25_desktop.mp4" type="video/mp4">
+    </video>
+    <video class="mobile" muted playsinline preload="none" poster="assets/img/poster_25_mobile.jpg">
+      <source src="assets/video/25_mobile.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- 33 — Bar 24 · Social Reel · Brand -->
+  <div class="slide" data-client="Bar 24" data-title="Social Reel" data-category="brand">
+    <div class="slide-bg"></div>
+    <video class="desktop" muted playsinline preload="none" poster="assets/img/poster_28_desktop.jpg">
+      <source src="assets/video/28_desktop.mp4" type="video/mp4">
+    </video>
+    <video class="mobile" muted playsinline preload="none" poster="assets/img/poster_28_mobile.jpg">
+      <source src="assets/video/28_mobile.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- 34 — Natalia Green · Mania · Music -->
+  <div class="slide" data-client="Natalia Green" data-title="Mania" data-category="music">
+    <div class="slide-bg"></div>
+    <video class="desktop" muted playsinline preload="none" poster="assets/img/poster_29_desktop.jpg">
+      <source src="assets/video/29_desktop.mp4" type="video/mp4">
+    </video>
+    <video class="mobile" muted playsinline preload="none" poster="assets/img/poster_29_mobile.jpg">
+      <source src="assets/video/29_mobile.mp4" type="video/mp4">
+    </video>
+  </div>
+
+
+  <!-- 36 — Verco · Film Aziendale · Brand -->
+  <div class="slide" data-client="Verco" data-title="Film Aziendale" data-category="brand">
+    <div class="slide-bg"></div>
+    <video class="desktop" muted playsinline preload="none" poster="assets/img/poster_34_desktop.jpg">
+      <source src="assets/video/34_desktop.mp4" type="video/mp4">
+    </video>
+    <video class="mobile" muted playsinline preload="none" poster="assets/img/poster_34_mobile.jpg">
+      <source src="assets/video/34_mobile.mp4" type="video/mp4">
+    </video>
+  </div>
+
+
+</div><!-- /slideshow -->
+
+<!-- ── HEADER ───────────────────────── -->
+<header class="site-header" id="siteHeader">
+  <div class="logo-row">
+    <a href="/" class="logo-img-link">
+      <img src="assets/img/logo_header.png" alt="BillJobs" class="logo-img">
+    </a>
+    <a href="who-is.html" class="voice-btn">Who Is B.J.?</a>
+  </div>
+  <nav class="main-nav">
+  </nav>
+  <div class="filter-nav" id="filterNav">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="music">Music</button>
+    <button class="filter-btn" data-filter="fashion">Fashion</button>
+    <button class="filter-btn" data-filter="talent">Talent</button>
+    <button class="filter-btn" data-filter="film">Film</button>
+    <button class="filter-btn" data-filter="brand">Brand</button>
+  </div>
+</header>
+
+<!-- ── PROJECT INFO ──────────────────── -->
+<div class="slide-info" id="slideInfo">
+  <span class="info-client" id="infoClient"></span>
+  <span class="info-title" id="infoTitle"></span>
+</div>
+
+<!-- ── PAGINATION ───────────────────── -->
+<div class="pagination" id="pagination"></div>
+
+<!-- ── PROGRESS BAR ─────────────────── -->
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- ── FOOTER ───────────────────────── -->
+<footer class="site-footer" id="siteFooter">
+  <a href="https://wa.me/393334639596" target="_blank" rel="noopener" class="footer-link">WhatsApp</a>
+  <a href="mailto:contact@billjobs.it" class="footer-link">Email</a>
+  <a href="https://www.instagram.com/billjobs_production" target="_blank" rel="noopener" class="footer-link">Instagram</a>
+  <a href="https://riservata.billjobs.it" target="_blank" rel="noopener nofollow" class="footer-link">Area riservata</a>
+</footer>
+
+<script>
+(function () {
+  const allSlides  = Array.from(document.querySelectorAll('.slide'));
+  const pagination = document.getElementById('pagination');
+  const progressBar= document.getElementById('progressBar');
+  const filterBtns = Array.from(document.querySelectorAll('.filter-btn'));
+  const loader      = document.getElementById('loader');
+  const bufferDots  = document.getElementById('bufferDots');
+  const bufferFill  = document.getElementById('bufferFill');
+  const slowNotice  = document.getElementById('slowNotice');
+  const isMob       = () => window.innerWidth <= 767;
+
+  let pool         = [];
+  let currentIdx   = 0;
+
+  function getVid(slide) {
+    // Dopo init() rimane solo la classe corretta per la piattaforma
+    return slide.querySelector('video');
+  }
+
+  // ── Progress bar — segue la durata reale del video ────
+  // Il preload del video successivo parte solo quando quello corrente ha
+  // superato il 30%: su 3G evita che i due download si rubino banda a vicenda.
+  let progressInterval = null;
+  function startProgress(vid) {
+    progressBar.style.transition = 'none';
+    progressBar.style.width = '0%';
+    clearInterval(progressInterval);
+    let preloadFired = false;
+    progressInterval = setInterval(() => {
+      if (vid && vid.duration && !isNaN(vid.duration)) {
+        const ratio = vid.currentTime / vid.duration;
+        progressBar.style.width = (ratio * 100) + '%';
+        if (!preloadFired && ratio > 0.3) {
+          preloadFired = true;
+          preloadNext();
+        }
+      }
+    }, 100);
+  }
+
+  // ── Precarica il video successivo ────────────────────
+  function preloadNext() {
+    const nextSlide = pool[(currentIdx + 1) % pool.length];
+    if (!nextSlide) return;
+    const v = getVid(nextSlide);
+    if (v && v.preload !== 'auto') {
+      v.preload = 'auto';
+      v.load();
+    }
+  }
+
+  let skipTimer = null;
+  let slowTimer = null;
+  let infoTimer = null;
+
+  // Token di navigazione: ogni goTo() lo incrementa. I callback asincroni
+  // (canplay, error, timer) confrontano il proprio token con quello corrente
+  // e si annullano se nel frattempo l'utente è passato a un'altra slide.
+  let navToken = 0;
+
+  // Riferimenti all'handler 'ended' attivo, per poterlo rimuovere: senza
+  // questo due goTo() ravvicinate lasciano due listener sullo stesso video
+  // e alla fine della riproduzione si saltano due slide invece di una.
+  let endedVid = null, endedHandler = null;
+  let indTimer = null;
+
+  // Listener aggiuntivi dell'indicatore, staccati in blocco a ogni goTo():
+  // se restassero attaccati, il video vecchio continuerebbe a comandare
+  // l'indicatore della slide nuova.
+  let mediaExtra = [];
+
+  // Resta false finché nessun video ha davvero cominciato a scorrere. Serve a
+  // proteggere l'apertura del sito: finché è false, la prima slide non viene
+  // mai abbandonata automaticamente.
+  let qualcosaRiprodotto = false;
+
+  // Vero solo quando lo slideshow è davvero partito: finché il loader è in
+  // campo, il dito serve a entrare e non deve navigare fra i video.
+  let showStarted = false;
+
+  function showSlow() { slowNotice.classList.add('visible'); }
+  function hideSlow() { slowNotice.classList.remove('visible'); }
+
+  // ── Quanto del video è già scaricato ─────────────────
+  function bufferedPct(vid) {
+    if (!vid || !vid.duration || isNaN(vid.duration) || !vid.buffered.length) return null;
+    let end = 0;
+    for (let i = 0; i < vid.buffered.length; i++) end = Math.max(end, vid.buffered.end(i));
+    return Math.min(100, Math.round(end / vid.duration * 100));
+  }
+
+  // ── Indicatore: pallini + barra con l'avanzamento vero ──
+  // Si aggiorna ogni 300ms leggendo video.buffered, così la durata
+  // dell'indicatore corrisponde al caricamento effettivo invece di
+  // sparire su 'canplay' dopo pochi secondi a caso.
+  let bufTimer = null;
+  function showBuffer(vid) {
+    bufferDots.classList.add('visible');
+    clearInterval(bufTimer);
+    const tick = () => {
+      const p = bufferedPct(vid);
+      if (p === null) {
+        // durata ancora ignota: la barra scorre invece di restare a zero
+        bufferDots.classList.add('unknown');
+      } else {
+        bufferDots.classList.remove('unknown');
+        bufferFill.style.width = p + '%';
+      }
+    };
+    tick();
+    bufTimer = setInterval(tick, 300);
+  }
+  function hideBuffer() {
+    clearInterval(bufTimer);
+    bufferDots.classList.remove('visible');
+  }
+
+  // ── Pagination — scrollable strip ────────────────────
+  function rebuildPagination() {
+    pagination.innerHTML = '';
+    pool.forEach((_, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'page-btn' + (i === currentIdx ? ' active' : '');
+      btn.textContent = i + 1;
+      btn.addEventListener('click', () => goTo(i));
+      pagination.appendChild(btn);
+    });
+    scrollPaginationToActive();
+  }
+
+  function updatePaginationActive() {
+    Array.from(pagination.querySelectorAll('.page-btn'))
+      .forEach((btn, i) => {
+        btn.classList.toggle('active', i === currentIdx);
+        btn.classList.remove('loading');
+      });
+    scrollPaginationToActive();
+  }
+
+  // Appena l'utente tocca la striscia dei numeri, il riposizionamento
+  // automatico si spegne per sempre: era lui a riportarla indietro mentre
+  // si cercava un lavoro lontano. Un timer non bastava — se lo scorrimento
+  // durava più della finestra, la striscia veniva strappata di mano lo stesso.
+  let striscaLibera = false;
+  ['touchstart', 'touchmove', 'pointerdown'].forEach(ev =>
+    pagination.addEventListener(ev, () => { striscaLibera = true; }, { passive: true }));
+
+  function scrollPaginationToActive() {
+    if (striscaLibera) return;
+    const ab = pagination.querySelector('.page-btn.active');
+    if (!ab) return;
+    const offset = ab.offsetLeft - pagination.offsetWidth / 2 + ab.offsetWidth / 2;
+    pagination.scrollTo({ left: Math.max(0, offset), behavior: 'smooth' });
+  }
+
+  // ── Riscontro visivo al tocco ─────────────────────────
+  const FRECCIA = {
+    left:  '<polyline points="15 18 9 12 15 6"></polyline>',
+    right: '<polyline points="9 18 15 12 9 6"></polyline>',
+  };
+
+  // Cerchio sotto il dito: nasce dove si appoggia, non al centro dello
+  // schermo, così il riscontro appartiene al gesto e non alla pagina.
+  function cerchioTocco(x, y) {
+    const c = document.createElement('div');
+    c.className = 'tap-fx';
+    c.style.left = x + 'px';
+    c.style.top  = y + 'px';
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 600);
+  }
+
+  // Freccia del verso, al rilascio: dice cosa sta per succedere.
+  function frecciaVerso(verso) {
+    const f = document.createElement('div');
+    f.className = 'tap-dir ' + verso;
+    f.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
+      'stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+      FRECCIA[verso] + '</svg>';
+    document.body.appendChild(f);
+    setTimeout(() => f.remove(), 650);
+  }
+
+  // ── Vai a slide (idx nel pool) ────────────────────────
+  function goTo(idx) {
+    clearInterval(progressInterval);
+    clearTimeout(skipTimer);
+    clearTimeout(slowTimer);
+    clearTimeout(infoTimer);
+    hideSlow();
+
+    const token = ++navToken;
+    const nextIdx = ((idx % pool.length) + pool.length) % pool.length;
+
+    // Stacca l'handler 'ended' della navigazione precedente prima di
+    // registrarne uno nuovo, altrimenti si accumulano e si salta una slide.
+    clearTimeout(indTimer);
+    mediaExtra.forEach(h => h[0].removeEventListener(h[1], h[2]));
+    mediaExtra = [];
+
+    if (endedVid && endedHandler) {
+      endedVid.removeEventListener('ended', endedHandler);
+      endedVid = null;
+      endedHandler = null;
+    }
+
+    // Solo se si cambia slide: pause del video uscente e rimozione classe active.
+    // Se nextIdx === currentIdx (es. al primo goTo(0) dopo tap su iOS) si salta
+    // il pause per non interrompere il play() già avviato nel gestore gesture.
+    if (pool[currentIdx] && nextIdx !== currentIdx) {
+      const oldVid = getVid(pool[currentIdx]);
+      if (oldVid) oldVid.pause();
+      pool[currentIdx].classList.remove('active');
+    }
+
+    currentIdx = nextIdx;
+    const slide = pool[currentIdx];
+    slide.classList.add('active');
+    updatePaginationActive();
+
+    const info = document.getElementById('slideInfo');
+    info.classList.remove('visible');
+    infoTimer = setTimeout(() => {
+      document.getElementById('infoClient').textContent = slide.dataset.client || '';
+      document.getElementById('infoTitle').textContent  = slide.dataset.title  || '';
+      if (slide.dataset.client || slide.dataset.title) info.classList.add('visible');
+    }, 300);
+
+    const vid = getVid(slide);
+    if (!vid) return;
+
+    vid.currentTime = 0;
+    startProgress(vid);
+
+    endedHandler = () => { if (token === navToken) goTo(currentIdx + 1); };
+    endedVid = vid;
+    vid.addEventListener('ended', endedHandler);
+
+    // L'indicatore compare solo se la partenza tarda più di 350ms — sulle
+    // transizioni immediate non deve lampeggiare — e sparisce quando i
+    // fotogrammi scorrono davvero, non appena il video "potrebbe" partire.
+    indTimer = setTimeout(() => { if (token === navToken) showBuffer(vid); }, 350);
+    const inMoto = () => {
+      if (token !== navToken) return;
+      qualcosaRiprodotto = true;
+      clearTimeout(indTimer);
+      clearTimeout(slowTimer);
+      hideSlow();
+      hideBuffer();
+    };
+
+    // Prova che il video si sta muovendo davvero: il tempo avanza. Ne' la
+    // promise di play() ne' l'evento 'playing' bastano — su iOS scattano
+    // quando la riproduzione e' "avviata", e poi restano ancora secondi sul
+    // primo fotogramma: era questo a far sparire l'indicatore troppo presto.
+    const onProgresso = () => {
+      if (token === navToken && vid.currentTime > 0.15) inMoto();
+    };
+    vid.addEventListener('timeupdate', onProgresso);
+    vid.addEventListener('playing', onProgresso);
+
+    // Se il buffer si esaurisce a metà riproduzione l'indicatore deve tornare,
+    // altrimenti il sito sembra piantato mentre sta ancora scaricando.
+    const onAttesa = () => { if (token === navToken) showBuffer(vid); };
+    vid.addEventListener('waiting', onAttesa);
+    vid.addEventListener('stalled', onAttesa);
+    mediaExtra = [[vid, 'timeupdate', onProgresso], [vid, 'playing', onProgresso],
+                  [vid, 'waiting', onAttesa], [vid, 'stalled', onAttesa]];
+
+    const tryPlay = () => {
+      if (token !== navToken) return;
+      clearTimeout(skipTimer);
+      const ab = pagination.querySelector('.page-btn.active');
+      if (ab) ab.classList.remove('loading');
+      // Non si nasconde nulla qui: ci pensa onProgresso quando il tempo del
+      // video comincia davvero ad avanzare.
+      if (vid.paused) { const pr = vid.play(); if (pr && pr.catch) pr.catch(() => {}); }
+    };
+
+    // readyState 3 (HAVE_FUTURE_DATA): con 2 il video ha solo il fotogramma
+    // corrente, parte e si inchioda subito — ed è il caso in cui l'indicatore
+    // spariva dopo pochi secondi lasciando lo schermo fermo.
+    if (vid.readyState >= 3) {
+      tryPlay();
+    } else {
+      vid.preload = 'auto';
+      // load() solo se l'elemento non ha ancora nulla e non sta già scaricando:
+      // richiamarlo su un video già avviato annulla il play() partito nel gesto
+      // dell'utente, e su iOS la prima slide non parte più.
+      if (vid.readyState === 0 && vid.networkState !== 2) vid.load();
+      const ab = pagination.querySelector('.page-btn.active');
+      if (ab) ab.classList.add('loading');
+      vid.addEventListener('canplay', tryPlay, { once: true });
+
+      // All'apertura del sito non si abbandona MAI la prima slide: se il video
+      // non arriva si riprova a caricarlo, invece di scivolare sul secondo
+      // lavoro e far credere che il sito parta da lì. Solo dopo che qualcosa
+      // ha davvero suonato l'errore torna a valere come "passa oltre".
+      let tentativi = 0;
+      const suErrore = () => {
+        if (token !== navToken) return;
+        if (currentIdx === 0 && !qualcosaRiprodotto && tentativi < 4) {
+          tentativi++;
+          setTimeout(() => { if (token === navToken) vid.load(); }, 1500);
+          return;
+        }
+        goTo(currentIdx + 1);
+      };
+      vid.addEventListener('error', suErrore);
+      mediaExtra.push([vid, 'error', suErrore]);
+
+      // 6s — il video sta ancora arrivando: lo si dice invece di lasciare
+      // l'utente davanti a tre puntini senza spiegazione.
+      slowTimer = setTimeout(() => { if (token === navToken) showSlow(); }, 6000);
+
+      // 15s — con la rete lenta saltare subito peggiora le cose (il video
+      // successivo riparte da zero), quindi si attende molto di più di prima.
+      // Sulla prima slide dell'apertura il salto è disattivato del tutto:
+      // meglio far aspettare mostrando la barra che aprire il sito sul
+      // secondo lavoro.
+      if (currentIdx !== 0 || qualcosaRiprodotto) {
+        skipTimer = setTimeout(() => {
+          if (token !== navToken) return;
+          hideBuffer();
+          hideSlow();
+          const ab2 = pagination.querySelector('.page-btn.active');
+          if (ab2) ab2.classList.remove('loading');
+          goTo(currentIdx + 1);
+        }, 15000);
+      }
+    }
+  }
+
+  // ── Filtri ────────────────────────────────────────────
+  function applyFilter(filter) {
+    filterBtns.forEach(b => b.classList.toggle('active', b.dataset.filter === filter));
+
+    if (pool[currentIdx]) {
+      const v = getVid(pool[currentIdx]);
+      if (v) v.pause();
+      pool[currentIdx].classList.remove('active');
+    }
+
+    allSlides.forEach(s => {
+      const has  = s.dataset.category !== '';
+      const show = has && (filter === 'all' || s.dataset.category === filter);
+      s.style.display = show ? '' : 'none';
+      if (!show) s.classList.remove('active');
+    });
+
+    pool = allSlides.filter(s => s.style.display !== 'none');
+    currentIdx = 0;
+    rebuildPagination();
+    goTo(0);
+  }
+
+  // ── Tastiera ──────────────────────────────────────────
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') goTo(currentIdx + 1);
+    if (e.key === 'ArrowLeft')  goTo(currentIdx - 1);
+  });
+
+  // ── Swipe + tap per avanzare ──────────────────────────
+  let tx = 0, ty = 0;
+
+  // La paginazione e la barra dei filtri scorrono orizzontalmente da sole.
+  // Senza questa esclusione, trascinarle contava anche come swipe sul video:
+  // si cambiava slide e la striscia dei numeri tornava di scatto sull'attivo,
+  // rendendo impossibile scorrere fino ai numeri lontani.
+  const suStriscia = (t) => !!(t && t.closest && t.closest('#pagination, .filter-nav'));
+
+  // Comandi esclusi dalla navigazione: sono già cliccabili di loro.
+  const suComando = (t) => !!(t && t.closest && t.closest('button, a'));
+
+  document.addEventListener('touchstart', e => {
+    if (suStriscia(e.target)) return;
+    tx = e.touches[0].clientX;
+    ty = e.touches[0].clientY;
+    // Il cerchio nasce subito, all'appoggio: la risposta al dito non deve
+    // aspettare il rilascio né il caricamento del video.
+    if (showStarted && !suComando(e.target)) cerchioTocco(tx, ty);
+  }, { passive: true });
+
+  document.addEventListener('touchend', e => {
+    if (!showStarted || suStriscia(e.target) || suComando(e.target)) return;
+    const x  = e.changedTouches[0].clientX;
+    const dx = x - tx;
+    const dy = e.changedTouches[0].clientY - ty;
+
+    let verso = null;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
+      // Trascinamento orizzontale: verso destra torna indietro, verso
+      // sinistra va avanti, come sfogliare le pagine.
+      verso = dx < 0 ? 'right' : 'left';
+    } else if (Math.abs(dx) < 12 && Math.abs(dy) < 12) {
+      // Tocco fermo: comanda il lato dello schermo, come su un lettore.
+      verso = x > window.innerWidth / 2 ? 'right' : 'left';
+    }
+    if (!verso) return;
+
+    frecciaVerso(verso);
+    goTo(currentIdx + (verso === 'right' ? 1 : -1));
+  }, { passive: true });
+
+  // ── Filtri click ──────────────────────────────────────
+  filterBtns.forEach(b => b.addEventListener('click', () => applyFilter(b.dataset.filter)));
+
+  // ── Init ─────────────────────────────────────────────
+  function init() {
+    const mobile = isMob();
+
+    allSlides.forEach(s => {
+      if (s.dataset.category === '') s.style.display = 'none';
+
+      // Rimuove dal DOM i video della piattaforma opposta: su mobile
+      // elimina i .desktop, su desktop elimina i .mobile. Dimezza il numero
+      // di elementi <video> attivi (da 74 a 37) evitando crash di memoria
+      // su iOS con WebContent process limits stretti.
+      s.querySelectorAll(mobile ? 'video.desktop' : 'video.mobile')
+       .forEach(v => v.remove());
+
+      // webkit-playsinline per vecchi iOS (pre-10)
+      s.querySelectorAll('video').forEach(v => v.setAttribute('webkit-playsinline', ''));
+    });
+    pool = allSlides.filter(s => s.style.display !== 'none');
+    rebuildPagination();
+
+    const firstVid = getVid(pool[0]);
+    if (!firstVid) return;
+
+    // Ora in pagina è rimasto solo il video della piattaforma giusta: si può
+    // far partire il download senza rischiare di scaricare quello sbagliato.
+    // Il load() serve: su iOS il video deve avere già dati quando l'utente
+    // tocca, altrimenti il play() dentro il gesto non ha nulla da riprodurre.
+    firstVid.preload = 'auto';
+    firstVid.load();
+
+    let started = false;
+    const startAll = () => {
+      if (started) return;
+      started = true;
+      showStarted = true;
+      // Il bianco inline serviva solo all'apertura: da qui in poi lo sfondo
+      // deve essere nero, altrimenti resta dietro alle slide.
+      document.documentElement.style.background = '#000';
+      loader.classList.add('hidden');
+      document.getElementById('siteHeader').classList.add('visible');
+      document.getElementById('siteFooter').classList.add('visible');
+      document.getElementById('pagination').classList.add('visible');
+      goTo(0);
+    };
+
+    // Tap: play() deve essere chiamato sincrono nella gesture per iOS.
+    // touchend è più affidabile di click su iOS (click può non sparare se c'è
+    // anche solo un micro-spostamento). preventDefault() su touchend blocca
+    // il click fantasma successivo; started guard previene doppia esecuzione.
+    const handleTap = () => {
+      firstVid.play().catch(() => {});
+      startAll();
+    };
+    loader.addEventListener('touchend', (e) => {
+      // stopPropagation è indispensabile: preventDefault blocca il click
+      // fantasma ma NON la risalita dell'evento. Senza, lo stesso tocco
+      // arriva anche al gestore su document che avanza le slide, e si entra
+      // già alla seconda invece che alla prima.
+      e.preventDefault();
+      e.stopPropagation();
+      handleTap();
+    }, { once: true, passive: false });
+    loader.addEventListener('click', (e) => { e.stopPropagation(); handleTap(); }, { once: true });
+
+    // iOS (including modern iPads on iPadOS 13+) requires a user gesture to
+    // start video — show "tap to enter" and wait. Android Chrome allows muted
+    // autoplay so it falls through to the same auto-start path as desktop.
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+                  (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    if (isIOS) {
+      document.querySelector('.loader-hint').style.display = 'block';
+      return;
+    }
+
+    // Desktop + Android: auto-start when enough data is ready.
+    // Se il video non arriva, si parte comunque: il poster della prima slide
+    // dà subito un'immagine e i buffer dots spiegano che sta caricando,
+    // invece di lasciare l'utente sul loader a tempo indeterminato.
+    if (firstVid.readyState >= 3) { startAll(); return; }
+    firstVid.addEventListener('canplay', startAll, { once: true });
+    firstVid.addEventListener('error', startAll, { once: true });
+    setTimeout(startAll, 8000); // failsafe if canplay never fires
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>
